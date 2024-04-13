@@ -1,10 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Title</title>
-</head>
-<body>
-
-</body>
+    <link rel="stylesheet" href="../CSS/main.css" />
+    <link rel="stylesheet" href="../CSS/shoppingcart.css" />
+  </head>
+  <body>
+    <object type="text/html" data="header.html" style="width: 100%"></object>
+    <main>
+    <section>
+        <h1 id="kori-heading">Kori</h1>
+        <div class="centered-content">
+        <table>
+          <thead>
+            <tr>
+              <th>Tuote</th>
+              <th>Hinta</th>
+              <th>Määrä</th>
+              <th>Yhteensä</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="cart-items">
+            <!-- tähän tulee tavarat-->
+            <tr>
+              <td>
+                <img
+                  class="product-image"
+                  src="../images/product1.jpg"
+                  alt="Product 1"
+                />
+                Tuote 1
+              </td>
+              <td>10€</td>
+              <td>2</td>
+              <td>20€</td>
+              <td><button>Poista</button></td>
+            </tr>
+            <tr>
+              <td>
+                <img
+                  class="product-image"
+                  src="../images/product2.png"
+                  alt="Product 2"
+                />
+                Tuote 2
+              </td>
+              <td>15€</td>
+              <td>1</td>
+              <td>15€</td>
+              <td><button>Poista</button></td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+        <div id="total-price">Yhteensä: 35€</div>
+        <button id="order-button">Tilaa</button>
+      </section>
+    </main>
+    <object type="text/html" data="footer.html" style="width: 100%"></object>
+  </body>
 </html>
