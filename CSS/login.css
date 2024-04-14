@@ -1,12 +1,7 @@
-body {
-    height: 100%;
-    margin: 0;
-}
-
 section {
     width: 100%;
     margin-top: 40px;
-    margin-bottom: 60px;
+    margin-bottom: 20px;
 }
 
 h2 {
@@ -17,7 +12,7 @@ h2 {
 }
 
 .infoContainer {
-    padding: 10px 20px;
+    padding: 20px 20px;
     width: 401px;
     margin: 0 auto;
 }
@@ -54,7 +49,7 @@ button {
     flex-direction: column;
     justify-content: flex-start; /* Change to 'center' if you want to vertically center the content */
     align-items: center; /* Horizontally center the content */
-    padding-bottom: 40px;
+    padding-bottom: 58px;
 }
 
 .p1 {
