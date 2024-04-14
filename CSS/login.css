@@ -1,0 +1,73 @@
+body {
+    height: 100%;
+    margin: 0;
+}
+
+section {
+    width: 100%;
+    margin-top: 40px;
+    margin-bottom: 60px;
+}
+
+h2 {
+    width: auto;
+    margin-bottom: 20px;
+    font-size: 25px;
+    text-align: center;
+}
+
+.infoContainer {
+    padding: 10px 20px;
+    width: 401px;
+    margin: 0 auto;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input {
+    width: 400px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+    align-content: center;
+}
+
+a:hover {
+    color: #5e606c;
+}
+
+button {
+    width: 400px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.passwordPage {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Change to 'center' if you want to vertically center the content */
+    align-items: center; /* Horizontally center the content */
+    padding-bottom: 40px;
+}
+
+.p1 {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.p2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    text-align: center;
+}
