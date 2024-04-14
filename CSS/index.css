@@ -1,26 +1,29 @@
-#todays-menu,
-#popular-items,
-#instagram {
-    margin: 20px 0;
+body {
+    color: #5e606c;
 }
 
-#todays-menu h2,
+#popular-items,
+#instagram {
+    margin: 40px 0;
+}
+
 #popular-items h2,
 #instagram h2 {
     text-align: center;
 }
 
-.container {
+.container2 {
     background-color: #fff;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 20px 0;
 }
 
 .text-container {
     width: 45%;
-    margin: 20px 0;
+    margin: 40px 0;
     font-size: 1.2em;
 }
 
@@ -35,7 +38,7 @@
 }
 
 #introduction {
-    margin: 20px 0;
+    margin: 40px 0;
     font-size: 1.2em;
 }
 
@@ -46,22 +49,47 @@
     margin-left: auto;
     margin-right: auto;
 }
+#todays-menu {
+    text-align: center;
+    font-size: 2rem;
+    color: #5e606c;
+}
+
 #todays-menu ul {
-    list-style-type: none;
-    padding: 0;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
-#todays-menu ul li {
-    margin: 10px 0;
-}
 
+#todays-menu h2 {
+    text-align: center;
+    background-color: #e4babe;
+    border-radius: 20px;
+    font-size: 24px;
+    padding: 10px;
+    /* Increase this value to make the background larger */
+    color: #5e606c;
+}
+#todays-menu p {
+    padding-left: 10px;
+    padding-top: 3px;
+    color: #5e606c;
+}
+/*
 #popular-items {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+*/
+#popular-items h2 {
+    text-align: center;
+    background-color: #e4babe;
+    border-radius: 20px;
+    font-size: 24px;
+    padding: 10px;
+    color: #5e606c;
 }
 
 #popular-items .items-container {
@@ -79,12 +107,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    
 }
 
 .item img {
-    width: 100%;
+    width: 200px;
     /* Adjust as needed */
-    height: auto;
+    height: 200px;
+    /* Adjust as needed */
+    object-fit: cover;
 }
 #instagram img {
     display: block;
