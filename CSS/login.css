@@ -28,13 +28,13 @@ input {
     margin-bottom: 10px;
 }
 
-a {
+main a {
     text-decoration: none;
     color: #000;
     align-content: center;
 }
 
-a:hover {
+main a:hover {
     color: #5e606c;
 }
 
