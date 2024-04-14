@@ -2,9 +2,168 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="../CSS/main.css">
+    <link rel="stylesheet" href="../CSS/profile.css">
+    <script src="../JS/profile.js" defer></script>
 </head>
+<header>
+    <div class="container">
+        <h1 class="logo">Logo</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Etusivu</a></li>
+                <li><a href="menu.html">Lounas</a></li>
+                <li><a href="products.html">Tuotteet</a></li>
+                <li><a href="profile.html">Profiili</a></li>
+                <li><a href="login.html">Kirjaudu</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
 <body>
+<main>
+    <section class="profile-section">
+        <h2>Welcome to your profile, Wilma!</h2>
+        <div class="profile-info">
+            <div class="profile-picture">
+                <img src="/IMG/profile_picture.jpg" alt="Profile Picture">
+            </div>
+            <div class="user-details" id="userDetails">
+                <p><strong>Username:</strong> <input type="text" value="wimmunen" disabled></p>
+                <p><strong>Full Name:</strong> <input type="text" value="Wilma Isberg" disabled></p>
+                <p><strong>Email:</strong> <input type="text" value="wilmais@metropolia.fi" disabled></p>
+                <p><strong>Address:</strong> <input type="text" value="Jokupallerokuja 13 D" disabled></p>
+            </div>
+        </div>
+        <div class="edit-profile">
+            <button class="change-password-btn">Change Password</button>
+            <button class="edit-details-btn" onclick="toggleEdit()">Edit Account Details</button>
+        </div>
+    </section>
 
+    <section class="order-history-section">
+        <div class="order-history-top">
+            <h2>Order history</h2>
+            <button id="orderToggleButton" onclick="toggleOrderHistory()">Show Orders</button>
+        </div>
+        <div id="order-history" class="order-history hidden">
+            <div class="order">
+                <div class="order-top">
+                    <h3>23/04/2024</h3>
+                    <h3>Pending</h3>
+                </div>
+                <p>Order ID: 123456</p>
+                <p>Products: 2x Unagi-don, 1x Matcha-tea, 2x Sprite</p>
+            </div>
+            <div class="order">
+                <div class="order-top">
+                    <h3>15/03/2024</h3>
+                    <h3>Delivered</h3>
+                </div>
+                <p>Order ID: 638264</p>
+                <p>Products: 1x Katsu Curry, 1x Coke</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="motd-section">
+        <div class="motd-top">
+            <h2>Meal of the Day</h2>
+            <button id="motdToggleButton" onclick="toggleMotd()">Show</button>
+        </div>
+        <div class="motd-dropdown hidden" id="motd-dropdown">
+            <div class="motd-left">
+                <button onclick="toggleDropdown()" class="dropbtn">Select Meal</button>
+                <div id="dropdownContent" class="dropdown-content">
+                    <!-- Dropdown content goes here -->
+                    <div class="item" onclick="selectMeal('Unagi-don', '12.49')">
+                        <img src="/IMG/profile_picture.jpg" alt="Unagi-don">
+                        <div class="item-info">
+                            <p>Unagi-don</p>
+                            <p>12.49€</p>
+                        </div>
+                    </div>
+                    <div class="item" onclick="selectMeal('Chirashi-zushi', '9.89')">
+                        <img src="/IMG/profile_picture.jpg" alt="Chirashi-zushi">
+                        <div class="item-info">
+                            <p>Chirashi-zushi</p>
+                            <p>9.89€</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="motd-right">
+                <h3>Selected meal</h3>
+                <div class="selected-meal">
+                    <img src="/IMG/profile_picture.jpg" alt="Selected Meal">
+                    <div class="selected-meal-info">
+                        <p id="selectedMeal">Unagi-don</p>
+                        <p id="selectedPrice">12.49€</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="management-section">
+        <div class="management-top">
+            <h2>Manage products</h2>
+            <button id="managementToggleButton" onclick="toggleManagement()">Show</button>
+        </div>
+        <div id="management" class="management hidden">
+            <div class="product-tabs">
+                <button onclick="openTab('removeProductTab')">Add Product</button>
+                <button onclick="openTab('addProductTab')">Remove Product</button>
+            </div>
+            <div id="removeProductTab" class="product-tab">
+                <h2>Remove Product</h2>
+                <div class="remove-product-form">
+                    <label for="productDropdown">Select Product:</label>
+                    <select id="productDropdown" class="productDropdown">
+                        <option value="Katsu Curry">Katsu Curry</option>
+                        <option value="Tempura Udon">Tempura Udon</option>
+                        <option value="Tuna Sashimi">Tuna Sashimi</option>
+                        <option value="Vegetable Spring Rolls">Vegetable Spring Rolls</option>
+                    </select>
+                    <button onclick="removeProduct()">Delete</button>
+                </div>
+            </div>
+
+            <div id="addProductTab" class="product-tab">
+                <h2>Add Product</h2>
+                <div class="add-product-form">
+                    <label for="productName">Name:</label>
+                    <input type="text" id="productName">
+                    <label for="productDescription">Description:</label>
+                    <textarea id="productDescription"></textarea>
+                    <label class="productprice" for="productPrice">Price:</label>
+                    <input type="text" id="productPrice">
+                    <label>Allergens:</label>
+                    <div class="allergens">
+                        <input type="checkbox" id="dairy" name="allergen" value="dairy">
+                        <label for="dairy">Dairy</label><br>
+                        <input type="checkbox" id="gluten" name="allergen" value="gluten">
+                        <label for="gluten">Gluten</label><br>
+                        <input type="checkbox" id="peanuts" name="allergen" value="peanuts">
+                        <label for="peanuts">Peanuts</label><br>
+                        <input type="checkbox" id="fish" name="allergen" value="fish">
+                        <label for="fish">Fish</label><br>
+                        <input type="checkbox" id="soy" name="allergen" value="soy">
+                        <label for="soy">Soy</label><br>
+                    </div>
+                    <div class="file-input-container">
+                        <label for="productImage">Image:</label>
+                        <input type="file" id="productImage" class="hidden-file-input">
+                        <button onclick="document.getElementById('productImage').click()">Choose Image</button>
+                    </div>
+
+                    <button onclick="saveProduct()">Save Product</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<object type="text/html" data="footer.html" style="width:100%"></object>
 </body>
 </html>

@@ -1,0 +1,53 @@
+section {
+    width: 100%;
+}
+
+.centered-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#kori-heading {
+    text-align: left;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table,
+th,
+td {
+    border-collapse: separate;
+    border: 0.5px solid #ddd;
+    border-radius: 5px;
+    padding: 8px;
+}
+
+th {
+    background-color: #e4babe;
+    color: white;
+}
+
+#total-price {
+    float: right;
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+.product-image {
+    width: 300px;
+    height: auto;
+    object-fit: cover;
+}
+#order-button {
+    margin-top: 20px;
+    font-size: 20px;
+    padding: 10px 20px;
+    background-color: #e4babe;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
