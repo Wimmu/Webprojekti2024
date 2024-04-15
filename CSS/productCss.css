@@ -34,12 +34,12 @@ h2 {
     background-color: #ced3d7;
 }
 
-@media screen and (max-width: 1200px){
+@media screen and (max-width: 900px){
     .product {
         width: calc(40% - 20px);
     }
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 600px) {
     .product {
         width: calc(85% - 20px);
     }
