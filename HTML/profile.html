@@ -16,8 +16,9 @@
                 <li><a href="index.html">Etusivu</a></li>
                 <li><a href="menu.html">Lounas</a></li>
                 <li><a href="products.html">Tuotteet</a></li>
-                <li><a href="profile.html">Profiili</a></li>
                 <li><a href="login.html">Kirjaudu</a></li>
+                <li><a href="shoppingcart.html" class="shopping-cart-link"><img src="../IMG/shopping_cart.png" class="shopping-cart-image"></a></li>
+                <li><a href="profile.html" class="profile-icon-link"><img src="../IMG/profile_icon.png" class="profile-icon-image"></a></li>
             </ul>
         </nav>
     </div>
@@ -28,7 +29,7 @@
         <h2>Welcome to your profile, Wilma!</h2>
         <div class="profile-info">
             <div class="profile-picture">
-                <img src="/IMG/profile_picture.jpg" alt="Profile Picture">
+                <img src="../IMG/profile_picture.jpg" alt="Profile Picture">
             </div>
             <div class="user-details" id="userDetails">
                 <p><strong>Username:</strong> <input type="text" value="wimmunen" disabled></p>
@@ -79,14 +80,14 @@
                 <div id="dropdownContent" class="dropdown-content">
                     <!-- Dropdown content goes here -->
                     <div class="item" onclick="selectMeal('Unagi-don', '12.49')">
-                        <img src="/IMG/profile_picture.jpg" alt="Unagi-don">
+                        <img src="../IMG/profile_picture.jpg" alt="Unagi-don">
                         <div class="item-info">
                             <p>Unagi-don</p>
                             <p>12.49€</p>
                         </div>
                     </div>
                     <div class="item" onclick="selectMeal('Chirashi-zushi', '9.89')">
-                        <img src="/IMG/profile_picture.jpg" alt="Chirashi-zushi">
+                        <img src="../IMG/profile_picture.jpg" alt="Chirashi-zushi">
                         <div class="item-info">
                             <p>Chirashi-zushi</p>
                             <p>9.89€</p>
@@ -95,17 +96,19 @@
                 </div>
             </div>
             <div class="motd-right">
-                <h3>Selected meal</h3>
+                <h3>Current:</h3>
                 <div class="selected-meal">
-                    <img src="/IMG/profile_picture.jpg" alt="Selected Meal">
+                    <img src="../IMG/profile_picture.jpg" alt="Selected Meal">
                     <div class="selected-meal-info">
-                        <p id="selectedMeal">Unagi-don</p>
+                        <p id="selectedMeal">Name of the meal</p>
                         <p id="selectedPrice">12.49€</p>
+                        <p id="selectedDescription">This is a short description about the product that is chosen for the meal of the day. This is a short description about the product that is chosen for the meal of the day. </p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
     <section class="management-section">
         <div class="management-top">
             <h2>Manage products</h2>
