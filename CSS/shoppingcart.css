@@ -33,15 +33,16 @@ th {
 }
 
 #total-price {
-    float: right;
     font-size: 1.2em;
     margin-top: 20px;
 }
+
 .product-image {
-    width: 300px;
+    width: 100%;
     height: auto;
     object-fit: cover;
 }
+
 #order-button {
     margin-top: 20px;
     font-size: 20px;
@@ -50,4 +51,19 @@ th {
     color: white;
     border: none;
     cursor: pointer;
+    width: 100%;
+}
+
+@media (min-width: 600px) {
+    #total-price {
+        float: right;
+    }
+
+    .product-image {
+        width: 300px;
+    }
+
+    #order-button {
+        width: auto;
+    }
 }
