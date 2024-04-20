@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="../CSS/profile.css">
     <script src="../JS/profile.js" defer></script>
 </head>
-
 <header>
     <div class="container">
         <h1 class="logo">Logo</h1>
@@ -27,46 +26,31 @@
 <body>
 <main>
     <section class="profile-section">
-        <h2>Welcome to your profile, Wilma!</h2>
+        <h2 id="welcomeText">Welcome to your profile, !</h2>
         <div class="profile-info">
             <div class="profile-picture">
-                <img src="../IMG/profile_picture.jpg" alt="Profile Picture">
+                <img src="../IMG/empty.jpg" alt="Profile Picture">
             </div>
             <div class="user-details" id="userDetails">
-                <p><strong>Username:</strong> <input type="text" value="wimmunen" disabled></p>
-                <p><strong>Full Name:</strong> <input type="text" value="Wilma Isberg" disabled></p>
-                <p><strong>Email:</strong> <input type="text" value="wilmais@metropolia.fi" disabled></p>
-                <p><strong>Address:</strong> <input type="text" value="Jokupallerokuja 13 D" disabled></p>
+                <p><strong>Username:</strong> <span id="userUsername"></span></p>
+                <p><strong>Full Name:</strong> <span id="userFullName"></span></p>
+                <p><strong>Email:</strong> <span id="userEmail"></span></p>
+                <p><strong>Address:</strong> <span id="userAddress"></span></p>
             </div>
         </div>
         <div class="edit-profile">
             <button class="change-password-btn">Change Password</button>
-            <button class="edit-details-btn" onclick="toggleEdit()">Edit Account Details</button>
+            <button class="edit-details-btn" onclick="toggleProfileEdit()">Edit Account Details</button>
         </div>
     </section>
 
     <section class="order-history-section">
         <div class="order-history-top">
             <h2>Order history</h2>
-            <button id="orderToggleButton" onclick="toggleOrderHistory()">Show Orders</button>
+            <button id="orderToggleButton" onclick="toggleOrderHistory()">Hide</button>
         </div>
         <div id="order-history" class="order-history hidden">
-            <div class="order">
-                <div class="order-top">
-                    <h3>23/04/2024</h3>
-                    <h3>Pending</h3>
-                </div>
-                <p>Order ID: 123456</p>
-                <p>Products: 2x Unagi-don, 1x Matcha-tea, 2x Sprite</p>
-            </div>
-            <div class="order">
-                <div class="order-top">
-                    <h3>15/03/2024</h3>
-                    <h3>Delivered</h3>
-                </div>
-                <p>Order ID: 638264</p>
-                <p>Products: 1x Katsu Curry, 1x Coke</p>
-            </div>
+
         </div>
     </section>
 
@@ -77,29 +61,15 @@
         </div>
         <div class="motd-dropdown hidden" id="motd-dropdown">
             <div class="motd-left">
-                <button onclick="toggleDropdown()" class="dropbtn">Select Meal</button>
+                <button onclick="toggleDropdown()" class="motd-select-dropdown">Select Meal</button>
                 <div id="dropdownContent" class="dropdown-content">
                     <!-- Dropdown content goes here -->
-                    <div class="item" onclick="selectMeal('Unagi-don', '12.49')">
-                        <img src="../IMG/profile_picture.jpg" alt="Unagi-don">
-                        <div class="item-info">
-                            <p>Unagi-don</p>
-                            <p>12.49€</p>
-                        </div>
-                    </div>
-                    <div class="item" onclick="selectMeal('Chirashi-zushi', '9.89')">
-                        <img src="../IMG/profile_picture.jpg" alt="Chirashi-zushi">
-                        <div class="item-info">
-                            <p>Chirashi-zushi</p>
-                            <p>9.89€</p>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="motd-right">
                 <h3>Current:</h3>
                 <div class="selected-meal">
-                    <img src="../IMG/profile_picture.jpg" alt="Selected Meal">
+                    <img src="../IMG/empty.jpg" id="selectedMealImage" alt="Selected Meal">
                     <div class="selected-meal-info">
                         <p id="selectedMeal">Name of the meal</p>
                         <p id="selectedPrice">12.49€</p>
@@ -125,10 +95,7 @@
                 <div class="remove-product-form">
                     <label for="productDropdown">Select Product:</label>
                     <select id="productDropdown" class="productDropdown">
-                        <option value="Katsu Curry">Katsu Curry</option>
-                        <option value="Tempura Udon">Tempura Udon</option>
-                        <option value="Tuna Sashimi">Tuna Sashimi</option>
-                        <option value="Vegetable Spring Rolls">Vegetable Spring Rolls</option>
+                        <!-- Options will be dynamically added here -->
                     </select>
                     <button onclick="removeProduct()">Delete</button>
                 </div>
@@ -144,7 +111,7 @@
                     <label class="productprice" for="productPrice">Price:</label>
                     <input type="text" id="productPrice">
                     <label>Allergens:</label>
-                    <div class="allergens">
+                    <div class="allergens" id="allergens">
                         <input type="checkbox" id="dairy" name="allergen" value="dairy">
                         <label for="dairy">Dairy</label><br>
                         <input type="checkbox" id="gluten" name="allergen" value="gluten">
