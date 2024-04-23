@@ -1,14 +1,15 @@
 body {
-    color: #5e606c;
+    color: black;
 }
 
-#popular-items,
-#instagram {
-    margin: 40px 0;
+#todays-menu,
+#instagram
+#menu{
+    margin: 50px 0;
 }
 
-#popular-items h2,
-#instagram h2 {
+#todays-menu h2,
+#instagram h2{
     text-align: center;
 }
 
@@ -33,14 +34,37 @@ body {
     font-size: 1.2em;
 }
 
-.intro-image {
-    width: 100%;
-    height: auto;
+.menu-items {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
-#introduction {
-    margin: 20px 0;
-    font-size: 1.2em;
+.menu-title {
+  text-align: center;
+  background-color: #e4babe;
+  border-radius: 20px;
+  font-size: 24px;
+  padding: 10px;
+  margin-bottom: 30px;
+}
+
+.menu-item {
+  width: 23%;
+  text-align: center;
+}
+
+.menu-item img:hover {
+  opacity: 0.7;
+}
+.menu-item a {
+  color: black;
+  text-decoration: none;
+}
+
+.menu-item img {
+  width: 100%;
+  height: auto;
 }
 
 @media (min-width: 600px) {
@@ -49,26 +73,11 @@ body {
         margin: 40px 0;
     }
 
-    .intro-image {
-        width: 45%;
-    }
-
-    #introduction {
-        margin: 40px 0;
-    }
 }
 
-#introduction h2,
-#introduction p {
-    text-align: center;
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-}
 #todays-menu {
     text-align: center;
     font-size: 2rem;
-    color: #5e606c;
 }
 
 #todays-menu ul {
@@ -85,12 +94,10 @@ body {
     font-size: 24px;
     padding: 10px;
     /* Increase this value to make the background larger */
-    color: #5e606c;
 }
 #todays-menu p {
     padding-left: 10px;
     padding-top: 3px;
-    color: #5e606c;
 }
 /*
 #popular-items {
@@ -105,7 +112,6 @@ body {
     border-radius: 20px;
     font-size: 24px;
     padding: 10px;
-    color: #5e606c;
 }
 
 #popular-items .items-container {
@@ -123,7 +129,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+
 }
 
 .item img {
