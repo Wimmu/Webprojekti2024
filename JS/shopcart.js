@@ -112,6 +112,9 @@ recalculateCart() {
   </div>
   <button class="checkout">Checkout</button>
 `;
+document.querySelector('.checkout').addEventListener('click', function() {
+  document.getElementById('checkout-form').style.display = 'block';
+});
   this.recalculateCart();
 
     document.querySelectorAll(".remove-product").forEach((button) => {
@@ -160,6 +163,4 @@ document.body.addEventListener("click", (event) => {
 });
 
 cart.displayCart();
-document.querySelector('.checkout').addEventListener('click', function() {
-  document.getElementById('checkout-form').style.display = 'block';
-});
+
