@@ -26,10 +26,66 @@
     <main>
       <section>
         <h1 id="kori-heading">Kori</h1>
+         <div id="add-item-container">
+        <button id="add-item-button">Add Item</button>
+        </div>
         <div class="centered-content">
           <div class="shopping-cart"></div>
         </div>
       </section>
+    <div id="form-container"></div>
+    <form id="checkout-form" style="display: none;">
+  <h2>Checkout</h2>
+
+  <!-- Customer Information -->
+  <fieldset>
+    <legend>Customer Information</legend>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="phone">Phone:</label>
+    <input type="tel" id="phone" name="phone" required>
+  </fieldset>
+
+  <!-- Delivery Address (if applicable) -->
+  <fieldset>
+    <legend>Delivery Address</legend>
+    <label for="address">Address:</label>
+    <input type="text" id="address" name="address">
+
+    <label for="city">City:</label>
+    <input type="text" id="city" name="city">
+
+    <label for="zipcode">Zip Code:</label>
+    <input type="text" id="zipcode" name="zipcode">
+  </fieldset>
+
+  <!-- Payment Information -->
+  <fieldset>
+    <legend>Payment Information</legend>
+    <label for="card-number">Card Number:</label>
+    <input type="text" id="card-number" name="card-number" required>
+
+    <label for="expiry">Expiration Date:</label>
+    <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required>
+
+    <label for="cvv">CVV:</label>
+    <input type="text" id="cvv" name="cvv" required>
+  </fieldset>
+
+  <!-- Order Summary -->
+  <fieldset>
+    <legend>Order Summary</legend>
+    <!-- Include a summary of the items ordered, their quantities, and total price -->
+  </fieldset>
+
+  <!-- Submit Button -->
+  <button type="submit">Place Order</button>
+    </form>
+  </div>
     </main>
   </body>
 </html>

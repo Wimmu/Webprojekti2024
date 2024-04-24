@@ -1,12 +1,23 @@
 class ShoppingCart {
   constructor() {
-    this.items = [];
+    // Load items from sessionStorage
+    const savedItems = JSON.parse(sessionStorage.getItem('cartItems'));
+
+    if (savedItems) {
+      this.items = savedItems;
+    } else {
+      this.items = [];
+    }
   }
   calculateTotal() {
     return this.items.reduce(
       (total, item) => total + item.price * item.quantity,
       0
     );
+  }
+  saveCart() {
+    // Save items to sessionStorage
+    sessionStorage.setItem('cartItems', JSON.stringify(this.items));
   }
 
   addItem(name, price, imageUrl) {
@@ -17,11 +28,13 @@ class ShoppingCart {
       this.items.push({ name, price, imageUrl, quantity: 1 });
     }
     this.displayCart();
+    this.saveCart();
   }
 
   removeItem(name) {
     this.items = this.items.filter((item) => item.name !== name);
     this.displayCart();
+    this.saveCart();
   }
 
   updateQuantity(name, quantity) {
@@ -32,7 +45,9 @@ class ShoppingCart {
       document.querySelector(
         ".totals"
       ).textContent = `Total: $${this.calculateTotal().toFixed(2)}`;
+      this.saveCart();
     }
+
   }
 recalculateCart() {
   let subtotal = 0;
@@ -53,6 +68,7 @@ recalculateCart() {
       checkoutButton.style.display = "block";
     }
   }
+   this.saveCart();
 }
 
   displayCart() {
@@ -128,8 +144,12 @@ recalculateCart() {
 
 
 const cart = new ShoppingCart();
-cart.addItem("Sushi Set 1", 10, "../images/product2.png");
-cart.addItem("Sushi Set 2", 15, "../images/product1.jpg");
+document.getElementById('add-item-button').addEventListener('click', function() {
+  const cart = new ShoppingCart();
+  cart.addItem("Sushi Set 1", 10, "../images/product2.png");
+});
+//cart.addItem("Sushi Set 1", 10, "../images/product2.png");
+//cart.addItem("Sushi Set 2", 15, "../images/product1.jpg");
 
 document.body.addEventListener("click", (event) => {
   if (event.target.classList.contains("add")) {
@@ -140,3 +160,6 @@ document.body.addEventListener("click", (event) => {
 });
 
 cart.displayCart();
+document.querySelector('.checkout').addEventListener('click', function() {
+  document.getElementById('checkout-form').style.display = 'block';
+});
