@@ -2,7 +2,8 @@
 import {
   findUserById,
   listAllUsers,
-  ordersByUserId
+  ordersByUserId,
+  modifyUser
 } from "../models/user-model.js";
 
 const getAllUsers = async (req, res) => {
@@ -39,4 +40,24 @@ const getOrdersByUserId = async (req, res) => {
   }
 };
 
-export {getAllUsers, getUserById, getOrdersByUserId};
+const putUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await findUserById(userId);
+    if (!user) {
+      return res.sendStatus(404).json({ error: `No user found with id ${userId}` });
+    }
+
+    const result = await modifyUser(req.body, userId);
+    if (result) {
+      res.json(result);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (error) {
+    console.error('Error modifying user:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+export {getAllUsers, getUserById, getOrdersByUserId, putUser};

@@ -3,7 +3,8 @@ import express from 'express';
 import {
   getAllUsers,
   getUserById,
-  getOrdersByUserId
+  getOrdersByUserId,
+  putUser
 } from '../controllers/user-controller.js';
 
 const userRouter = express.Router();
@@ -18,7 +19,7 @@ userRouter.route('/:id/orders')
 
 userRouter.route('/:id')
   .get(getUserById) //Find user by ID
-  // .put(putUser) //Modify user
+  .put(putUser) //Modify user
   // .delete(deleteUser); //Remove user
 
 export default userRouter;

@@ -1,12 +1,12 @@
 
-const userId = 2;
+const userId = 1;
+const userRole = 'admin';
 
 // --------------------- API FUNCTIONS ----------------------------- //
 async function fetchUsers() {
   try {
     const response = await fetch(`http://127.0.0.1:3000/api/v1/users/${userId}`);
     const data = await response.json();
-    console.log('User data:', data)
     return data
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -17,7 +17,6 @@ async function fetchOrders() {
   try {
     const response = await fetch(`http://127.0.0.1:3000/api/v1/users/${userId}/orders`);
     const data = await response.json();
-    console.log('Order data:', data);
     return data;
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -28,7 +27,6 @@ async function fetchMenuItems() {
   try {
     const response = await fetch('http://127.0.0.1:3000/api/v1/items');
     const items = await response.json();
-    console.log('Items:', items);
     return items
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -70,7 +68,8 @@ async function placeProfileData() {
     const userData = await fetchUsers(userId);
     document.getElementById('welcomeText').textContent = `Welcome to your profile, ${userData.first_name}!`;
     document.getElementById('userUsername').textContent = userData.username;
-    document.getElementById('userFullName').textContent = userData.first_name + ' ' + userData.last_name;
+    document.getElementById('firstName').textContent = userData.first_name;
+    document.getElementById('lastName').textContent = userData.last_name;
     document.getElementById('userEmail').textContent = userData.email;
     document.getElementById('userAddress').textContent = userData.address;
   } catch (error) {
@@ -81,13 +80,56 @@ async function placeProfileData() {
 // Toggle the profile edit mode
 function toggleProfileEdit() {
   var editButton = document.querySelector(".edit-details-btn");
+  var userDetails = document.getElementById('userDetails').querySelectorAll('span');
 
   if (editButton.innerText === "Edit Account Details") {
-    console.log("Editing account details.");
+    editButton.innerText = "Save Account Details";
+    userDetails.forEach(span => {
+      var input = document.createElement('input');
+      input.type = "text";
+      input.value = span.textContent;
+      span.replaceWith(input);
+    });
   } else {
-    console.log("Account details saved.");
+    editButton.innerText = "Edit Account Details";
+    userDetails.forEach(input => {
+      var span = document.createElement('span');
+      span.textContent = input.value;
+      input.replaceWith(span);
+    });
+    console.log('Saving account details...');
+    saveAccountDetails();
   }
 }
+
+async function saveAccountDetails() {
+  try {
+    var userDetails = document.getElementById('userDetails');
+    var username = userDetails.querySelector('p:nth-child(1) input').value;
+    var first_name = userDetails.querySelector('p:nth-child(2) input').value;
+    var last_name = userDetails.querySelector('p:nth-child(3) input').value;
+    var email = userDetails.querySelector('p:nth-child(4) input').value;
+    var address = userDetails.querySelector('p:nth-child(5) input').value;
+
+    const response = await fetch(`http://127.0.0.1:3000/api/v1/users/${userId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, first_name, last_name, email, address }),
+    });
+
+    if (response.ok) {
+      console.log('Account details saved successfully');
+      placeProfileData(); // Refresh the profile data after saving
+    } else {
+      console.error('Failed to save account details');
+    }
+  } catch (error) {
+    console.error('Error saving account details:', error);
+  }
+}
+
 
 // --------------------- ORDER HISTORY ----------------------------- //
 // Fetch order data and place it in the order history
@@ -215,6 +257,7 @@ async function removeProduct() {
       if (response.ok) {
         console.log('Product deleted successfully');
         productDropdown.innerHTML = ''; // Clear dropdown after deletion
+        await placeMotdData();
         await placeRemoveDropdownData(); // Refresh dropdown after deletion
       } else {
         console.error('Failed to delete product');
@@ -225,16 +268,54 @@ async function removeProduct() {
   }
 }
 
-// Save a new product
-function saveProduct() {
-  var productName = document.getElementById('productName').value;
-  var productDescription = document.getElementById('productDescription').value;
-  var productPrice = document.getElementById('productPrice').value;
-  var productAllergens = document.getElementById('allergens').value;
-  var productImage = document.getElementById('productImage').files[0];
+document.getElementById('productImage').addEventListener('change', function() {
+  var fileName = this.files[0].name;
+  document.getElementById('productImageLabel').innerText = 'Image: ' + fileName;
+});
 
-  console.log('SAVING PRODUCT:', "\nName:",productName, "\nDescription:",productDescription, "\nPrice:",productPrice,"\nAllergens:",productAllergens,"\nImage:",productImage);
+// Save a new product
+async function saveProduct() {
+  const form = document.getElementById('addProductForm');
+  const formData = new FormData(form);
+
+  const allergenCheckboxes = document.querySelectorAll('.allergens input[type="checkbox"]:checked');
+  const allergens = Array.from(allergenCheckboxes).map(checkbox => checkbox.value);
+  formData.set('allergen', allergens.join(', '));
+
+  formData.append('image', document.getElementById('productImage').files[0]);
+
+  console.log('Form data:', Object.fromEntries(formData.entries()));
+
+  try {
+    const response = await fetch('http://127.0.0.1:3000/api/v1/items', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (response.ok) {
+      console.log('Product added successfully');
+      document.getElementById('productName').value = '';
+      document.getElementById('productDescription').value = '';
+      document.getElementById('productPrice').value = '';
+      document.getElementById('productImageLabel').innerText = 'Image:';
+      allergenCheckboxes.forEach(function(checkbox) {
+        checkbox.checked = false;
+      });
+      await placeMotdData();
+      await placeRemoveDropdownData();
+    } else {
+      console.error('Failed to add product');
+    }
+  } catch (error) {
+    console.error('Error adding product:', error);
+  }
 }
+
+
+
+
+
+
 
 // --------------------- MAIN ----------------------------- //
 document.addEventListener("DOMContentLoaded", () => {
@@ -242,4 +323,11 @@ document.addEventListener("DOMContentLoaded", () => {
   placeOrderData();
   placeMotdData();
   placeRemoveDropdownData();
+
+  const motdSection = document.getElementById('motd-section');
+  const managementSection = document.getElementById('managementSection');
+  if (userRole !== 'admin') {
+    motdSection.style.display = 'none';
+    managementSection.style.display = 'none';
+  }
 });

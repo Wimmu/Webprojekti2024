@@ -276,13 +276,26 @@
   width: 50%;
 }
 
+.add-product-form label {
+  margin-top: 6px;
+  margin-bottom: 3px;
+}
+
 #productPrice {
-  width: 20%;
+  width: 150px;
 }
 
 .add-product-form textarea {
   height: 100px;
   width: 90%;
+}
+
+#productCategory {
+  width: 150px;
+  padding: 5px 8px 5px 5px;
+  border-radius: 10px;
+  background-color: #f8eded;
+  border: #e4babe 2px solid;
 }
 
 /* Style checkboxes */
@@ -295,8 +308,8 @@
   width: 20px;
   height: 20px;
   /* Add custom border and background */
-  border: 2px solid #ccc;
-  background-color: #fff;
+  border: #e4babe 2px solid;
+  background-color: #f8eded;
   /* Add some padding for better appearance */
   padding: 4px;
   /* Position the checkbox relative to its container */
@@ -337,7 +350,7 @@
 
 /* Hide the default file input */
 .hidden-file-input {
-  display: none;
+  /*display: none;*/
 }
 
 /* Style the custom button */
@@ -366,6 +379,13 @@
 }
 .productDropdown option {
   cursor: pointer;
+}
+
+#errorMessage {
+  color: red;
+  margin-top: -20px;
+  margin-left: 10px;
+  margin-bottom: 5px;
 }
 
 /*---------------------- MOBILE -----------------------------*/

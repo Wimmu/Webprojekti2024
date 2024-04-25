@@ -33,7 +33,8 @@
             </div>
             <div class="user-details" id="userDetails">
                 <p><strong>Username:</strong> <span id="userUsername"></span></p>
-                <p><strong>Full Name:</strong> <span id="userFullName"></span></p>
+                <p><strong>First Name:</strong> <span id="firstName"></span></p>
+                <p><strong>Last Name:</strong> <span id="lastName"></span></p>
                 <p><strong>Email:</strong> <span id="userEmail"></span></p>
                 <p><strong>Address:</strong> <span id="userAddress"></span></p>
             </div>
@@ -54,7 +55,7 @@
         </div>
     </section>
 
-    <section class="motd-section">
+    <section class="motd-section" id="motd-section">
         <div class="motd-top">
             <h2>Meal of the Day</h2>
             <button id="motdToggleButton" onclick="toggleMotd()">Show</button>
@@ -80,7 +81,7 @@
         </div>
     </section>
 
-    <section class="management-section">
+    <section class="management-section" id="managementSection">
         <div class="management-top">
             <h2>Manage products</h2>
             <button id="managementToggleButton" onclick="toggleManagement()">Show</button>
@@ -103,34 +104,46 @@
 
             <div id="addProductTab" class="product-tab">
                 <h2>Add Product</h2>
-                <div class="add-product-form">
-                    <label for="productName">Name:</label>
-                    <input type="text" id="productName">
-                    <label for="productDescription">Description:</label>
-                    <textarea id="productDescription"></textarea>
-                    <label class="productprice" for="productPrice">Price:</label>
-                    <input type="text" id="productPrice">
-                    <label>Allergens:</label>
-                    <div class="allergens" id="allergens">
-                        <input type="checkbox" id="dairy" name="allergen" value="dairy">
-                        <label for="dairy">Dairy</label><br>
-                        <input type="checkbox" id="gluten" name="allergen" value="gluten">
-                        <label for="gluten">Gluten</label><br>
-                        <input type="checkbox" id="peanuts" name="allergen" value="peanuts">
-                        <label for="peanuts">Peanuts</label><br>
-                        <input type="checkbox" id="fish" name="allergen" value="fish">
-                        <label for="fish">Fish</label><br>
-                        <input type="checkbox" id="soy" name="allergen" value="soy">
-                        <label for="soy">Soy</label><br>
-                    </div>
-                    <div class="file-input-container">
-                        <label for="productImage">Image:</label>
-                        <input type="file" id="productImage" class="hidden-file-input">
-                        <button onclick="document.getElementById('productImage').click()">Choose Image</button>
-                    </div>
-
-                    <button onclick="saveProduct()">Save Product</button>
+              <form class="add-product-form" id="addProductForm" enctype="multipart/form-data">
+                <label for="productName">Name:</label>
+                <input type="text" id="productName" name="name">
+                <label for="productDescription">Description:</label>
+                <textarea id="productDescription" name="description"></textarea>
+                <label class="productprice" for="productPrice">Price:</label>
+                <input type="text" id="productPrice" name="price">
+                <label for="productCategory">Category:</label>
+                <select id="productCategory" name="category">
+                  <option value="japanese">Japanese</option>
+                  <option value="korean">Korean</option>
+                  <option value="chinese">Chinese</option>
+                  <option value="thai">Thai</option>
+                  <option value="indian">Indian</option>
+                  <option value="vietnamese">Vietnamese</option>
+                </select>
+                <label>Allergens:</label>
+                <div class="allergens" id="allergens">
+                  <input type="checkbox" id="dairy" name="allergen" value="dairy">
+                  <label for="dairy">Dairy</label><br>
+                  <input type="checkbox" id="vegan" name="allergen" value="vegan">
+                  <label for="vegan">Vegan</label><br>
+                  <input type="checkbox" id="gluten" name="allergen" value="gluten">
+                  <label for="gluten">Gluten</label><br>
+                  <input type="checkbox" id="peanuts" name="allergen" value="peanuts">
+                  <label for="peanuts">Peanuts</label><br>
+                  <input type="checkbox" id="fish" name="allergen" value="fish">
+                  <label for="fish">Fish</label><br>
+                  <input type="checkbox" id="soy" name="allergen" value="soy">
+                  <label for="soy">Soy</label><br>
                 </div>
+                <div class="file-input-container">
+                  <label for="productImage" id="productImageLabel">Image:</label>
+                  <input type="file" id="productImage" class="hidden-file-input" name="image" required>
+                  <button onclick="document.getElementById('productImage').click()">Choose Image</button>
+                </div>
+                <p id="errorMessage"></p>
+                <button type="button" onclick="saveProduct()">Save Product</button>
+              </form>
+
             </div>
         </div>
     </section>

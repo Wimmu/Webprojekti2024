@@ -3,7 +3,6 @@ import promisePool from '../../utils/database.js';
 const listAllUsers = async () => {
   try {
     const [rows] = await promisePool.query('SELECT * FROM user');
-    console.log('rows', rows);
     return rows;
   } catch (error) {
     console.error('Error fetching all users:', error);
@@ -14,7 +13,6 @@ const listAllUsers = async () => {
 const findUserById = async (id) => {
   try {
     const [rows] = await promisePool.execute('SELECT * FROM user WHERE user_id = ?', [id]);
-    console.log('rows', rows);
     if (rows.length === 0) {
       return false;
     }
@@ -28,7 +26,6 @@ const findUserById = async (id) => {
 const ordersByUserId = async (id) => {
   try {
     const [rows] = await promisePool.execute('SELECT * FROM `order` WHERE user_id = ?', [id]);
-    console.log('rows', rows);
     return rows;
   } catch (error) {
     console.error('Error fetching user orders:', error);
@@ -36,8 +33,19 @@ const ordersByUserId = async (id) => {
   }
 }
 
+const modifyUser = async (user, id) => {
+  const sql = promisePool.format(`UPDATE user SET ? WHERE user_id = ?`, [user, id]);
+  const rows = await promisePool.execute(sql);
+  console.log('rows', rows);
+  if (rows[0].affectedRows === 0) {
+    return false;
+  }
+  return {message: 'success'};
+};
+
 export {
   listAllUsers,
   findUserById,
-  ordersByUserId
+  ordersByUserId,
+  modifyUser
 };
