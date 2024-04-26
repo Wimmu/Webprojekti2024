@@ -1,4 +1,3 @@
-
 const userId = 1;
 const userRole = 'admin';
 
@@ -6,8 +5,7 @@ const userRole = 'admin';
 async function fetchUsers() {
   try {
     const response = await fetch(`http://127.0.0.1:3000/api/v1/users/${userId}`);
-    const data = await response.json();
-    return data
+    return await response.json()
   } catch (error) {
     console.error('Error fetching items:', error);
   }
@@ -16,8 +14,17 @@ async function fetchUsers() {
 async function fetchOrders() {
   try {
     const response = await fetch(`http://127.0.0.1:3000/api/v1/users/${userId}/orders`);
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching items:', error);
+  }
+}
+
+async function fetchOrderItemsByOrderId(orderId){
+  try {
+    const response = await fetch(`http://127.0.0.1:3000/api/v1/items/orderItems/${orderId}`);
     const data = await response.json();
-    return data;
+    return data.join(', ');
   } catch (error) {
     console.error('Error fetching items:', error);
   }
@@ -26,8 +33,7 @@ async function fetchOrders() {
 async function fetchMenuItems() {
   try {
     const response = await fetch('http://127.0.0.1:3000/api/v1/items');
-    const items = await response.json();
-    return items
+    return await response.json()
   } catch (error) {
     console.error('Error fetching items:', error);
   }
@@ -138,20 +144,21 @@ async function placeOrderData() {
 
     const orderHistory = document.getElementById('order-history');
     orderHistory.innerHTML = '';
-    orderData.forEach(order => {
+    for (const order of orderData) {
       const orderDiv = document.createElement('div');
       orderDiv.classList.add('order');
       const orderTop = document.createElement('div');
       orderTop.classList.add('order-top');
       const orderDate = new Date(order.date).toLocaleDateString('en-GB');
       const orderStatus = order.status.charAt(0).toUpperCase() + order.status.slice(1);
+      const orderItems = await fetchOrderItemsByOrderId(order.order_id);
       orderTop.innerHTML = `<h3>${orderDate}</h3><h3>${orderStatus}</h3>`;
       const orderInfo = document.createElement('div');
-      orderInfo.innerHTML = `<p>Order ID: ${order.order_id}</p><p>Products: ${order.products}</p>`;
+      orderInfo.innerHTML = `<p>Order ID: ${order.order_id}</p><p>Products: ${orderItems}</p>`;
       orderDiv.appendChild(orderTop);
       orderDiv.appendChild(orderInfo);
       orderHistory.appendChild(orderDiv);
-    });
+    }
     orderHistory.classList.remove('hidden');
   } catch (error) {
     console.error('Error fetching order data:', error);

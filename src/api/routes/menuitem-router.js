@@ -5,7 +5,8 @@ import {
   getAllItems,
   getCategoryList,
   deleteItemByName,
-  postItem
+  postItem,
+  getOrderItemsByOrderId
 } from '../controllers/menuitem-controller.js';
 
 const itemRouter = express.Router();
@@ -25,13 +26,13 @@ const storage = multer.diskStorage({
       extension = 'png';
     }
 
-    console.log("file in storage", file)
+    //console.log("file in storage", file)
 
     const filename = `${prefix}-${suffix}.${extension}`;
 
     cb(null, filename);
 
-    console.log("filename", filename)
+    //console.log("filename", filename)
   },
 });
 
@@ -49,5 +50,8 @@ itemRouter.route('/category')
 
 itemRouter.route('/:name')
   .delete(deleteItemByName) //Delete item by name
+
+itemRouter.route('/orderItems/:id')
+  .get(getOrderItemsByOrderId) //Get orders for item by id
 
 export default itemRouter;
