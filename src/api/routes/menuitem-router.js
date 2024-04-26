@@ -3,6 +3,7 @@ import multer from 'multer';
 
 import {
   getAllItems,
+  getCategoryList,
   deleteItemByName,
   postItem
 } from '../controllers/menuitem-controller.js';
@@ -42,6 +43,9 @@ const upload = multer({
 itemRouter.route('/')
   .get(getAllItems) //List all items
   .post(upload.single('image'), postItem); //Add a new item
+
+itemRouter.route('/category')
+  .get(getCategoryList) //List all categories
 
 itemRouter.route('/:name')
   .delete(deleteItemByName) //Delete item by name

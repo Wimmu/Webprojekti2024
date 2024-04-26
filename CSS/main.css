@@ -89,7 +89,8 @@ section {
 
 button {
     background-color: #e4babe;
-    color: #fff;
+    color: #000000;
+    font-weight: bold;
     padding: 10px 20px;
     border: none;
     cursor: pointer;
@@ -97,7 +98,7 @@ button {
 }
 
 button:hover {
-    background-color: #5e606c;
+    background-color: #e8d8c9;
 }
 
 footer {

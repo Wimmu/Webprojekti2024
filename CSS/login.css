@@ -23,7 +23,7 @@ label {
 }
 
 input {
-    width: 400px;
+    width: 95%;
     padding: 10px;
     margin-bottom: 10px;
 }
@@ -39,7 +39,7 @@ main a:hover {
 }
 
 button {
-    width: 400px;
+    width: 90%;
     margin-top: 20px;
     text-align: center;
 }

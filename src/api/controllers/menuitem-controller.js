@@ -1,7 +1,8 @@
 import {
   listAllItems,
-  removeItem,
-  addItem
+  addItem,
+  categoryList,
+  removeItem
 } from "../models/menuitem-model.js";
 
 const getAllItems = async (req, res) => {
@@ -29,6 +30,16 @@ const postItem = async (req, res) => {
   }
 };
 
+const getCategoryList = async (req, res) => {
+  try {
+    const categories = await categoryList();
+    res.json(categories);
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
 const deleteItemByName = async (req, res) => {
   try {
     const result = await removeItem(req.params.name);
@@ -46,5 +57,6 @@ const deleteItemByName = async (req, res) => {
 export {
   getAllItems,
   deleteItemByName,
-  postItem
+  postItem,
+  getCategoryList,
 };

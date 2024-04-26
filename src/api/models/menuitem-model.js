@@ -36,6 +36,17 @@ const addItem = async (item, image) => {
   return {menuitem_id: rows[0].insertId};
 };
 
+const categoryList = async () => {
+  try {
+    const [rows] = await promisePool.query('SELECT category FROM menuitem');
+    console.log('rows', rows);
+    return rows;
+  } catch (error) {
+    console.error('Error fetching all users:', error);
+    throw error;
+  }
+}
+
 const removeItem = async (name) => {
   try {
     const [id_rows] = await promisePool.execute('SELECT menuitem_id FROM menuitem WHERE name = ?', [name]);
@@ -69,6 +80,7 @@ const removeItem = async (name) => {
 
 export {
   listAllItems,
+  categoryList,
   removeItem,
   addItem
 };
