@@ -276,44 +276,33 @@ document.getElementById('productImage').addEventListener('change', function() {
 
 
 // Save a new product
-async function saveProduct() {
+function saveProduct() {
   const form = document.getElementById('addProductForm');
   const formData = new FormData(form);
 
-  const allergenCheckboxes = document.querySelectorAll('.allergens input[type="checkbox"]:checked');
-  const allergens = Array.from(allergenCheckboxes).map(checkbox => checkbox.value);
-  formData.set('allergen', allergens.join(', '));
-
-  console.log('Form data:', Object.fromEntries(formData.entries()));
-  console.log(formData);
-
-  try {
-    const productImage = document.getElementById('productImage').files[0];
-    formData.append('image', productImage);
-
-    const response = await fetch('http://127.0.0.1:3000/api/v1/items', {
-      method: 'POST',
-      body: formData,
+  fetch('http://localhost:3000/api/v1/items', {
+    method: 'POST',
+    body: formData
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      // Handle success
+      console.log('Success:', data);
+      // Redirect to profile.html or do whatever you want
+      window.location.href = 'http://localhost:63342/Webprojektiiii2024/HTML/profile.html';
+    })
+    .catch(error => {
+      // Handle error
+      console.error('Error:', error);
+      document.getElementById('errorMessage').innerText = 'Error: ' + error.message;
     });
-
-    if (response.ok) {
-      console.log('Product added successfully');
-      document.getElementById('productName').value = '';
-      document.getElementById('productDescription').value = '';
-      document.getElementById('productPrice').value = '';
-      document.getElementById('productImageLabel').innerText = 'Image:';
-      allergenCheckboxes.forEach(function(checkbox) {
-        checkbox.checked = false;
-      });
-      await placeMotdData();
-      await placeRemoveDropdownData();
-    } else {
-      console.error('Failed to add product');
-    }
-  } catch (error) {
-    console.error('Error adding product:', error);
-  }
 }
+
 
 
 

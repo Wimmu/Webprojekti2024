@@ -1,63 +1,3 @@
-const menu = [
-    {
-        category: "Alkuruoka",
-        items: [
-            { id: 1 ,name: "Edamame", description: "Steamed soybeans sprinkled with sea salt.", price: "5.90€", allergens: ["G", "L", "V"], img: "../IMG/empty.jpg"},
-            { id: 2 ,name: "Gyoza", description: "Pan-fried dumplings filled with pork and vegetables.", price: "6.50€", allergens: ["L"], img: "../IMG/empty.jpg"},
-            { id: 3, name: "Agedashi Tofu", description: "Deep-fried tofu served in a savory dashi broth.", price: "7.50€", allergens: ["G", "V"], img: "../IMG/empty.jpg" }
-        ]
-    },
-    {
-        category: "Sushi",
-        items: [
-            { id: 4, name: "California Roll", description: "Avocado, cucumber, crab meat.", price: "8.99€", allergens: ["G"], img: "../IMG/empty.jpg" },
-            { id: 5, name: "Spicy Tuna Roll", description: "Tuna, spicy mayo, cucumber.", price: "9.99€", allergens: ["G", "L"], img: "../IMG/empty.jpg" },
-            { id: 6, name: "Salmon Nigiri", description: "Fresh salmon on sushi rice.", price: "4.99€", allergens: [], img: "../IMG/empty.jpg"},
-            { id: 7, name: "Vegetable Tempura", description: "Assorted vegetables deep-fried in tempura batter.", price: "7.99€" , allergens: ["G", "V"], img: "../IMG/empty.jpg" },
-            { id: 8, name: "Dragon Roll", description: "Eel, avocado, cucumber, eel sauce.", price: "11.99€", allergens: ["G", "V"], img: "../IMG/empty.jpg" },
-        ]
-    },
-    {
-        category: "Ramen",
-        items: [
-            { id: 9, name: "Tonkotsu Ramen", description: "Rich pork broth served with noodles, pork belly, and toppings.", price: "12.90€", allergens: [], img: "../IMG/empty.jpg"},
-            { id: 10, name: "Miso Ramen", description: "Soybean paste broth with noodles, tofu, vegetables, and toppings.", price: "11.50€", allergens: ["V"], img: "../IMG/empty.jpg"},
-            { id: 11, name: "Shoyu Ramen", description: "Clear soy sauce broth with noodles, chicken, vegetables, and toppings.", price: "10.90€", allergens: [], img: "../IMG/empty.jpg"}
-        ]
-    },
-    {
-        category: "Donburi",
-        items: [
-            { id: 12, name: "Katsu Don", description: "Breaded and deep-fried pork cutlet served over rice with egg and vegetables.", price: "9.90€", allergens: ["L"], img: "../IMG/empty.jpg"},
-            { id: 13, name: "Tekka Don", description: "Sliced raw tuna served over a bowl of sushi rice.", price: "13.50€", allergens: ["L"], img: "../IMG/empty.jpg"},
-            { id: 14, name: "Unagi Don", description: "Grilled eel served over rice, drizzled with sweet soy sauce.", price: "15.90€", allergens: ["L"], img: "../IMG/empty.jpg"}
-        ]
-    },
-    {
-        category: "Pokebowl",
-        items: [
-            { id: 15, name: "Salmon Poke Bowl", description: "Fresh salmon marinated in soy sauce and served over rice with vegetables.", price: "14.90€", allergens: ["L"], img: "../IMG/empty.jpg"},
-            { id: 16, name: "Tuna Poke Bowl", description: "Ahi tuna marinated in sesame oil and served over rice with avocado and seaweed.", price: "16.50€", allergens: ["L"], img: "../IMG/empty.jpg"},
-            { id: 17, name: "Vegetarian Poke Bowl", description: "Assorted vegetables and tofu served over rice with spicy mayo.", price: "12.90€", allergens: ["V", "L"], img: "../IMG/empty.jpg"}
-        ]
-    },
-    {
-        category: "Jälkiruoka",
-        items: [
-            { id: 18, name: "Matcha Ice Cream", description: "Green tea-flavored ice cream served with red bean paste.", price: "6.90€", allergens: ["G", "V"], img: "../IMG/empty.jpg"},
-            { id: 19, name: "Mochi Ice Cream", description: "Soft and chewy rice cake filled with ice cream in assorted flavors.", price: "8.50€", allergens: ["G", "V"], img: "../IMG/empty.jpg"},
-            { id: 20, name: "Anmitsu", description: "Traditional Japanese dessert with agar jelly, fruit, and sweet syrup.", price: "7.90€", allergens: ["V"], img: "../IMG/empty.jpg"}
-        ]
-    },
-    {
-        category: "Juomat",
-        items: [
-            { id: 21, name: "Green Tea", description: "Hot or iced Japanese green tea.", price: "2.50€", allergens: ["V", "G", "L"], img: "../IMG/empty.jpg"},
-            { id: 22, name: "Sake", description: "Japanese rice wine served hot or cold.", price: "7.50€" , allergens: ["L", "V", "G"], img: "../IMG/empty.jpg"},
-            { id: 23, name: "Ramune", description: "Japanese soda with a marble stopper.", price: "3.50€" , allergens: ["V", "L"], img: "../IMG/empty.jpg"},
-        ]
-    },
-];
 
 //-------------------------- Fetch from database ---------------------------------
 
@@ -134,7 +74,7 @@ function crateProductInfoBox(product) {
     productInfoBox.classList.add('productInfoBox');
 
     productInfoBox.innerHTML = `
-        <img src="/IMG/ruokakuvat/${product.image}" alt="${product.name}">
+        <img src="/uploads/${product.image}" alt="${product.name}">
         <h3>${product.name}</h3>
         <p class="productDisciption">${product.description}</p>
         <div class=button-wrapper">
@@ -187,7 +127,7 @@ function openModal(product) {
 
             <div class="grid-container">
                 <div class="grid-cell">
-                    <img src="/IMG/ruokakuvat/${product.image}" alt="${product.name}">
+                    <img src="/uploads/${product.image}" alt="${product.name}">
                 </div>
                 <div class="grid-cell">
                     <h3>${product.name}</h3>
