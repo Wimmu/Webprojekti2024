@@ -87,8 +87,8 @@
 
 .order-history {
   margin-top: 10px;
-  max-height: 400px;
-  overflow: hidden;
+  max-height: 350px;
+  overflow-y: auto;
   transition: max-height 0.5s ease-in-out;
 }
 

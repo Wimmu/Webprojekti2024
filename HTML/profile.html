@@ -86,7 +86,7 @@
             <h2>Manage products</h2>
             <button id="managementToggleButton" onclick="toggleManagement()">Show</button>
         </div>
-        <div id="management" class="management hidden">
+        <div id="management" class="management">
             <div class="product-tabs">
                 <button onclick="openTab('removeProductTab')">Add Product</button>
                 <button onclick="openTab('addProductTab')">Remove Product</button>
@@ -104,7 +104,7 @@
 
             <div id="addProductTab" class="product-tab">
                 <h2>Add Product</h2>
-              <form class="add-product-form" id="addProductForm" enctype="multipart/form-data">
+              <form method="post" action="http://localhost:3000/api/v1/items" class="add-product-form" id="addProductForm" enctype="multipart/form-data">
                 <label for="productName">Name:</label>
                 <input type="text" id="productName" name="name">
                 <label for="productDescription">Description:</label>
@@ -141,7 +141,7 @@
                   <button onclick="document.getElementById('productImage').click()">Choose Image</button>
                 </div>
                 <p id="errorMessage"></p>
-                <button type="button" onclick="saveProduct()">Save Product</button>
+                <button type="submit">Save Product</button>
               </form>
 
             </div>

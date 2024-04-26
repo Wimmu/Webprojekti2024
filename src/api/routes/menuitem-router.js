@@ -10,15 +10,34 @@ import {
 const itemRouter = express.Router();
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'IMG/ruokakuvat/');
+    cb(null, 'uploads/');
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now());
-  }
+    const suffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+
+    const originalFilename = file.originalname.split('.')[0].toLowerCase();
+    const prefix = `${originalFilename}-${file.fieldname}`;
+
+    let extension = 'jpg';
+
+    if (file.mimetype === 'image/png') {
+      extension = 'png';
+    }
+
+    console.log("file in storage", file)
+
+    const filename = `${prefix}-${suffix}.${extension}`;
+
+    cb(null, filename);
+
+    console.log("filename", filename)
+  },
 });
 
-const upload = multer({ storage: storage });
-
+const upload = multer({
+  dest: 'uploads/',
+  storage,
+});
 
 itemRouter.route('/')
   .get(getAllItems) //List all items

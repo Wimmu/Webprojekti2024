@@ -15,13 +15,17 @@ const getAllItems = async (req, res) => {
 };
 
 const postItem = async (req, res) => {
-  try {
-    console.log('req.body:', req.body);
-    const result = await addItem(req.body);
+  // console.log('postCat', req.body);
+  console.log("req", req)
+  console.log("file", req.file)
+
+  const result = await addItem(req.body, req.file);
+  console.log('result', result);
+  if (result.menuitem_id) {
+    res.status(201);
     res.json({message: 'New item added.', result});
-  } catch (error) {
-    console.error('Error adding item:', error);
-    res.status(500).json({ error: 'Internal server error' });
+  } else {
+    res.sendStatus(400);
   }
 };
 

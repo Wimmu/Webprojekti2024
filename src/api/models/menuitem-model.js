@@ -10,15 +10,26 @@ const listAllItems = async () => {
   }
 };
 
-const addItem = async (item) => {
+const addItem = async (item, image) => {
   console.log('item:', item)
-  const {name, price, description, allergen, category, image} = item;
+  console.log('image:', image)
+
+  const {name, price, description, allergen, category} = item;
   const sql = `INSERT INTO menuitem (name, price, description, allergen, category, image)
                VALUES (?, ?, ?, ?, ?, ?)`;
-  const params = [name, price, description, allergen, category, image];
- console.log('params:', params)
+  const params = [name, price, description, allergen.join(', '), category, image.filename].map(
+    (arvo) => {
+      if (arvo === undefined) {
+        return null;
+      } else {
+        return arvo;
+      }
+    }
+  );
+
+  console.log('params', params);
   const rows = await promisePool.execute(sql, params);
-  console.log('rows', rows);
+  // console.log('rows', rows);
   if (rows[0].affectedRows === 0) {
     return false;
   }

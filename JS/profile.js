@@ -79,24 +79,20 @@ async function placeProfileData() {
 
 // Toggle the profile edit mode
 function toggleProfileEdit() {
-  var editButton = document.querySelector(".edit-details-btn");
-  var userDetails = document.getElementById('userDetails').querySelectorAll('span');
+  const editButton = document.querySelector(".edit-details-btn");
+  const userDetails = document.getElementById('userDetails').querySelectorAll('span');
 
   if (editButton.innerText === "Edit Account Details") {
     editButton.innerText = "Save Account Details";
     userDetails.forEach(span => {
-      var input = document.createElement('input');
+      const input = document.createElement('input');
       input.type = "text";
       input.value = span.textContent;
-      span.replaceWith(input);
+      span.textContent = ''; // Clear the span's text content
+      span.appendChild(input);
     });
   } else {
     editButton.innerText = "Edit Account Details";
-    userDetails.forEach(input => {
-      var span = document.createElement('span');
-      span.textContent = input.value;
-      input.replaceWith(span);
-    });
     console.log('Saving account details...');
     saveAccountDetails();
   }
@@ -104,12 +100,12 @@ function toggleProfileEdit() {
 
 async function saveAccountDetails() {
   try {
-    var userDetails = document.getElementById('userDetails');
-    var username = userDetails.querySelector('p:nth-child(1) input').value;
-    var first_name = userDetails.querySelector('p:nth-child(2) input').value;
-    var last_name = userDetails.querySelector('p:nth-child(3) input').value;
-    var email = userDetails.querySelector('p:nth-child(4) input').value;
-    var address = userDetails.querySelector('p:nth-child(5) input').value;
+    const userDetails = document.getElementById('userDetails');
+    const username = userDetails.querySelector('p:nth-child(1) input').value;
+    const first_name = userDetails.querySelector('p:nth-child(2) input').value;
+    const last_name = userDetails.querySelector('p:nth-child(3) input').value;
+    const email = userDetails.querySelector('p:nth-child(4) input').value;
+    const address = userDetails.querySelector('p:nth-child(5) input').value;
 
     const response = await fetch(`http://127.0.0.1:3000/api/v1/users/${userId}`, {
       method: 'PUT',
@@ -136,6 +132,10 @@ async function saveAccountDetails() {
 async function placeOrderData() {
   try {
     const orderData = await fetchOrders(userId);
+
+    // Sort orders by date (most recent first)
+    orderData.sort((a, b) => new Date(b.date) - new Date(a.date));
+
     const orderHistory = document.getElementById('order-history');
     orderHistory.innerHTML = '';
     orderData.forEach(order => {
@@ -158,6 +158,7 @@ async function placeOrderData() {
   }
 }
 
+
 // --------------------- MEAL OF THE DAY ----------------------------- //
 // Fetch menu items and place them in the dropdown
 async function placeMotdData() {
@@ -170,7 +171,7 @@ async function placeMotdData() {
       itemDiv.classList.add('item');
       itemDiv.onclick = () => selectItem(item.name, item.price, item.description, item.image);
       itemDiv.innerHTML = `
-                <img src="/IMG/ruokakuvat/${item.image}" alt="${item.name}">
+                <img src="/uploads/${item.image}" alt="${item.name}">
                 <div class="item-info">
                     <p>${item.name}</p>
                     <p>${item.price}€</p>
@@ -192,7 +193,7 @@ function toggleDropdown() {
 // Select an item from the dropdown and display it
 function selectItem(name, price, description, image) {
   console.log('Selected item:', name, price, description, image);
-  document.getElementById('selectedMealImage').setAttribute('src', `/IMG/ruokakuvat/${image}`);
+  document.getElementById('selectedMealImage').setAttribute('src', `/uploads/${image}`);
   document.getElementById('selectedMeal').textContent = name;
   document.getElementById('selectedPrice').textContent = price + '€';
   document.getElementById('selectedDescription').textContent = description;
@@ -273,6 +274,7 @@ document.getElementById('productImage').addEventListener('change', function() {
   document.getElementById('productImageLabel').innerText = 'Image: ' + fileName;
 });
 
+
 // Save a new product
 async function saveProduct() {
   const form = document.getElementById('addProductForm');
@@ -282,11 +284,13 @@ async function saveProduct() {
   const allergens = Array.from(allergenCheckboxes).map(checkbox => checkbox.value);
   formData.set('allergen', allergens.join(', '));
 
-  formData.append('image', document.getElementById('productImage').files[0]);
-
   console.log('Form data:', Object.fromEntries(formData.entries()));
+  console.log(formData);
 
   try {
+    const productImage = document.getElementById('productImage').files[0];
+    formData.append('image', productImage);
+
     const response = await fetch('http://127.0.0.1:3000/api/v1/items', {
       method: 'POST',
       body: formData,
@@ -310,7 +314,6 @@ async function saveProduct() {
     console.error('Error adding product:', error);
   }
 }
-
 
 
 
