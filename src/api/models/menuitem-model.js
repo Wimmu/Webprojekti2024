@@ -11,8 +11,6 @@ const listAllItems = async () => {
 };
 
 const addItem = async (item, image) => {
-  console.log('item:', item)
-  console.log('image:', image)
 
   const {name, price, description, allergen, category} = item;
   const sql = `INSERT INTO menuitem (name, price, description, allergen, category, image)
@@ -39,7 +37,7 @@ const addItem = async (item, image) => {
 const categoryList = async () => {
   try {
     const [rows] = await promisePool.query('SELECT category FROM menuitem');
-    console.log('rows', rows);
+    // console.log('rows', rows);
     return rows;
   } catch (error) {
     console.error('Error fetching all users:', error);
@@ -77,10 +75,23 @@ const removeItem = async (name) => {
   }
 };
 
+const listOrderItems = async (orderId) => {
+  try {
+    const [rows] = await promisePool.execute(
+      'SELECT menuitem.name FROM orderitem INNER JOIN menuitem ON orderitem.menuitem_id = menuitem.menuitem_id WHERE orderitem.order_id = ?',
+      [orderId]
+    );
+    return rows.map(row => row.name);
+  } catch (error) {
+    console.error('Error fetching order items:', error);
+    throw error;
+  }
+}
 
 export {
   listAllItems,
   categoryList,
   removeItem,
-  addItem
+  addItem,
+  listOrderItems
 };
