@@ -11,6 +11,17 @@ const listAllItems = async () => {
   }
 };
 
+const categoryList = async () => {
+  try {
+    const [rows] = await promisePool.query('SELECT category FROM menuitem');
+    console.log('rows', rows);
+    return rows;
+  } catch (error) {
+    console.error('Error fetching all users:', error);
+    throw error;
+  }
+}
+
 const removeItem = async (name) => {
   try {
     // Find the menuitem_id associated with the given name
@@ -48,5 +59,6 @@ const removeItem = async (name) => {
 
 export {
   listAllItems,
+  categoryList,
   removeItem
 };

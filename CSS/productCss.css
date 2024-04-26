@@ -1,16 +1,144 @@
-h2 {
-    font-size: 30px;
+header {
+  z-index: 1;
+}
+
+.productPage {
+  display: flex;
+}
+
+.filter-container {
+  flex: 0 0 auto;
+  width: 15%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-top: 90px;
+  padding-left: 30px;
+  background-color: #fff;
+}
+
+h5  {
+    width: 100%;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.categoryFilter {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+}
+
+.categoryCheck {
+    width: 100%;
+}
+
+.categoryCheck label {
+}
+
+.allergens-filter {
+    display: flex;
+    justify-content: space-between; /* Distribute items evenly along the row */
+    width: 70%;
+    margin-bottom: 5px;
+    flex-direction: column;
+}
+
+.allergens-filter label {
+    margin-bottom: 10px;
+}
+
+.filter-container select {
+    width: 70%;
+    height: 40px;
+    border-radius: 20px;
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+.categoryTitle {
+    font-size: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
     text-align: center;
+    display: block;
+    width: 80%;
+    background-color: #e4babe;
+    border-radius: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width: 900px) {
+    .filter-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .categoryCheck {
+        width: 70%;
+        margin-right: 0;
+    }
+
+    .allergens-filter {
+        width: 70%;
+    }
+
+    .categoryTitle {
+        width: 100%;
+    }
+}
+
+main {
+  flex: 1; /* This makes the main element take up the remaining space */
+  margin-left: 15%; /* Add left margin to accommodate the fixed aside */
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-bottom: 30px; /* Adjust as needed */
+  overflow-y: auto; /* Enable vertical scrolling for the main content */
+}
+
+h2 {
+  font-size: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+
+}
+
+.search-container input {
+  width: 50%;
+  height: 40px;
+  border-radius: 20px;
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+@media screen and (max-width: 900px) {
+  .search-container input {
+    width: 70%;
+  }
 }
 
 .productList {
-    list-style-type: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
     padding-bottom: 30px;
+}
+
+.categoryContainer,
+.productItemsContainer{
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .product {
@@ -26,20 +154,20 @@ h2 {
     border-color: #5e606c;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
 }
 
 .product:hover {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
-    background-color: #ced3d7;
+    background-color: #f2f4f5;
+    cursor: pointer;
 }
 
-@media screen and (max-width: 900px){
+@media screen and (max-width: 1200px){
     .product {
         width: calc(40% - 20px);
     }
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
     .product {
         width: calc(85% - 20px);
     }
@@ -47,7 +175,8 @@ h2 {
 
 .product img {
     width: 100%;
-    height: auto;
+    height: 200px;
+    object-fit: cover;
     border-radius: 20px;
 }
 
@@ -66,30 +195,126 @@ li p {
 .price {
     font-size: 18px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 50px;
 }
 
 .button-wrapper {
-    height: 40px;
+  width: 100%;
 }
 
-button {
+.product button {
+    width: calc(90% - 40px);
     position: absolute;
     bottom: 20px;
-    left: 15px;
-    right: 15px;
-    padding: 10px 30px;
 }
 
-/* Tämä oli testi. Ei toimi vielä */
-.infoBox {
+.modal {
     display: none;
-    position: absolute;
-    top: 100%; /* Adjust this value to position the box beneath the product */
+    position: fixed;
+    z-index: 1;
     left: 0;
+    top: 0;
     width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.modal-content {
     background-color: white;
-    border: 1px solid #ccc;
-    padding: 10px;
-    z-index: 999; /* Ensure it appears above other content */
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 20px;
+    width: 60%;
+    align-items: start; /* Align items to the top */
+    position: relative; /* Make it a positioned container */
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 30px;
+}
+
+.grid-cell {
+    display: flex;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 1000px) {
+
+    .modal-content {
+        width: 50%;
+    }
+
+    .grid-container {
+        margin-top: 20px;
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}
+
+@media screen and (max-width: 650px) {
+
+    .modal-content {
+        width: 70%;
+    }
+
+    .grid-container {
+        margin-top: 20px;
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}
+
+.modal img {
+    width: 100%; /* Adjust as needed */
+    height: auto;
+    border-radius: 20px;
+    margin-right: 20px; /* Add some space between image and info */
+}
+
+.modal h2 {
+    font-size: 40px;
+    text-align: center;
+}
+
+.modal p {
+    margin-bottom: 10px;
+}
+
+.modal .button {
+    display: flex;
+    margin-top: auto; /* Push button to the bottom */
+}
+
+.modal button {
+    width: 100px;
+    margin-left: 30px;
+}
+
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1200px) {
+    .close {
+        top: 0;
+        right: 20px;
+    }
 }
