@@ -6,7 +6,7 @@
     <title>Tuotteet</title>
     <link rel="stylesheet" href="../CSS/main.css">
     <link rel="stylesheet" href="../CSS/productCss.css">
-    <script src="../JS/productInfoBox.js" defer></script>
+    <script src="../JS/product.js" defer></script>
 </head>
 <body>
   <header>
@@ -33,15 +33,12 @@
 
       <div class="allergens-filter" id="allergenFilter">
         <h5>Allergeenit</h5>
-        <label><input type="checkbox" class="allergen-checkbox" value="G" onchange="filterAllergens()"> Gluteeniton</label>
-        <label><input type="checkbox" class="allergen-checkbox" value="L" onchange="filterAllergens()"> Laktoositon</label>
-        <label><input type="checkbox" class="allergen-checkbox" value="V" onchange="filterAllergens()"> Vegaaninen</label>
       </div>
 
       <div class="price-filter">
         <h5>Hinta</h5>
         <select id="priceSelector" onchange="filterPrice()">
-          <option value="normal">Normaali</option>
+          <option value="default">Normaali</option>
           <option value="lowToHigh">Halvin ensin</option>
           <option value="highToLow">Kallein ensin</option>
         </select>
@@ -53,9 +50,6 @@
       <div class="search-container">
           <input type="text" id="search" oninput="search()" placeholder="Hae tuotteita...">
       </div>
-
-
-      </aside>
 
       <div class="productList" id="productContainer">
           <!-- Products will be loaded here -->

@@ -2,6 +2,7 @@ import {
   listAllItems,
   addItem,
   categoryList,
+  allergenList,
   removeItem,
   listOrderItems
 } from "../models/menuitem-model.js";
@@ -38,6 +39,17 @@ const getCategoryList = async (req, res) => {
   }
 }
 
+const getAllergenList = async (req, res) => {
+  try {
+    const allergens = await allergenList();
+    res.json(allergens);
+  } catch (error) {
+    console.error('Error fetching allergens:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+
+}
+
 const deleteItemByName = async (req, res) => {
   try {
     const result = await removeItem(req.params.name);
@@ -67,5 +79,6 @@ export {
   deleteItemByName,
   postItem,
   getCategoryList,
+  getAllergenList,
   getOrderItemsByOrderId
 };
