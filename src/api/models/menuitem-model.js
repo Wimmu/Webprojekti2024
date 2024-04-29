@@ -45,6 +45,17 @@ const categoryList = async () => {
   }
 }
 
+const allergenList = async () => {
+  try {
+    const [rows] = await promisePool.query('SELECT allergen FROM menuitem');
+    console.log('rows', rows);
+    return rows;
+  } catch (error) {
+    console.error('Error fetching all users:', error);
+    throw error;
+  }
+}
+
 const removeItem = async (name) => {
   try {
     const [id_rows] = await promisePool.execute('SELECT menuitem_id FROM menuitem WHERE name = ?', [name]);
@@ -91,6 +102,7 @@ const listOrderItems = async (orderId) => {
 export {
   listAllItems,
   categoryList,
+  allergenList,
   removeItem,
   addItem,
   listOrderItems

@@ -24,18 +24,19 @@ h5  {
     margin-bottom: 10px;
     font-size: 14px;
 }
-
-.categoryFilter {
+.categoryFilters {
     display: flex;
     flex-direction: column;
-    margin-bottom: 5px;
+    margin-bottom: 20px;
 }
 
 .categoryCheck {
-    width: 100%;
+    margin-right: 20px;
+    margin-bottom: 5px;
 }
 
 .categoryCheck label {
+
 }
 
 .allergens-filter {
@@ -48,6 +49,7 @@ h5  {
 
 .allergens-filter label {
     margin-bottom: 10px;
+    margin-left: 20px;
 }
 
 .filter-container select {
@@ -270,7 +272,8 @@ li p {
 
 .modal img {
     width: 100%; /* Adjust as needed */
-    height: auto;
+    height: 300px;
+    object-fit: cover;
     border-radius: 20px;
     margin-right: 20px; /* Add some space between image and info */
 }

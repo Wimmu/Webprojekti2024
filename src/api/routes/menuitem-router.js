@@ -4,6 +4,7 @@ import multer from 'multer';
 import {
   getAllItems,
   getCategoryList,
+  getAllergenList,
   deleteItemByName,
   postItem,
   getOrderItemsByOrderId
@@ -47,6 +48,9 @@ itemRouter.route('/')
 
 itemRouter.route('/category')
   .get(getCategoryList) //List all categories
+
+itemRouter.route('/allergen')
+  .get(getAllergenList) //List all allergens
 
 itemRouter.route('/:name')
   .delete(deleteItemByName) //Delete item by name
