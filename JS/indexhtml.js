@@ -56,3 +56,49 @@ if (todaysMenu) {
 } else {
   todaysMenuSection.innerHTML = '<p>Ei menua tälle päivälle.</p>';
 }
+
+
+let INSTAGRAM_API_KEY;
+
+fetch('http://127.0.0.1:3000/api/instagram-key')
+  .then(response => response.json())
+  .then(data => {
+    INSTAGRAM_API_KEY = data.key;
+    //console.log('Data from server:', data); // Add this line
+    //console.log('Instagram API Key:', INSTAGRAM_API_KEY);
+  })
+  .catch(error => console.error('Error:', error));
+
+const instagramSection = document.getElementById('instagram');
+
+async function getInstagramData() {
+  const responseKey = await fetch('http://127.0.0.1:3000/api/instagram-key');
+  const dataKey = await responseKey.json();
+  const INSTAGRAM_API_KEY = dataKey.key;
+
+  const response = await fetch(`https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,thumbnail_url&access_token=${INSTAGRAM_API_KEY}`);
+  const data = await response.json();
+  console.log('Instagram data:', data);
+  return data;
+}
+
+getInstagramData().then(data => {
+  data.data.forEach(item => {
+    if (item.media_type === 'IMAGE') {
+      const img = document.createElement('img');
+      img.src = item.media_url;
+      img.alt = item.caption || 'Instagram image';
+
+      const caption = document.createElement('p'); // Create a new paragraph element for the caption
+      caption.textContent = item.caption || ''; // Set the text content to the caption
+
+      const container = document.createElement('div'); // Create a new div element to contain the image and caption
+      container.appendChild(img);
+      container.appendChild(caption);
+
+      instagramSection.appendChild(container); // Append the container to the Instagram section
+    }
+  });
+}).catch(error => {
+  console.error('Error:', error);
+});
