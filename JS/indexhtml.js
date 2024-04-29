@@ -1,31 +1,31 @@
 // Dummy data
 const menuData = [
   {
-    date: 'Maanantai 22.04.',
+    date: 'Maanantai 29.04.',
     dishes: ['Sushilajitelma (6 kappaletta)', 'Wakame-merileväsalatti', 'Kanatempura', 'Lohiavocado-rullat']
   },
   {
-    date: 'Tiistai 23.04.',
+    date: 'Tiistai 30.04.',
     dishes: ['Miso-keitto', 'Sashimi-lajitelma (9 kappaletta)', 'Yakitori (kanavarras)']
   },
   {
-    date: 'Keskiviikko 24.04.',
+    date: 'Keskiviikko 01.05.',
     dishes: ['Nigiri-lajitelma (8 kappaletta)', 'Gyudon (naudanliharuoka riisillä)', 'Vihreä tee -jäätelö']
   },
   {
-    date: 'Torstai 25.04.',
+    date: 'Torstai 02.05.',
     dishes: ['Sake-makirulla (lohirulla)', 'Yasai itame (wokattuja vihanneksia)', 'Edamame (soijapavut)']
   },
   {
-    date: 'Perjantai 26.04.',
+    date: 'Perjantai 03.05.',
     dishes: ['Chirashi-zushi (kulho täytetty sushiriisillä ja raaka-aineilla)', 'Okonomiyaki (japanilainen ruokalaji, "suuri paistettu asia")', 'Melonipallo (hedelmäjälkiruoka)']
   },
   {
-    date: 'Lauantai 27.04.',
+    date: 'Lauantai 04.05.',
     dishes: ['Tempura-annos (katkarapu- ja vihannes-tempura)', 'Unagi-don (grillattu ankerias riisillä)', 'Matcha-tee-jäätelö']
   },
   {
-    date: 'Sunnuntai 28.04.',
+    date: 'Sunnuntai 06.05.',
     dishes: ['California-maki (avocado, kurkku ja krabba)', 'Shumai (höyrytettyä japanilaista dumplingia)', 'Matcha-tee']
   }
 ];
