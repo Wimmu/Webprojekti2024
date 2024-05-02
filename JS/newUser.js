@@ -1,3 +1,78 @@
+async function fetchUsernames(username) {
+  try {
+    const response = await fetch(`http://localhost:3000/api/v1/users/${username}`);
+    if (response.status === 404) {
+      return false; // Username does not exist
+    }
+    const data = await response.json();
+    return !!data; // Return true if user exists, false otherwise
+  } catch (error) {
+    console.error('Error fetching usernames:', error);
+    return false; // Return false in case of an error
+  }
+}
+
+async function postUser(user)  {
+  try {
+    const response = await fetch('http://localhost:3000/api/v1/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(user)
+    });
+    const data = await response.json();
+    return data;
+
+  } catch (error) {
+    console.error('Error posting user:', error);
+  }
+}
+
+//connect an API from the front end to the back end
+async function createUser() {
+   const username = document.getElementById('username').value;
+   const password = document.getElementById('password').value;
+   const confirmPassword = document.getElementById('checkPassword').value;
+   const first_name = document.getElementById('firstName').value;
+   const last_name = document.getElementById('lastName').value;
+   const address = document.getElementById('address').value;
+   const email = document.getElementById('email').value;
+   const phone = document.getElementById('phone').value;
+
+   if (!username || !password || !confirmPassword || !first_name || !last_name || !address || !email || !phone) {
+     alert('Please fill in all fields');
+     return;
+   }
+
+   if (password !== confirmPassword) {
+     alert('Passwords do not match');
+     return;
+   }
+
+   const usernameExists = await fetchUsernames(username);
+   if (usernameExists) {
+     alert('Username already exists');
+     return;
+   }
+
+   const user = {
+     username,
+     password,
+     first_name,
+     last_name,
+     address,
+     email,
+     phone
+   }
+
+   console.log(user);
+
+   const newUser = await postUser(user);
+   console.log(newUser);
+}
+
+
 document.addEventListener('DOMContentLoaded', function() {
   const form = document.getElementById('user-form'); // Select the form element
 
@@ -8,52 +83,3 @@ document.addEventListener('DOMContentLoaded', function() {
     createUser();
   });
 });
-
-//conect an API from the front end to the back end
-async function createUser() {
-  try {
-
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('checkPassword').value;
-    const first_name = document.getElementById('firstName').value;
-    const last_name = document.getElementById('lastName').value;
-    const address = document.getElementById('address').value;
-    const email = document.getElementById('email').value;
-    const phone = document.getElementById('phone').value;
-
-    if (!username || !password || !confirmPassword || !first_name || !last_name || !address || !email || !phone) {
-      alert('Please fill in all fields');
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      alert('Passwords do not match');
-      return;
-    }
-
-    const user = {
-      username,
-      password,
-      first_name,
-      last_name,
-      address,
-      email,
-      phone
-    }
-
-    console.log(user);
-
-    const response = await fetch('http://localhost:3000/api/v1/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(user)
-    });
-    const data = await response.json();
-    console.log(data);
-  } catch (error) {
-    console.error('Error creating user:', error);
-  }
-}
