@@ -1,3 +1,9 @@
+#edit-menu-container,
+#lunch-menu-container{
+  margin: 20px;
+  padding: 30px;
+}
+
 .lounas-header {
     text-align: center;
     font-size: 2rem;
@@ -53,4 +59,111 @@
     padding: 10px 10px;
     margin-left: 10px;
 }
+
+#inner-menu-container {
+    background-color: #faefee;
+    padding: 10px 10px 10px 20px;
+    border-radius: 20px;
+    border: 2px solid #e4babe;
+    margin-bottom: 15px;
+    margin-top: -10px;
+}
+
+#excisting-menu-item {
+  list-style: none;
+}
+
+#restaurant-heading {
+    text-align: center;
+}
+
+#date {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #000000;
+    background-color: #faefee;
+    border-radius: 5px;
+    border: #e4babe 2px solid;
+    padding: 3px;
+}
+
+#restaurant {
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #faefee;
+    border: #e4babe 2px solid;
+}
+
+#items {
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #faefee;
+    border: #e4babe 2px solid;
+    margin-top: 10px;
+}
+
+#selected-items {
+    padding: 5px;
+    border-radius: 15px;
+    background-color: #faefee;
+    border: #e4babe 2px solid;
+    margin-top: 10px;
+}
+
+  #selected-items h3 {
+  text-align: center;
+}
+
+  #newMenuItemsId {
+    margin-left: 10px;
+    cursor: pointer;
+  }
+
+  .remove-button {
+    margin-left: 10px;
+    cursor: pointer;
+    background-color: red;
+    font-size: 10px;
+    color: white;
+    padding: 2px 5px 2px 5px;
+  }
+
+  .editMenuHeader {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #5e606c;
+    margin-bottom: 18px;
+  }
+
+  .daymenu-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .day-container {
+    padding: 5px;
+    border-radius: 15px;
+    background-color: #faefee;
+    border: #e4babe 2px solid;
+    margin-top: 20px;
+    text-align: center;
+    min-width: 200px;
+    max-width: 300px;
+  }
+
+.top-row-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.bottom-row-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
 
