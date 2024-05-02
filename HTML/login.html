@@ -6,6 +6,7 @@
     <title>Kirjautuminen</title>
     <link rel="stylesheet" href="../CSS/main.css">
     <link rel="stylesheet" href="../CSS/login.css">
+  <script src="../JS/login.js" defer></script>
 </head>
 <body>
 <header>
@@ -24,7 +25,7 @@
     </div>
 </header>
 <main>
-    <section>
+    <form id="login-form">
         <h2>Kirjaudu sisään</h2>
         <div class="infoContainer" id="username-container">
             <label for="username">Käyttäjätunnus:</label>
@@ -36,10 +37,13 @@
             <input type="password" id="password" name="password">
             <p><a href="newPassword.html">Unohditko salasanan?</a></p>
         </div>
-        <div class="infoContainer">
-            <button>Kirjaudu</button>
+        <div class="infoContainer" id="login-container">
+          <button id="login-button">Kirjaudu</button>
         </div>
-    </section>
+        <div class="infoContainer" id="error-container">
+          <p id="error-message" class="error-message"></p>
+        </div>
+    </form>
 </main>
 <object type="text/html" data="footer.html" style="width:100%"></object>
 </body>

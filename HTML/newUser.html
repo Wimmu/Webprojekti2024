@@ -6,6 +6,7 @@
     <title>Uusi Käyttäjä</title>
     <link rel="stylesheet" href="../CSS/main.css">
     <link rel="stylesheet" href="../CSS/login.css">
+    <script src="../JS/newUser.js" defer></script>
 </head>
 <body>
 <header>
@@ -24,7 +25,7 @@
     </div>
 </header>
 <main>
-    <section>
+    <form id="user-form">
         <h2>Luo uusi käyttäjä</h2>
         <div class="infoContainer" id="username-container">
             <label for="username">Käyttäjätunnus:</label>
@@ -38,9 +39,17 @@
             <label for="password">Salasana uudelleen:</label>
             <input type="password" id="checkPassword" name="password">
         </div>
-        <div class="infoContainer"  id="name-container">
-            <label for="name">Sähköposti:</label>
-            <input type="text" id="name" name="name">
+        <div class="infoContainer"  id="firstName-container">
+            <label for="firstName">Nimi:</label>
+            <input type="text" id="firstName" name="firstName">
+        </div>
+        <div class="infoContainer"  id="lastName-container">
+            <label for="lastName">Sukunimi:</label>
+            <input type="text" id="lastName" name="lastName">
+        </div>
+        <div class="infoContainer"  id="address-container">
+            <label for="address">Osoite:</label>
+            <input type="text" id="address" name="address">
         </div>
         <div class="infoContainer"  id="email-container">
             <label for="email">Sähköposti:</label>
@@ -50,15 +59,11 @@
             <label for="phone">Puhelinnumero:</label>
             <input type="text" id="phone" name="phone">
         </div>
-        <div class="infoContainer" id="avatar-container">
-            <label for="avatar">Avatar:</label>
-            <input type="file" id="avatar" name="avatar">
-        </div>
 
         <div class="infoContainer">
-            <button>Luo käyttäjä</button>
+            <button type=submit>Luo käyttäjä</button>
         </div>
-    </section>
+    </form>
 </main>
 <object type="text/html" data="footer.html" style="width:100%"></object>
 </body>

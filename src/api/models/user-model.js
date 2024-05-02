@@ -21,6 +21,15 @@ const findUserById = async (id) => {
     console.error('Error finding user by ID:', error);
     throw error;
   }
+};
+
+const getUserByUsername = async (username) => {
+  const sql = `SELECT * FROM user WHERE username = ?`;
+  const [rows] = await promisePool.execute(sql, [username]);
+  if (rows.length === 0) {
+    return false;
+  }
+  return rows[0];
 }
 
 const ordersByUserId = async (id) => {
@@ -31,7 +40,24 @@ const ordersByUserId = async (id) => {
     console.error('Error fetching user orders:', error);
     throw error;
   }
-}
+};
+
+const createUser = async (user) => {
+  try {
+    const {role, username, password, first_name, last_name, address, email, phone, avatar} = user;
+    const sql = `INSERT INTO user (role ,username, password, first_name, last_name, address, email, phone, avatar)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    const params = [role, username, password, first_name, last_name, address, email, phone, avatar];
+    const rows = await promisePool.execute(sql, params);
+    if (rows[0].affectedRows === 0) {
+      return false;
+    }
+    return {user_id: rows[0].insertId};
+  } catch (error) {
+    console.error('Error creating user:', error);
+    throw error;
+  }
+};
 
 const modifyUser = async (user, id) => {
   const sql = promisePool.format(`UPDATE user SET ? WHERE user_id = ?`, [user, id]);
@@ -43,9 +69,22 @@ const modifyUser = async (user, id) => {
   return {message: 'success'};
 };
 
+const removeUser = async (id) => {
+  const sql = `DELETE FROM user WHERE user_id = ?`;
+  const rows = await promisePool.execute(sql, [id]);
+  if (rows[0].affectedRows === 0) {
+    return false;
+  }
+  return {message: 'success'};
+
+}
+
 export {
   listAllUsers,
+  getUserByUsername,
   findUserById,
   ordersByUserId,
-  modifyUser
+  createUser,
+  modifyUser,
+  removeUser
 };
