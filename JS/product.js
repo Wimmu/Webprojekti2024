@@ -202,7 +202,12 @@ function openModal(product) {
 
     // Check if the product is already in the cart
     const existingProduct = cartItems.find(item => item.name === product.name);
-
+    window.onload = function() {
+      const quantity = localStorage.getItem('quantity');
+      if (quantity) {
+        document.getElementById('quantity').value = quantity;
+      }
+    };
     if (existingProduct) {
       // If the product is already in the cart, increment the quantity
       existingProduct.quantity++;

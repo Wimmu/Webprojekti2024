@@ -9,6 +9,19 @@ class ShoppingCart {
       this.items = [];
     }
   }
+  clearCart() {
+    // Clear items array
+    this.items = [];
+
+    // Clear sessionStorage
+    sessionStorage.removeItem('cartItems');
+
+    // Clear localStorage
+    localStorage.clear();
+
+    // Update the displayed cart
+    this.displayCart();
+  }
   calculateTotal() {
     return this.items.reduce(
       (total, item) => total + item.price * item.quantity,
@@ -52,6 +65,7 @@ class ShoppingCart {
     }
 
   }
+
   recalculateCart() {
     let subtotal = 0;
 
@@ -129,6 +143,19 @@ class ShoppingCart {
         productImageDiv.appendChild(img);
       }
     });
+  document.querySelectorAll(".product-quantity input").forEach((input) => {
+  // When the quantity is changed, save the new quantity in local storage
+  input.addEventListener('change', function(event) {
+    const quantity = event.target.value;
+    localStorage.setItem(event.target.dataset.name, quantity);
+  });
+
+  // When the page is loaded, get the quantity from local storage and set it in the cart
+  const quantity = localStorage.getItem(input.dataset.name);
+  if (quantity) {
+    input.value = quantity;
+  }
+});
 document.querySelector('.checkout').addEventListener('click', function() {
   document.getElementById('checkout-form').style.display = 'block';
 });
@@ -142,6 +169,7 @@ document.querySelector('.checkout').addEventListener('click', function() {
     localStorage.setItem('cartItems', JSON.stringify(cart.items));
   }
 });
+
 
 
     document.querySelectorAll(".remove-product").forEach((button) => {
@@ -161,6 +189,7 @@ document.querySelector('.checkout').addEventListener('click', function() {
       });
     });
   }
+
 
   updateQuantity(name, quantity) {
     const item = this.items.find((item) => item.name === name);
@@ -203,6 +232,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
     cart.displayCart();
   }
 });
+// JavaScript code to pre-fill the form
+window.onload = function() {
+  document.getElementById('name').value = 'John Doe';
+  document.getElementById('email').value = 'john.doe@example.com';
+  document.getElementById('phone').value = '1234567890';
+  document.getElementById('address').value = '123 Main St';
+  document.getElementById('city').value = 'Anytown';
+  document.getElementById('zipcode').value = '0000';
+  // Add other fields as needed
+  document.getElementById('card-number').value = '1234 5678 9012 3456';
+  document.getElementById('expiry').value = '12/24';
+  document.getElementById('cvv').value = '123';
+};
 
 const checkoutForm = document.getElementById('checkout-form');
 
@@ -211,32 +253,57 @@ checkoutForm.addEventListener('submit', async function(event) {
 
   const formData = {};
 
-  for (let i = 0; i < checkoutForm.elements.length; i++) {
-    const element = checkoutForm.elements[i];
-    if (element.name) {
-      formData[element.name] = element.value;
-    }
-  }
+  // Populate formData with form data
 
   // Add the total cost to the formData
   formData.totalCost = cart.calculateTotal().toFixed(2);
 
-  // Send the form data to the server
+  formData.status = "pending";
+
+  // Clear the shopping cart
+  cart.clearCart();
+
+  // Show a toast message
+  showToast('Order confirmed');
+
+  // Redirect to the profile page
+  window.location.href = '../HTML/profile.html';
+
   try {
-    const response = await fetch('/api/v1/orders/', {
+    const response = await fetch('http://localhost:3000/api/v1/orders/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(formData),
     });
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json();
-    console.log(data);
   } catch (error) {
     console.error('Error:', error);
   }
 });
+
+
+function showToast(message) {
+  // Create toast element
+  const toast = document.createElement('div');
+  toast.id = 'toast';
+  toast.textContent = message;
+
+  // Add toast to body
+  document.body.appendChild(toast);
+
+  // Show toast
+  toast.className = 'show';
+
+  // After 3 seconds, remove the show class from toast
+  setTimeout(function(){ toast.className = toast.className.replace('show', ''); }, 3000);
+
+  // After the toast has disappeared, remove it from the DOM
+  setTimeout(function(){ document.body.removeChild(toast); }, 3300);
+}
+
