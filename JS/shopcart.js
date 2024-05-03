@@ -32,9 +32,12 @@ class ShoppingCart {
   }
 
   removeItem(name) {
-    this.items = this.items.filter((item) => item.name !== name);
-    this.displayCart();
-    this.saveCart();
+    const index = this.items.findIndex(item => item.name === name);
+    if (index !== -1) {
+      this.items.splice(index, 1);
+      this.displayCart();
+      this.recalculateCart();
+    }
   }
 
   updateQuantity(name, quantity) {
@@ -49,27 +52,32 @@ class ShoppingCart {
     }
 
   }
-recalculateCart() {
-  let subtotal = 0;
+  recalculateCart() {
+    let subtotal = 0;
 
-  this.items.forEach((item) => {
-    subtotal += item.price * item.quantity;
-  });
+    this.items.forEach((item) => {
+      // Convert the price to a number
+      let price = parseFloat(item.price);
+      // Multiply the price by the quantity and round the result
+      subtotal += parseFloat((price * item.quantity).toFixed(2));
+      console.log(subtotal);
+    });
 
-  const totalElement = document.querySelector("#cart-total");
-  const checkoutButton = document.querySelector(".checkout");
+    const totalElement = document.querySelector("#cart-total");
+    const checkoutButton = document.querySelector(".checkout");
 
-  if (totalElement) totalElement.textContent = 'Total: ' + subtotal.toFixed(2) + ' €';
+    // Update the total price in the shopping cart
+    if (totalElement) totalElement.textContent = 'Total: ' + subtotal.toFixed(2) + ' €';
 
-  if (checkoutButton) {
-    if (subtotal === 0) {
-      checkoutButton.style.display = "none";
-    } else {
-      checkoutButton.style.display = "block";
+    if (checkoutButton) {
+      if (subtotal === 0) {
+        checkoutButton.style.display = "none";
+      } else {
+        checkoutButton.style.display = "block";
+      }
     }
+    this.saveCart();
   }
-   this.saveCart();
-}
 
   displayCart() {
     const cartDiv = document.querySelector(".shopping-cart");
@@ -79,7 +87,7 @@ recalculateCart() {
       (item) => `
     <div class="product">
       <div class="product-image">
-        <img src="${item.imageUrl}">
+        <img src="/uploads/${item.image}" alt="${item.name}">
       </div>
       <div class="product-details">
         <div class="product-title">${item.name}</div>
@@ -99,10 +107,10 @@ recalculateCart() {
           Remove
         </button>
       </div>
-      <div class="product-line-price">
-        <label>Total</label>
-        ${item.price * item.quantity} €
-      </div>
+    <div class="product-line-price">
+      <label>Total</label>
+      ${(item.price * item.quantity).toFixed(2)} €
+    </div>
     </div>
   `
     )
@@ -112,10 +120,29 @@ recalculateCart() {
   </div>
   <button class="checkout">Checkout</button>
 `;
+    this.items.forEach(item => {
+      const img = document.createElement('img');
+      //img.src = item.imageUrl;
+      // Append the image to your cart item display
+      const productImageDiv = document.querySelector(`.product-image[data-name="${item.name}"]`);
+      if (productImageDiv) {
+        productImageDiv.appendChild(img);
+      }
+    });
 document.querySelector('.checkout').addEventListener('click', function() {
   document.getElementById('checkout-form').style.display = 'block';
 });
   this.recalculateCart();
+  document.body.addEventListener('click', (event) => {
+  if (event.target.classList.contains('remove-product')) {
+    const name = event.target.dataset.name;
+    cart.removeItem(name);
+
+    // Store the updated cart items in localStorage
+    localStorage.setItem('cartItems', JSON.stringify(cart.items));
+  }
+});
+
 
     document.querySelectorAll(".remove-product").forEach((button) => {
       button.addEventListener("click", (event) => {
@@ -147,10 +174,10 @@ document.querySelector('.checkout').addEventListener('click', function() {
 
 
 const cart = new ShoppingCart();
-document.getElementById('add-item-button').addEventListener('click', function() {
-  const cart = new ShoppingCart();
-  cart.addItem("Sushi Set 1", 10, "../images/product2.png");
-});
+// document.getElementById('add-item-button').addEventListener('click', function() {
+//   const cart = new ShoppingCart();
+//   //cart.addItem("Sushi Set 1", 10, "../images/product2.png");
+// });
 //cart.addItem("Sushi Set 1", 10, "../images/product2.png");
 //cart.addItem("Sushi Set 2", 15, "../images/product1.jpg");
 
@@ -159,10 +186,23 @@ document.body.addEventListener("click", (event) => {
     const name = event.target.dataset.name;
     const item = cart.items.find((item) => item.name === name);
     cart.addItem(item.name, item.price, item.imageUrl);
+
+    // Store the cart items in localStorage
+    localStorage.setItem('cartItems', JSON.stringify(cart.items));
+
+    // Redirect to the products.html page
+    window.location.href = 'products.html';
   }
 });
 
-cart.displayCart();
+// Retrieve the cart items from localStorage when the page loads
+document.addEventListener('DOMContentLoaded', (event) => {
+  const storedCartItems = localStorage.getItem('cartItems');
+  if (storedCartItems) {
+    cart.items = JSON.parse(storedCartItems);
+    cart.displayCart();
+  }
+});
 
 const checkoutForm = document.getElementById('checkout-form');
 
@@ -178,15 +218,18 @@ checkoutForm.addEventListener('submit', async function(event) {
     }
   }
 
+  // Add the total cost to the formData
+  formData.totalCost = cart.calculateTotal().toFixed(2);
+
+  // Send the form data to the server
   try {
-    const response = await fetch('//http://127.0.0.1:3000/api/v1/', {
+    const response = await fetch('/api/v1/orders/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(formData),
     });
-
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }

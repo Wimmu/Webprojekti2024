@@ -169,30 +169,75 @@ async function createAllergenCheckboxes() {
 //-------------------------- Modal Code ---------------------------------
 
 function openModal(product) {
-
     // Display the modal
     document.getElementById('myModal').style.display = 'block';
 
     // Simulate loading content from the database based on boxId
     const modalContent = document.getElementById('modalContent');
     modalContent.innerHTML = `
-
-            <div class="grid-container">
-                <div class="grid-cell">
-                    <img src="/uploads/${product.image}" alt="${product.name}">
-                </div>
-                <div class="grid-cell">
-                    <h3>${product.name}</h3>
-                    <p>${product.description}</p>
-                    <p>${product.allergen} </p>
-
-                    <div class="button">
-                        <p>${product.price}€</p>
-                        <button>Add to Cart</button>
-                    </div>
+        <div class="grid-container">
+            <div class="grid-cell">
+                <img src="/uploads/${product.image}" alt="${product.name}">
+            </div>
+            <div class="grid-cell">
+                <h3>${product.name}</h3>
+                <p>${product.description}</p>
+                <p>${product.allergen} </p>
+                <div class="button">
+                    <p>${product.price}€</p>
+                    <button class="addToCart">Add to Cart</button>
                 </div>
             </div>
-        `;
+        </div>
+    `;
+
+    // Get the "Add to Cart" button
+    const addToCartButton = modalContent.querySelector('.addToCart');
+
+  // Add an event listener to the "Add to Cart" button
+  addToCartButton.addEventListener('click', function(event) {
+    // Get the cart items from localStorage
+    let cartItems = localStorage.getItem('cartItems');
+    cartItems = cartItems ? JSON.parse(cartItems) : [];
+
+    // Check if the product is already in the cart
+    const existingProduct = cartItems.find(item => item.name === product.name);
+
+    if (existingProduct) {
+      // If the product is already in the cart, increment the quantity
+      existingProduct.quantity++;
+    } else {
+      // If the product is not in the cart, add it
+    product.quantity = 1;
+    product.image = product.image; // Add this line
+    console.log(product.image);
+    cartItems.push(product);
+    }
+
+    // Store the updated cart items in localStorage
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+    // Show a popup to the user
+    showToast('Tuote lisätty koriin')
+  });
+}
+function showToast(message) {
+    // Create toast element
+    const toast = document.createElement('div');
+    toast.id = 'toast';
+    toast.textContent = message;
+
+    // Add toast to body
+    document.body.appendChild(toast);
+
+    // Show toast
+    toast.className = 'show';
+
+    // After 3 seconds, remove the show class from toast
+    setTimeout(function(){ toast.className = toast.className.replace('show', ''); }, 3000);
+
+    // After the toast has disappeared, remove it from the DOM
+    setTimeout(function(){ document.body.removeChild(toast); }, 3500);
 }
 
 function closeModal() {
