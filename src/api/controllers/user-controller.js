@@ -1,11 +1,12 @@
-// import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 import {
   findUserById,
+  userByUsername,
   createUser,
   listAllUsers,
   ordersByUserId,
   modifyUser,
-  removeUser
+  removeUser,
 } from "../models/user-model.js";
 
 const getAllUsers = async (req, res) => {
@@ -42,16 +43,33 @@ const getOrdersByUserId = async (req, res) => {
   }
 };
 
+const getUserbyUsername = async (req, res) => {
+  try {
+    const user = await userByUsername(req.params.username);
+    if (user) {
+      res.json(user);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+
+}
+
 const postUser = async (req, res) => {
   try {
     const { username, password, first_name, last_name, address, email, phone, avatar } = req.body;
 
     const avatarValue = avatar || 'avatar4.jpg';
 
+    const hashedPassword = bcrypt.hashSync(password, 10);
+
     const user = {
       role: 'customer',
       username,
-      password,
+      password: hashedPassword,
       first_name,
       last_name,
       address,
@@ -113,4 +131,4 @@ const deleteUser = async (req, res) => {
   }
 }
 
-export {getAllUsers, getUserById, getOrdersByUserId, postUser, putUser, deleteUser};
+export {getAllUsers, getUserById, getUserbyUsername, getOrdersByUserId, postUser, putUser, deleteUser};

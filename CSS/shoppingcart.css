@@ -145,8 +145,22 @@ fieldset {
 
 #checkout-form button {
   padding: 10px 20px;
-  background-color: #4CAF50;
+  background-color: #f78383;
   color: white;
   border: none;
   cursor: pointer;
+}
+#add-item-button {
+  color: #000000;
+  background-color: #e4babe;
+  text-decoration: none;
+  padding: 10px 15px;
+  font-size: 18px;
+  display: inline-block;
+  border-radius: 20px;
+}
+
+#add-item-button:hover {
+  background-color: #e8d8c9;
+  border-radius: 20px;
 }
