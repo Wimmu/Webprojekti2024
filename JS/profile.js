@@ -1,17 +1,68 @@
-const userId = 1;
-const userRole = 'admin';
+
+let userId;
+let userRole;
 
 // --------------------- API FUNCTIONS ----------------------------- //
 async function fetchUsers() {
   try {
-    const response = await fetch(`http://127.0.0.1:3000/api/v1/users/${userId}`);
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.error('No token found');
+      return;
+    }
+
+    const url = 'http://127.0.0.1:3000/api/v1/auth/me'; // Endpoint to get user data
+    const options = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+
+    const response = await fetch(url, options);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}, URL: ${response.url}`);
+    }
+    const userData = await response.json();
+    userId = userData.user.user_id; // Assign userId here
+    userRole = userData.user.role;
+    return userData;
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+  }
+}
+
+async function fetchCurrentUser() {
+  try {
+    const token = localStorage.getItem('token');
+
+    if(!token) {
+      console.error('No token found');
+      return;
+    }
+
+    const url = `http://127.0.0.1:3000/api/v1/users/${userId}`;
+    const options = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+
+    const response = await fetch(url, options);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}, URL: ${response.url}`);
+    }
     return await response.json()
   } catch (error) {
     console.error('Error fetching items:', error);
   }
 }
 
-async function fetchOrders() {
+
+
+async function fetchOrders(userId) {
   try {
     const response = await fetch(`http://127.0.0.1:3000/api/v1/users/${userId}/orders`);
     return await response.json();
@@ -71,7 +122,9 @@ function toggleOrderHistory() {
 // Fetch user data and place it in the user profile
 async function placeProfileData() {
   try {
-    const userData = await fetchUsers(userId);
+    const rawUserData = await fetchUsers();
+    const userId = rawUserData.user.user_id;
+    const userData = await fetchCurrentUser();
     document.getElementById('welcomeText').textContent = `Welcome to your profile, ${userData.first_name}!`;
     document.getElementById('userUsername').textContent = userData.username;
     document.getElementById('firstName').textContent = userData.first_name;
@@ -135,6 +188,8 @@ async function saveAccountDetails() {
 
 // --------------------- ORDER HISTORY ----------------------------- //
 // Fetch order data and place it in the order history
+// --------------------- ORDER HISTORY ----------------------------- //
+// Fetch order data and place it in the order history
 async function placeOrderData() {
   try {
     const orderData = await fetchOrders(userId);
@@ -144,26 +199,35 @@ async function placeOrderData() {
 
     const orderHistory = document.getElementById('order-history');
     orderHistory.innerHTML = '';
-    for (const order of orderData) {
-      const orderDiv = document.createElement('div');
-      orderDiv.classList.add('order');
-      const orderTop = document.createElement('div');
-      orderTop.classList.add('order-top');
-      const orderDate = new Date(order.date).toLocaleDateString('en-GB');
-      const orderStatus = order.status.charAt(0).toUpperCase() + order.status.slice(1);
-      const orderItems = await fetchOrderItemsByOrderId(order.order_id);
-      orderTop.innerHTML = `<h3>${orderDate}</h3><h3>${orderStatus}</h3>`;
-      const orderInfo = document.createElement('div');
-      orderInfo.innerHTML = `<p>Order ID: ${order.order_id}</p><p>Products: ${orderItems}</p>`;
-      orderDiv.appendChild(orderTop);
-      orderDiv.appendChild(orderInfo);
-      orderHistory.appendChild(orderDiv);
+
+    if (orderData.length === 0) {
+      const noOrdersMessage = document.createElement('p');
+      noOrdersMessage.textContent = 'No orders yet';
+      orderHistory.appendChild(noOrdersMessage);
+    } else {
+      for (const order of orderData) {
+        const orderDiv = document.createElement('div');
+        orderDiv.classList.add('order');
+        const orderTop = document.createElement('div');
+        orderTop.classList.add('order-top');
+        const orderDate = new Date(order.date).toLocaleDateString('en-GB');
+        const orderStatus = order.status.charAt(0).toUpperCase() + order.status.slice(1);
+        const orderItems = await fetchOrderItemsByOrderId(order.order_id);
+        orderTop.innerHTML = `<h3>${orderDate}</h3><h3>${orderStatus}</h3>`;
+        const orderInfo = document.createElement('div');
+        orderInfo.innerHTML = `<p>Order ID: ${order.order_id}</p><p>Products: ${orderItems}</p>`;
+        orderDiv.appendChild(orderTop);
+        orderDiv.appendChild(orderInfo);
+        orderHistory.appendChild(orderDiv);
+      }
     }
+
     orderHistory.classList.remove('hidden');
   } catch (error) {
     console.error('Error fetching order data:', error);
   }
 }
+
 
 
 // --------------------- MEAL OF THE DAY ----------------------------- //
@@ -309,12 +373,6 @@ function saveProduct() {
       document.getElementById('errorMessage').innerText = 'Error: ' + error.message;
     });
 }
-
-
-
-
-
-
 
 // --------------------- MAIN ----------------------------- //
 document.addEventListener("DOMContentLoaded", () => {

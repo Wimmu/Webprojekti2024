@@ -20,10 +20,12 @@ const getAllUsers = async (req, res) => {
 };
 
 const getUserById = async (req, res) => {
+  console.log('TESTING: req.params.id', req.params.id);
   try {
     const user = await findUserById(req.params.id);
     if (user) {
       res.json(user);
+      console.log('TESTING: user', user);
     } else {
       res.sendStatus(404);
     }
