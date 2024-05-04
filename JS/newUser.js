@@ -1,3 +1,5 @@
+import { login } from './login.js';
+
 async function fetchUsernames(username) {
   try {
     const response = await fetch(`http://localhost:3000/api/v1/users/${username}`);
@@ -10,23 +12,6 @@ async function fetchUsernames(username) {
     console.error('Error fetching usernames:', error);
     return false; // Return false in case of an error
   }
-}
-
-async function postLogin(username, password) {
-  try {
-    const response = await fetch('http://localhost:3000/api/v1/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ username, password })
-    });
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error posting login:', error);
-  }
-
 }
 
 async function postUser(user)  {
@@ -122,9 +107,8 @@ async function createUser() {
    console.log(newUser);
 
    if (newUser) {
-     const login = postLogin(username, password);
-      console.log(login);
-     window.location.href = '/index.html';
+      await login(username, password);
+      console.log('User created and logged in');
    }
 }
 

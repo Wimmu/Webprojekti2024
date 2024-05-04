@@ -1,9 +1,4 @@
-async function login(event) {
-  event.preventDefault();
-
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-
+export async function login(username, password) {
   const response = await fetch('http://localhost:3000/api/v1/auth/login', {
     method: 'POST',
     headers: {
@@ -25,7 +20,21 @@ async function login(event) {
   }
 }
 
+async function getLoginParams(event) {
+  event.preventDefault();
+
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+
+  if (!username || !password) {
+    alert('Please fill in all fields');
+    return;
+  }
+
+  await login(username, password);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   const loginButton = document.getElementById('login-button');
-  loginButton.addEventListener('click', login);
+  loginButton.addEventListener('click', getLoginParams);
 });
