@@ -88,7 +88,7 @@ const postUser = async (req, res) => {
     const result = await createUser(user);
     if (result) {
       res.json(result);
-      console.log('New user added:', result);
+      //console.log('New user added:', result);
     } else {
       res.sendStatus(500);
     }
@@ -104,6 +104,11 @@ const putUser = async (req, res) => {
     const user = await findUserById(userId);
     if (!user) {
       return res.sendStatus(404).json({ error: `No user found with id ${userId}` });
+    }
+
+    if (req.file) {
+      // If there is a file, update the user avatar
+      req.body.avatar = req.file.filename;
     }
 
     const result = await modifyUser(req.body, userId);

@@ -1,4 +1,3 @@
-
 let userId;
 let userRole;
 
@@ -104,44 +103,59 @@ function toggleMotd() {
   toggleDropDowns(dropDown, button);
 }
 
-function toggleManagement() {
-  const dropDown = document.querySelector('.management'); // Corrected
-  const button = document.getElementById('managementToggleButton');
-  toggleDropDowns(dropDown, button);
-}
-
 function toggleOrderHistory() {
   const orderHistory = document.getElementById('order-history');
   const button = document.getElementById('orderToggleButton');
   toggleDropDowns(orderHistory, button);
 }
 
+function toggleManagement() {
+  const management = document.getElementById('addNewProductSection');
+  const button = document.getElementById('openAddItemSectionButton');
+  if (management.classList.contains('hidden')) {
+    management.classList.remove('hidden');
+    button.innerText = 'Add product';
+  } else {
+    management.classList.add('hidden');
+    button.innerText = 'Add product';
+  }
+}
+
 // --------------------- PROFILE ----------------------------- //
 // Fetch user data and place it in the user profile
 async function placeProfileData() {
   try {
-    const rawUserData = await fetchUsers();
-    const userId = rawUserData.user.user_id;
     const userData = await fetchCurrentUser();
-    document.getElementById('welcomeText').textContent = `Welcome to your profile, ${userData.first_name}!`;
-    document.getElementById('userUsername').textContent = userData.username;
-    document.getElementById('firstName').textContent = userData.first_name;
-    document.getElementById('lastName').textContent = userData.last_name;
-    document.getElementById('userEmail').textContent = userData.email;
-    document.getElementById('userAddress').textContent = userData.address;
-    document.getElementById('userPhone').textContent = userData.phone;
+
+    if (!userData.avatar || userData.avatar === 'null') {
+      userData.avatar = 'default.jpg';
+    }
+
+    document.getElementById('profilePicture').src = `/uploads/${userData.avatar}`;
+    document.getElementById('profile-welcome-text-header').textContent = `Welcome to your profile, ${userData.first_name}!`;
+    document.getElementById('users-username').textContent = userData.username;
+    document.getElementById('users-firstname').textContent = userData.first_name;
+    document.getElementById('users-lastname').textContent = userData.last_name;
+    document.getElementById('users-email').textContent = userData.email;
+    document.getElementById('users-address').textContent = userData.address;
+    document.getElementById('users-phone').textContent = userData.phone;
   } catch (error) {
     console.error('Error fetching user data:', error);
+    // Use default avatar in case of an error
+    document.getElementById('profilePicture').src = '/uploads/default.jpg';
   }
 }
 
+
 // Toggle the profile edit mode
 function toggleProfileEdit() {
-  const editButton = document.querySelector(".edit-details-btn");
-  const userDetails = document.getElementById('userDetails').querySelectorAll('span');
+  const editButton = document.querySelector(".editAccountDetailsBtn");
+  const userDetails = document.getElementById('user-details-div').querySelectorAll('span');
+  const uploadImage = document.getElementById('profile-image-upload-btn');
 
   if (editButton.innerText === "Edit Account Details") {
     editButton.innerText = "Save Account Details";
+    uploadImage.style.display = 'block';
     userDetails.forEach(span => {
       const input = document.createElement('input');
       input.type = "text";
@@ -150,32 +164,65 @@ function toggleProfileEdit() {
       span.appendChild(input);
     });
   } else {
+    uploadImage.style.display = 'none';
     editButton.innerText = "Edit Account Details";
-    console.log('Saving account details...');
     saveAccountDetails();
   }
 }
 
+function showNotification(message) {
+  const notification = document.getElementById('notification');
+  notification.textContent = message;
+  notification.classList.add('show');
+  setTimeout(() => {
+    notification.classList.remove('show');
+  }, 4000); // Adjust the time (in milliseconds) as per your requirement
+}
+
+
 async function saveAccountDetails() {
   try {
-    const userDetails = document.getElementById('userDetails');
+    const userDetails = document.getElementById('user-details-div');
     const username = userDetails.querySelector('p:nth-child(1) input').value;
     const first_name = userDetails.querySelector('p:nth-child(2) input').value;
     const last_name = userDetails.querySelector('p:nth-child(3) input').value;
     const email = userDetails.querySelector('p:nth-child(4) input').value;
-    const address = userDetails.querySelector('p:nth-child(5) input').value;
-    const phone = userDetails.querySelector('p:nth-child(6) input').value;
+    const address = userDetails.querySelector('p:nth-child(6) input').value;
+    const phone = userDetails.querySelector('p:nth-child(5) input').value;
+
+    if (!username || !first_name || !last_name || !email || !address || !phone) {
+      const errorMessage = document.getElementById('edit-account-error-text');
+      errorMessage.innerText = 'All fields are required!';
+      return;
+    }
+
+    if (!email.includes('@')) {
+      const errorMessage = document.getElementById('edit-account-error-text');
+      errorMessage.innerText = 'Invalid email address!';
+      return;
+    }
+
+    const fileInput = document.getElementById('profile-picture-input');
+    const file = fileInput.files[0];
+
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('first_name', first_name);
+    formData.append('last_name', last_name);
+    formData.append('email', email);
+    formData.append('address', address);
+    formData.append('phone', phone);
+    if (file) {
+      formData.append('avatar', file);
+    }
 
     const response = await fetch(`http://127.0.0.1:3000/api/v1/users/${userId}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, first_name, last_name, email, address, phone}),
+      body: formData, // Send the form data directly
     });
 
     if (response.ok) {
-      console.log('Account details saved successfully');
+      showNotification('Account details saved!');
       placeProfileData(); // Refresh the profile data after saving
     } else {
       console.error('Failed to save account details');
@@ -185,14 +232,12 @@ async function saveAccountDetails() {
   }
 }
 
-
 // --------------------- ORDER HISTORY ----------------------------- //
 // Fetch order data and place it in the order history
 async function placeOrderData() {
   try {
     const orderData = await fetchOrders(userId);
 
-    // Sort orders by date (most recent first)
     orderData.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     const orderHistory = document.getElementById('order-history');
@@ -226,8 +271,6 @@ async function placeOrderData() {
   }
 }
 
-
-
 // --------------------- MEAL OF THE DAY ----------------------------- //
 // Fetch menu items and place them in the dropdown
 async function placeMotdData() {
@@ -238,7 +281,7 @@ async function placeMotdData() {
     items.forEach(item => {
       const itemDiv = document.createElement('div');
       itemDiv.classList.add('item');
-      itemDiv.onclick = () => selectItem(item.name, item.price, item.description, item.image);
+      itemDiv.onclick = () => placeSelectedItemData(item);
       itemDiv.innerHTML = `
                 <img src="/uploads/${item.image}" alt="${item.name}">
                 <div class="item-info">
@@ -260,13 +303,42 @@ function toggleDropdown() {
 }
 
 // Select an item from the dropdown and display it
-function selectItem(name, price, description, image) {
-  console.log('Selected item:', name, price, description, image);
-  document.getElementById('selectedMealImage').setAttribute('src', `/uploads/${image}`);
-  document.getElementById('selectedMeal').textContent = name;
-  document.getElementById('selectedPrice').textContent = price + '€';
-  document.getElementById('selectedDescription').textContent = description;
+function placeSelectedItemData(item) {
+  document.getElementById('currentMealHeader').textContent = 'Selected meal:';
+  document.getElementById('selectedMealImage').style.display = 'block';
+  document.getElementById('selectedMealImage').setAttribute('src', `/uploads/${item.image}`);
+  document.getElementById('selectedMealName').textContent = item.name;
+  document.getElementById('selectedPrice').textContent = item.price + '€';
+  document.getElementById('selectedDescription').textContent = item.description;
+  document.getElementById('selectedAllergen').textContent = 'Allergens: ' + item.allergen;
+  document.getElementById('selectedCategory').textContent = 'Category: ' + item.category;
+
+  const editButton = document.querySelector('.editMealButton');
+  const deleteButton = document.querySelector('.deleteMealButton');
+
+
+  editButton.classList.remove('hidden');
+  deleteButton.classList.remove('hidden');
 }
+
+function resetSelectedMealData() {
+  document.getElementById('currentMealHeader').textContent = '';
+  document.getElementById('selectedMealImage').style.display = 'none';
+  document.getElementById('selectedMealName').textContent = '';
+  document.getElementById('selectedPrice').textContent = '';
+  document.getElementById('selectedDescription').textContent = '';
+  document.getElementById('selectedAllergen').textContent = '';
+  document.getElementById('selectedCategory').textContent = '';
+
+  // Disable edit and delete buttons when no item is selected
+  const editButton = document.querySelector('.editMealButton');
+  const deleteButton = document.querySelector('.deleteMealButton');
+
+  editButton.classList.add('hidden');
+  deleteButton.classList.add('hidden');
+ }
+
+
 
 // Close the dropdown menu if the user clicks outside of it
 window.onclick = function(event) {
@@ -282,53 +354,25 @@ window.onclick = function(event) {
 }
 
 // --------------------- MANAGEMENT ----------------------------- //
-// Open the selected tab
-function openTab(tabId) {
-  var tabs = document.querySelectorAll('.product-tab');
-  tabs.forEach(function(tab) {
-    tab.classList.add('hidden');
-  });
-
-  var selectedTab = document.getElementById(tabId);
-  selectedTab.classList.remove('hidden');
-}
-
-// Fetch menu items and place them in the dropdown
-async function placeRemoveDropdownData() {
-  try {
-    const items = await fetchMenuItems();
-    const productDropdown = document.getElementById('productDropdown');
-    items.forEach(item => {
-      const option = document.createElement('option');
-      option.value = item.name;
-      option.text = `${item.name} - ${item.price}€`;
-      productDropdown.appendChild(option);
-    });
-  } catch (error) {
-    console.error('Error populating dropdown:', error);
-  }
-}
 
 // Add a remove product
-async function removeProduct() {
+async function removeMeal() {
   try {
-    const productDropdown = document.getElementById('productDropdown');
-    const productName = productDropdown.value;
+    const mealName = document.getElementById('selectedMealName').textContent;
 
-    const confirmation = confirm(`Are you sure you want to remove ${productName}?`);
+    const confirmation = confirm(`Are you sure you want to remove ${mealName}?`);
 
     if (confirmation) {
-      const response = await fetch(`http://127.0.0.1:3000/api/v1/items/${productName}`, {
+      const response = await fetch(`http://127.0.0.1:3000/api/v1/items/${mealName}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
         }
       });
       if (response.ok) {
-        console.log('Product deleted successfully');
-        productDropdown.innerHTML = ''; // Clear dropdown after deletion
+        resetSelectedMealData(); // Reset selected meal data
         await placeMotdData();
-        await placeRemoveDropdownData(); // Refresh dropdown after deletion
+        showNotification('Product deleted!');
       } else {
         console.error('Failed to delete product');
       }
@@ -337,6 +381,8 @@ async function removeProduct() {
     console.error('Error deleting product:', error);
   }
 }
+
+
 
 document.getElementById('productImage').addEventListener('change', function() {
   var fileName = this.files[0].name;
@@ -360,17 +406,16 @@ function saveProduct() {
       return response.json();
     })
     .then(data => {
-      // Handle success
-      console.log('Success:', data);
-      // Redirect to profile.html or do whatever you want
-      window.location.href = 'http://localhost:63342/Webprojektiiii2024/HTML/profile.html';
+      toggleManagement();
+      showNotification('New item added!');
+      form.reset();
     })
     .catch(error => {
-      // Handle error
       console.error('Error:', error);
       document.getElementById('errorMessage').innerText = 'Error: ' + error.message;
     });
 }
+
 
 // --------------------- MAIN ----------------------------- //
 document.addEventListener("DOMContentLoaded", async () => {
@@ -386,12 +431,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Place MOTD data
     placeMotdData();
 
-    // Place remove dropdown data
-    placeRemoveDropdownData();
+    resetSelectedMealData();
 
     // Hide sections if the user is not an admin
     const motdSection = document.getElementById('motd-section');
-    const managementSection = document.getElementById('managementSection');
+    const managementSection = document.getElementById('addNewProductSection');
     if (userData.user.role !== 'admin') {
       motdSection.style.display = 'none';
       managementSection.style.display = 'none';
@@ -400,3 +444,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error('Error loading profile data:', error);
   }
 });
+
+document.getElementById('profile-picture-input').addEventListener('change', function(event) {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    document.getElementById('profilePicture').src = e.target.result;
+  }
+
+  reader.readAsDataURL(file);
+});
+

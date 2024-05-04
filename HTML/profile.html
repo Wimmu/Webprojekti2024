@@ -10,6 +10,7 @@
     <script src="../JS/header.js" defer></script>
     <script src="../JS/profile.js" defer></script>
 </head>
+
 <header>
   <div class="container">
     <img class="logo" src="../IMG/Asian%20Flavor%20Logo%20Black.png" alt="logo">
@@ -26,26 +27,33 @@
     </nav>
   </div>
 </header>
+
 <body>
 <main>
-    <section class="profile-section">
-        <h2 id="welcomeText">Welcome to your profile, !</h2>
-        <div class="profile-info">
-            <div class="profile-picture">
-                <img src="../IMG/empty.jpg" alt="Profile Picture">
-            </div>
-            <div class="user-details" id="userDetails">
-              <p><strong>Username:</strong> <span id="userUsername"></span></p>
-              <p><strong>First Name:</strong> <span id="firstName"></span></p>
-              <p><strong>Last Name:</strong> <span id="lastName"></span></p>
-              <p><strong>Email:</strong> <span id="userEmail"></span></p>
-              <p><strong>Phone:</strong> <span id="userPhone"></span></p>
-              <p><strong>Address:</strong> <span id="userAddress"></span></p>
+  <div id="notification" class="notification"></div>
+
+    <section class="profileSection">
+        <h2 id="profile-welcome-text-header">Welcome to your profile, !</h2>
+        <div class="profileInfoDiv">
+          <div class="profilePictureDiv">
+            <img id="profilePicture" src="../IMG/empty.jpg" alt="Profile Picture">
+            <input type="file" id="profile-picture-input" class="profilePictureInput"style="display: none" accept="image/*">
+            <button onclick="document.getElementById('profile-picture-input').click()" id="profile-image-upload-btn" style="display: none">Choose Image</button>
+          </div>
+
+          <div id="user-details-div" class="userDetailsDiv">
+              <p><strong>Username:</strong> <span id="users-username"></span></p>
+              <p><strong>First Name:</strong> <span id="users-firstname"></span></p>
+              <p><strong>Last Name:</strong> <span id="users-lastname"></span></p>
+              <p><strong>Email:</strong> <span id="users-email"></span></p>
+              <p><strong>Phone:</strong> <span id="users-phone"></span></p>
+              <p><strong>Address:</strong> <span id="users-address"></span></p>
+              <p id="edit-account-error-text" class="editAccountErrorText"></p>
             </div>
         </div>
-        <div class="edit-profile">
-            <button class="change-password-btn">Change Password</button>
-            <button class="edit-details-btn" onclick="toggleProfileEdit()">Edit Account Details</button>
+        <div class="editProfileBtnDiv">
+            <button class="changePasswordBtn">Change Password</button>
+            <button class="editAccountDetailsBtn" onclick="toggleProfileEdit()">Edit Account Details</button>
         </div>
     </section>
 
@@ -59,98 +67,83 @@
         </div>
     </section>
 
-    <section class="motd-section" id="motd-section">
-        <div class="motd-top">
-            <h2>Meal of the Day</h2>
-            <button id="motdToggleButton" onclick="toggleMotd()">Show</button>
+  <section class="productManagementSection" id="motd-section">
+    <div class="motd-top">
+      <h2>Manage products</h2>
+      <button id="motdToggleButton" onclick="toggleMotd()">Show</button>
+    </div>
+    <div class="motd-dropdown hidden" id="motd-dropdown">
+      <div class="motd-left">
+        <button onclick="toggleDropdown()" class="motd-select-dropdown">Select Meal</button>
+        <div id="dropdownContent" class="dropdown-content">
+          <!-- Dropdown content goes here -->
         </div>
-        <div class="motd-dropdown hidden" id="motd-dropdown">
-            <div class="motd-left">
-                <button onclick="toggleDropdown()" class="motd-select-dropdown">Select Meal</button>
-                <div id="dropdownContent" class="dropdown-content">
-                    <!-- Dropdown content goes here -->
-                </div>
-            </div>
-            <div class="motd-right">
-                <h3>Current:</h3>
-                <div class="selected-meal">
-                    <img src="../IMG/empty.jpg" id="selectedMealImage" alt="Selected Meal">
-                    <div class="selected-meal-info">
-                        <p id="selectedMeal">Name of the meal</p>
-                        <p id="selectedPrice">12.49€</p>
-                        <p id="selectedDescription">This is a short description about the product that is chosen for the meal of the day. This is a short description about the product that is chosen for the meal of the day. </p>
-                    </div>
-                </div>
-            </div>
+      </div>
+      <div class="motd-right">
+        <h3 id="currentMealHeader">Current:</h3>
+        <div class="selected-meal" id="selectedMealData">
+          <img src="../IMG/empty.jpg" id="selectedMealImage" alt="Selected Meal">
+          <div class="selected-meal-info">
+            <p id="selectedMealName">Name of the meal</p>
+            <p id="selectedPrice">12.49€</p>
+            <p id="selectedDescription">This is a short description about the product that is chosen for the meal of the day. This is a short description about the product that is chosen for the meal of the day. </p>
+            <p id="selectedAllergen">Allergens: </p>
+            <p id="selectedCategory">Category: </p>
+            <button onclick="toggleManagement()" id="openAddItemSectionButton">Add
+              Product
+            </button>
+            <button class="editMealButton">Edit</button>
+            <button class="deleteMealButton" onclick="removeMeal()">Delete</button>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <section class="management-section" id="managementSection">
-        <div class="management-top">
-            <h2>Manage products</h2>
-            <button id="managementToggleButton" onclick="toggleManagement()">Show</button>
-        </div>
-        <div id="management" class="management hidden">
-            <div class="product-tabs">
-                <button onclick="openTab('removeProductTab')">Add Product</button>
-                <button onclick="openTab('addProductTab')">Remove Product</button>
-            </div>
-            <div id="removeProductTab" class="product-tab">
-                <h2>Remove Product</h2>
-                <div class="remove-product-form">
-                    <label for="productDropdown">Select Product:</label>
-                    <select id="productDropdown" class="productDropdown">
-                        <!-- Options will be dynamically added here -->
-                    </select>
-                    <button onclick="removeProduct()">Delete</button>
-                </div>
-            </div>
-
-            <div id="addProductTab" class="product-tab">
-                <h2>Add Product</h2>
-              <form method="post" class="add-product-form" id="addProductForm" enctype="multipart/form-data">
-                <label for="productName">Name:</label>
-                <input type="text" id="productName" name="name">
-                <label for="productDescription">Description:</label>
-                <textarea id="productDescription" name="description"></textarea>
-                <label class="productprice" for="productPrice">Price:</label>
-                <input type="text" id="productPrice" name="price">
-                <label for="productCategory">Category:</label>
-                <select id="productCategory" name="category">
-                  <option value="japanese">Japanese</option>
-                  <option value="korean">Korean</option>
-                  <option value="chinese">Chinese</option>
-                  <option value="thai">Thai</option>
-                  <option value="indian">Indian</option>
-                  <option value="vietnamese">Vietnamese</option>
-                  <option value="Drinks">Drinks</option>
-                </select>
-                <label>Allergens:</label>
-                <div class="allergens" id="allergens">
-                  <input type="checkbox" id="dairy" name="allergen" value="dairy">
-                  <label for="dairy">Dairy</label><br>
-                  <input type="checkbox" id="vegan" name="allergen" value="vegan">
-                  <label for="vegan">Vegan</label><br>
-                  <input type="checkbox" id="gluten" name="allergen" value="gluten">
-                  <label for="gluten">Gluten</label><br>
-                  <input type="checkbox" id="peanuts" name="allergen" value="peanuts">
-                  <label for="peanuts">Peanuts</label><br>
-                  <input type="checkbox" id="fish" name="allergen" value="fish">
-                  <label for="fish">Fish</label><br>
-                  <input type="checkbox" id="soy" name="allergen" value="soy">
-                  <label for="soy">Soy</label><br>
-                </div>
-                <div class="file-input-container">
-                  <label for="productImage" id="productImageLabel">Image:</label>
-                  <input type="file" id="productImage" class="hidden-file-input" name="image" required>
-                  <button onclick="document.getElementById('productImage').click()">Choose Image</button>
-                </div>
-                <p id="errorMessage"></p>
-                <button type="button" onclick="saveProduct()">Save Product</button>
-              </form>
-
-
-            </div>
+  <section class="addNewProductSection hidden" id="addNewProductSection">
+      <div id="addProductTab" class="product-tab">
+        <h2>Add Product</h2>
+        <button onclick="toggleManagement()" class="openAddItemSectionButton">Hide</button>
+        <form method="post" class="add-product-form" id="addProductForm" enctype="multipart/form-data">
+          <label for="productName">Name:</label>
+          <input type="text" id="productName" name="name">
+          <label for="productDescription">Description:</label>
+          <textarea id="productDescription" name="description"></textarea>
+          <label class="productprice" for="productPrice">Price:</label>
+          <input type="text" id="productPrice" name="price">
+          <label for="productCategory">Category:</label>
+          <select id="productCategory" name="category">
+            <option value="japanese">Japanese</option>
+            <option value="korean">Korean</option>
+            <option value="chinese">Chinese</option>
+            <option value="thai">Thai</option>
+            <option value="indian">Indian</option>
+            <option value="vietnamese">Vietnamese</option>
+            <option value="Drinks">Drinks</option>
+          </select>
+          <label>Allergens:</label>
+          <div class="allergens" id="allergens">
+            <input type="checkbox" id="dairy" name="allergen" value="dairy">
+            <label for="dairy">Dairy</label><br>
+            <input type="checkbox" id="vegan" name="allergen" value="vegan">
+            <label for="vegan">Vegan</label><br>
+            <input type="checkbox" id="gluten" name="allergen" value="gluten">
+            <label for="gluten">Gluten</label><br>
+            <input type="checkbox" id="peanuts" name="allergen" value="peanuts">
+            <label for="peanuts">Peanuts</label><br>
+            <input type="checkbox" id="fish" name="allergen" value="fish">
+            <label for="fish">Fish</label><br>
+            <input type="checkbox" id="soy" name="allergen" value="soy">
+            <label for="soy">Soy</label><br>
+          </div>
+          <div class="file-input-container">
+            <label for="productImage" id="productImageLabel">Image:</label>
+            <input type="file" id="productImage" class="hidden-file-input" name="image" required>
+            <button onclick="document.getElementById('productImage').click()">Choose Image</button>
+          </div>
+          <p id="errorMessage"></p>
+          <button type="button" onclick="saveProduct()">Save Product</button>
+        </form>
         </div>
     </section>
 </main>
