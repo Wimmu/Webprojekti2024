@@ -90,6 +90,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   const itemsSelect = document.getElementById("items");
   const currentWeek = getCurrentWeek();
 
+  const userData = await fetchCurrentUser();
+
+  const isAdmin = userData.role === 'admin';
+
+  // Hide the edit button if the user is not an admin
+  if (!isAdmin) {
+    adminButton.style.display = 'none';
+  }
+
+
   // Event listeners
   adminButton.addEventListener("click", () => {
     adminFormContainer.style.display = "block";
@@ -285,4 +295,31 @@ function addMenu() {
       console.error('Error:', error);
       document.getElementById('errorMessage').innerText = 'Error: ' + error.message;
     });
+}
+
+async function fetchCurrentUser() {
+  try {
+    const token = localStorage.getItem('token');
+
+    if(!token) {
+      console.error('No token found');
+      return;
+    }
+
+    const url = `http://127.0.0.1:3000/api/v1/auth/me`;
+    const options = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+
+    const response = await fetch(url, options);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}, URL: ${response.url}`);
+    }
+    return await response.json()
+  } catch (error) {
+    console.error('Error fetching current user:', error);
+  }
 }

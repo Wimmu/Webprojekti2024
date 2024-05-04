@@ -60,8 +60,6 @@ async function fetchCurrentUser() {
   }
 }
 
-
-
 async function fetchOrders(userId) {
   try {
     const response = await fetch(`http://127.0.0.1:3000/api/v1/users/${userId}/orders`);
@@ -188,8 +186,6 @@ async function saveAccountDetails() {
 }
 
 
-// --------------------- ORDER HISTORY ----------------------------- //
-// Fetch order data and place it in the order history
 // --------------------- ORDER HISTORY ----------------------------- //
 // Fetch order data and place it in the order history
 async function placeOrderData() {
@@ -377,16 +373,30 @@ function saveProduct() {
 }
 
 // --------------------- MAIN ----------------------------- //
-document.addEventListener("DOMContentLoaded", () => {
-  placeProfileData();
-  placeOrderData();
-  placeMotdData();
-  placeRemoveDropdownData();
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const userData = await fetchUsers();
 
-  const motdSection = document.getElementById('motd-section');
-  const managementSection = document.getElementById('managementSection');
-  if (userRole !== 'admin') {
-    motdSection.style.display = 'none';
-    managementSection.style.display = 'none';
+    // Place profile data
+    placeProfileData();
+
+    // Place order data
+    placeOrderData();
+
+    // Place MOTD data
+    placeMotdData();
+
+    // Place remove dropdown data
+    placeRemoveDropdownData();
+
+    // Hide sections if the user is not an admin
+    const motdSection = document.getElementById('motd-section');
+    const managementSection = document.getElementById('managementSection');
+    if (userData.user.role !== 'admin') {
+      motdSection.style.display = 'none';
+      managementSection.style.display = 'none';
+    }
+  } catch (error) {
+    console.error('Error loading profile data:', error);
   }
 });
