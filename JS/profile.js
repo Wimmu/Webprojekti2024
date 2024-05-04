@@ -245,7 +245,8 @@ async function placeOrderData() {
 
     if (orderData.length === 0) {
       const noOrdersMessage = document.createElement('p');
-      noOrdersMessage.textContent = 'No orders yet';
+      noOrdersMessage.style.textAlign = 'center';
+      noOrdersMessage.innerHTML = 'No orders yet, <a href="../HTML/products.html">make your first order here</a>!';
       orderHistory.appendChild(noOrdersMessage);
     } else {
       for (const order of orderData) {
