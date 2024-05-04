@@ -19,16 +19,22 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-const getUserById = async (req, res) => {
-  console.log('TESTING: req.params.id', req.params.id);
+const getUser = async (req, res) => {
   try {
-    const user = await findUserById(req.params.id);
-    if (user) {
-      res.json(user);
-      console.log('TESTING: user', user);
+    const identifier = req.params.identifier;
+    let user;
+    if (!isNaN(identifier)) {
+      user = await findUserById(req.params.id);
     } else {
-      res.sendStatus(404);
+      user = await userByUsername(req.params.identifier);
     }
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" }); // Send 404 response and exit
+    }
+
+    // Send user data if found
+    res.json(user);
   } catch (error) {
     console.error('Error fetching user:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -95,7 +101,7 @@ const postUser = async (req, res) => {
 
 const putUser = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const userId = req.params.identifier;
     const user = await findUserById(userId);
     if (!user) {
       return res.sendStatus(404).json({ error: `No user found with id ${userId}` });
@@ -115,7 +121,7 @@ const putUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const userId = req.params.identifier;
     const user = await findUserById(userId);
     if (!user) {
       return res.sendStatus(404).json({ error: `No user found with id ${userId}` });
@@ -133,4 +139,4 @@ const deleteUser = async (req, res) => {
   }
 }
 
-export {getAllUsers, getUserById, getUserbyUsername, getOrdersByUserId, postUser, putUser, deleteUser};
+export {getAllUsers, getUser, getOrdersByUserId, postUser, putUser, deleteUser};
