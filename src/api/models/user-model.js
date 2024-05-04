@@ -64,7 +64,6 @@ const createUser = async (user) => {
 const modifyUser = async (user, id) => {
   const sql = promisePool.format(`UPDATE user SET ? WHERE user_id = ?`, [user, id]);
   const rows = await promisePool.execute(sql);
-  console.log('rows', rows);
   if (rows[0].affectedRows === 0) {
     return false;
   }

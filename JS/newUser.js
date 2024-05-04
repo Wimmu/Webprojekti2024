@@ -1,3 +1,5 @@
+import { login } from './login.js';
+
 async function fetchUsernames(username) {
   try {
     const response = await fetch(`http://localhost:3000/api/v1/users/${username}`);
@@ -29,6 +31,19 @@ async function postUser(user)  {
   }
 }
 
+function displayValidationErrors(errors) {
+  const errorMessageContainer = document.getElementById('error-message');
+  // Clear previous error messages
+  errorMessageContainer.innerHTML = '';
+
+  // Loop through errors and display them
+  errors.forEach(error => {
+    const errorElement = document.createElement('div');
+    errorElement.textContent = error.msg;
+    errorMessageContainer.appendChild(errorElement);
+  });
+}
+
 //connect an API from the front end to the back end
 async function createUser() {
    const username = document.getElementById('username').value;
@@ -45,9 +60,29 @@ async function createUser() {
      return;
    }
 
-   if (password !== confirmPassword) {
-     alert('Passwords do not match');
+   if (password.length < 6) {
+     alert('Password must be at least 6 characters');
      return;
+   }
+
+  if (password !== confirmPassword) {
+    alert('Passwords do not match');
+    return;
+  }
+
+   if (first_name.length < 2) {
+      alert('First name must be at least 2 characters');
+      return;
+   }
+
+    if (last_name.length < 2) {
+      alert('Last name must be at least 2 characters');
+      return;
+    }
+
+   if (!email.includes('@')) {
+      alert('Invalid email');
+      return;
    }
 
    const usernameExists = await fetchUsernames(username);
@@ -66,10 +101,15 @@ async function createUser() {
      phone
    }
 
-   console.log(user);
+   //console.log(user);
 
    const newUser = await postUser(user);
    console.log(newUser);
+
+   if (newUser) {
+      await login(username, password);
+      console.log('User created and logged in');
+   }
 }
 
 

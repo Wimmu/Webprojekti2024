@@ -6,75 +6,76 @@
     <title>My Website</title>
     <link rel="stylesheet" href="../CSS/main.css">
     <link rel="stylesheet" href="../CSS/menu.css">
+  <script src="../JS/menu.js" defer></script>
+
+
+  <script src="../JS/header.js" defer></script>
 </head>
 <header>
-    <div class="container">
-        <h1 class="logo">Logo</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Etusivu</a></li>
-                <li><a href="menu.html">Lounas</a></li>
-                <li><a href="products.html">Tuotteet</a></li>
-                <li><a href="login.html">Kirjaudu</a></li>
-                <li><a href="shoppingcart.html" class="shopping-cart-link"><img src="../IMG/shopping_cart.png" class="shopping-cart-image"></a></li>
-                <li><a href="profile.html" class="profile-icon-link"><img src="../IMG/profile_icon.png" class="profile-icon-image"></a></li>
-            </ul>
-        </nav>
-    </div>
+  <div class="container">
+    <img class="logo" src="../IMG/Asian%20Flavor%20Logo%20Black.png" alt="logo">
+    <nav>
+      <ul>
+        <li class="navButton"><a href="index.html">Home</a></li>
+        <li class="navButton"><a href="menu.html">Lunch</a></li>
+        <li class="navButton"><a href="products.html">Products</a></li>
+        <li class="navButton" id="login"><a href="login.html">Login</a></li>
+        <li class="navButton" id="logout"><a href="#">Logout</a></li>
+        <li class="navButton" id="shoppingCart"><a href="shoppingcart.html" class="shopping-cart-link"><img src="../IMG/shopping_cart.png" class="shopping-cart-image"></a></li>
+        <li class="navButton" id="profile"><a href="profile.html" class="profile-icon-link"><img src="../IMG/profile_icon.png" class="profile-icon-image"></a></li>
+      </ul>
+    </nav>
+  </div>
 </header>
 <body>
 <main>
-    <section>
-        <div class="header-container">
-            <h2 class="lounas-header">Lounaslista</h2>
-            <button class="edit-button">Muokkaa</button>
+  <section id="edit-menu-container" style="display: none;">
+    <div>
+      <h2 class="editMenuHeader">Add or modify Menu</h2>
+      <form method="post" class="menuForm" id="menu-form" enctype="multipart/form-data">
+        <label for="restaurant">Restaurant:</label>
+        <select id="restaurant" name="restaurant">
+          <!-- Restaurants will be added dynamically -->
+        </select>
+        <br>
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date">
+        <br>
+        <label for="items"></label>
+        <button type="button" id="add-item-button">Add Item</button>
+        <select id="items" name="items">
+          <!-- Food items will be added dynamically -->
+        </select>
+        <br>
+        <div id="selected-items">
+          <h3>New menu:</h3>
+          <!-- Selected food items will be displayed here -->
         </div>
-        <div class="daymenu-container">
-            <div class="daymenu">
-                <h3>Maanantai 21.04</h3>
-                <p>Sushilajitelma (6 kappaletta)</p>
-                <p>Wakame-merileväsalatti</p>
-                <p>Kanatempura</p>
-                <p>Lohiavocado-rullat</p>
-            </div>
-            <div class="daymenu">
-                <h3>Tiistai 22.04</h3>
-                <p>Miso-keitto</p>
-                <p>Sashimi-lajitelma (9 kappaletta)</p>
-                <p>Yakitori (kanavarras)</p>
-            </div>
-            <div class="daymenu">
-                <h3>Keskiviikko 23.04</h3>
-                <p>Nigiri-lajitelma (8 kappaletta)</p>
-                <p>Gyudon (naudanliharuoka riisillä)</p>
-                <p>Vihreä tee -jäätelö</p>
-            </div>
-            <div class="daymenu">
-                <h3>Torstai 24.04</h3>
-                <p>Sake-makirulla (lohirulla)</p>
-                <p>Yasai itame (wokattuja vihanneksia)</p>
-                <p>Edamame (soijapavut)</p>
-            </div>
-            <div class="daymenu">
-                <h3>Perjantai 25.04</h3>
-                <p>Chirashi-zushi (kulho täytetty sushiriisillä ja raaka-aineilla)</p>
-                <p>Okonomiyaki (japanilainen ruokalaji, "suuri paistettu asia")</p>
-                <p>Melonipallo (hedelmäjälkiruoka)</p>
-            </div>
-            <div class="daymenu">
-                <h3>Lauantai 26.04</h3>
-                <p>Tempura-annos (katkarapu- ja vihannes-tempura)</p>
-                <p>Unagi-don (grillattu ankerias riisillä)</p>
-                <p>Matcha-tee-jäätelö</p>
-            </div>
-            <div class="daymenu">
-                <h3>Sunnuntai 27.04</h3>
-                <p>California-maki (avocado, kurkku ja krabba)</p>
-                <p>Shumai (höyrytettyä japanilaista dumplingia)</p>
-                <p>Matcha-tee</p>
-            </div>
+        <br>
+        <div id="menu-for-date">
+          <!-- Menu for selected date will be displayed here -->
         </div>
-    </section>
+        <button type="button" onclick="addMenu()">Add Menu</button>
+        <button id="exit-button" >Exit</button>
+      </form>
+    </div>
+  </section>
+
+
+  <section id="lunch-menu-container">
+    <div class="header-container">
+      <h2 class="lounas-header">Lounaslista</h2>
+      <select id="restaurant-select">
+        <!-- Restaurants will be added dynamically -->
+      </select>
+      <button id="edit-button" class="edit-button">Edit</button>
+    </div>
+    <div id="menu-container"></div>
+    <div class="daymenu-container" id="daymenu-container">
+      <!-- Days and menus will be added dynamically -->
+    </div>
+  </section>
+
 </main>
 <object type="text/html" data="footer.html" style="width:100%"></object>
 </body>
