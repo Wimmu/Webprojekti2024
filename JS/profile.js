@@ -131,6 +131,7 @@ async function placeProfileData() {
     document.getElementById('lastName').textContent = userData.last_name;
     document.getElementById('userEmail').textContent = userData.email;
     document.getElementById('userAddress').textContent = userData.address;
+    document.getElementById('userPhone').textContent = userData.phone;
   } catch (error) {
     console.error('Error fetching user data:', error);
   }
@@ -165,13 +166,14 @@ async function saveAccountDetails() {
     const last_name = userDetails.querySelector('p:nth-child(3) input').value;
     const email = userDetails.querySelector('p:nth-child(4) input').value;
     const address = userDetails.querySelector('p:nth-child(5) input').value;
+    const phone = userDetails.querySelector('p:nth-child(6) input').value;
 
     const response = await fetch(`http://127.0.0.1:3000/api/v1/users/${userId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username, first_name, last_name, email, address }),
+      body: JSON.stringify({ username, first_name, last_name, email, address, phone}),
     });
 
     if (response.ok) {

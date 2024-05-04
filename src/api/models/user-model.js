@@ -12,12 +12,10 @@ const listAllUsers = async () => {
 
 const findUserById = async (id) => {
   try {
-    console.log('TESTING: id', id);
     const [rows] = await promisePool.execute('SELECT * FROM user WHERE user_id = ?', [id]);
     if (rows.length === 0) {
       return false;
     }
-    console.log('TESTING: rows[0]', rows[0]);
     return rows[0];
   } catch (error) {
     console.error('Error finding user by ID:', error);
@@ -66,7 +64,6 @@ const createUser = async (user) => {
 const modifyUser = async (user, id) => {
   const sql = promisePool.format(`UPDATE user SET ? WHERE user_id = ?`, [user, id]);
   const rows = await promisePool.execute(sql);
-  console.log('rows', rows);
   if (rows[0].affectedRows === 0) {
     return false;
   }

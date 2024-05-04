@@ -24,9 +24,9 @@ const getUser = async (req, res) => {
     const identifier = req.params.identifier;
     let user;
     if (!isNaN(identifier)) {
-      user = await findUserById(req.params.id);
+      user = await findUserById(identifier);
     } else {
-      user = await userByUsername(req.params.identifier);
+      user = await userByUsername(identifier);
     }
 
     if (!user) {
@@ -85,7 +85,6 @@ const postUser = async (req, res) => {
       phone,
       avatar: avatarValue};
 
-    console.log('user', user);
     const result = await createUser(user);
     if (result) {
       res.json(result);
