@@ -7,7 +7,7 @@ import {
 
 const cartRouter = express.Router();
 
-cartRouter.route('/orders')
+cartRouter.route('/')
   .post(postOrder); //Add a new order
 
 cartRouter.route('/:userId')

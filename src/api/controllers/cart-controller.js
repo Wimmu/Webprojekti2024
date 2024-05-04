@@ -6,13 +6,11 @@ import {
 
 const postOrder = async (req, res) => {
   try {
-    const result = await addOrder(req.body.userId, req.body.restaurantId, req.body.totalCost, req.body.status);
-    if (result.insertId) {
-      res.status(201);
-      res.json({message: 'New order added.', result});
-    } else {
-      res.sendStatus(400);
-    }
+    const userId = 1;
+    const { totalCost, status } = req.body;
+    const date = new Date(); // or get it from req.body if it's provided
+    const result = await addOrder(userId, totalCost, date, status);
+    // rest of the code...
   } catch (error) {
     console.error('Error adding order:', error);
     res.status(500).json({ error: 'Internal server error' });
