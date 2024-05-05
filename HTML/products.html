@@ -11,22 +11,28 @@
     <script src="../JS/product.js" defer></script>
 </head>
 <body>
-  <header>
-    <div class="container">
+<header class="header">
+  <div class="nav-container">
+    <div class="logo-container">
       <img class="logo" src="../IMG/Asian%20Flavor%20Logo%20Black.png" alt="logo">
-      <nav>
-        <ul>
-          <li class="navButton"><a href="index.html">Home</a></li>
-          <li class="navButton"><a href="menu.html">Lunch</a></li>
-          <li class="navButton"><a href="products.html">Products</a></li>
-          <li class="navButton" id="login"><a href="login.html">Login</a></li>
-          <li class="navButton" id="logout"><a href="#">Logout</a></li>
+    </div>
+    <nav class="nav">
+      <ul id="nav-links" class="nav-links">
+        <li class="navButton"><a href="index.html">Home</a></li>
+        <li class="navButton"><a href="menu.html">Lunch</a></li>
+        <li class="navButton"><a href="products.html">Products</a></li>
+        <li class="navButton" id="login"><a href="login.html">Login</a></li>
+        <li class="navButton" id="logout"><a href="#">Logout</a></li>
+        <ol class="iconList" id="iconList">
           <li class="navButton" id="shoppingCart"><a href="shoppingcart.html" class="shopping-cart-link"><img src="../IMG/shopping_cart.png" class="shopping-cart-image"></a></li>
           <li class="navButton" id="profile"><a href="profile.html" class="profile-icon-link"><img src="../IMG/profile_icon.png" class="profile-icon-image"></a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+        </ol>
+      </ul>
+    </nav>
+    <img class="hamburger-menu" src="../IMG/hamburgerIcon.png">
+  </div>
+</header>
+
   <div class="productPage">
     <aside class="filter-container">
       <div id="categoryFilters" class="categoryCheck">
