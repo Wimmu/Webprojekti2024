@@ -27,7 +27,7 @@ const getOrdersByUser = async (userId) => {
 };
 
 const addOrderItem = async (menuitemId, orderId, quantity) => {
-  console.log(menuitemId, orderId, quantity);
+  //console.log(menuitemId, orderId, quantity);
   try {
     const [rows] = await promisePool.execute(
       'INSERT INTO orderitem (menuitem_id, order_id, quantity) VALUES (?, ?, ?)',

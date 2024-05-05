@@ -115,7 +115,7 @@ class ShoppingCart {
       let price = parseFloat(item.price);
       // Multiply the price by the quantity and round the result
       subtotal += parseFloat((price * item.quantity).toFixed(2));
-      console.log(subtotal);
+      //console.log(subtotal);
     });
 
     const totalElement = document.querySelector("#cart-total");
@@ -270,6 +270,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   const storedCartItems = localStorage.getItem('cartItems');
   if (storedCartItems) {
     cart.items = JSON.parse(storedCartItems);
+    //console.log(cart.items);
     cart.displayCart();
   }
 });
@@ -293,6 +294,10 @@ const checkoutForm = document.getElementById('checkout-form');
 checkoutForm.addEventListener('submit', async function(event) {
   event.preventDefault();
 
+  // Disable the submit button to prevent multiple submissions
+  const submitButton = checkoutForm.querySelector('button[type="submit"]');
+  submitButton.disabled = true;
+
   const formData = {};
 
   // Populate formData with form data
@@ -304,18 +309,9 @@ checkoutForm.addEventListener('submit', async function(event) {
   formData.totalCost = cart.calculateTotal().toFixed(2);
 
   formData.status = "pending";
-  console.log(formData);
-
-  // Clear the shopping cart
-  cart.clearCart();
-
-  // Show a toast message
-  showToast('Order confirmed');
-
-  // Redirect to the profile page
-  //window.location.href = '../HTML/profile.html';
 
   try {
+    // Send the order data to the server to create the order and get the generated order ID
     const response = await fetch('http://localhost:3000/api/v1/orders/', {
       method: 'POST',
       headers: {
@@ -328,10 +324,48 @@ checkoutForm.addEventListener('submit', async function(event) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
+    const responseData = await response.json();
+    const orderId = responseData.orderId;
+
+    // Associate the order ID with each order item and send them to the server
+    await Promise.all(cart.items.map(async (item) => {
+      item.orderId = orderId;
+      const itemResponse = await fetch(`http://localhost:3000/api/v1/orders/${orderId}/items`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(item),
+      });
+
+      if (!itemResponse.ok) {
+        throw new Error(`HTTP error! status: ${itemResponse.status}`);
+      }
+    }));
+
+    // Clear the shopping cart
+    cart.clearCart();
+
+    // Show a toast message
+    showToast('Order confirmed');
+
+    // After the toast has disappeared, enable the submit button again
+    setTimeout(function() {
+      submitButton.disabled = false;
+    }, 3300); // Same duration as the toast message
+
+    // After a delay, redirect the user to the profile page
+    setTimeout(function() {
+      window.location.href = '../HTML/profile.html';
+    }, 3000); // Adjust the delay as needed (3 seconds in this example)
   } catch (error) {
     console.error('Error:', error);
+
+    // Re-enable the submit button in case of an error
+    submitButton.disabled = false;
   }
 });
+
 
 
 
