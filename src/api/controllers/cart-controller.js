@@ -6,11 +6,13 @@ import {
 
 const postOrder = async (req, res) => {
   try {
-    const userId = 1;
+    const userId = req.body.userId;
     const { totalCost, status } = req.body;
     const date = new Date(); // or get it from req.body if it's provided
-    const result = await addOrder(userId, totalCost, date, status);
-    // rest of the code...
+    const order = await addOrder(userId, totalCost, date, status);
+
+    // Send the order ID along with the response
+    res.status(201).json({ orderId: order.insertId });
   } catch (error) {
     console.error('Error adding order:', error);
     res.status(500).json({ error: 'Internal server error' });

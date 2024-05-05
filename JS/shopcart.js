@@ -8,16 +8,57 @@ class ShoppingCart {
     } else {
       this.items = [];
     }
+
+    // Fetch user data and set the user ID
+    this.userId = null;
+    this.fetchUserId();
+  }
+
+  async fetchUserId() {
+    const userData = await this.fetchUsers();
+    if (userData && userData.user && userData.user.user_id) {
+      this.userId = userData.user.user_id;
+    }
+  }
+
+  async fetchUsers() {
+    try {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        console.error('No token found');
+        return;
+      }
+
+      const url = 'http://127.0.0.1:3000/api/v1/auth/me'; // Endpoint to get user data
+      const options = {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      };
+
+      const response = await fetch(url, options);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}, URL: ${response.url}`);
+      }
+      const userData = await response.json();
+      return userData;
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
   }
   clearCart() {
     // Clear items array
-    this.items = [];
+    const token = localStorage.getItem('token');
 
-    // Clear sessionStorage
-    sessionStorage.removeItem('cartItems');
-
-    // Clear localStorage
+    // Clear the local storage
     localStorage.clear();
+
+    // Set the token back to the local storage
+    if (token) {
+      localStorage.setItem('token', token);
+    }
 
     // Update the displayed cart
     this.displayCart();
@@ -248,6 +289,7 @@ window.onload = function() {
 
 const checkoutForm = document.getElementById('checkout-form');
 
+
 checkoutForm.addEventListener('submit', async function(event) {
   event.preventDefault();
 
@@ -255,10 +297,14 @@ checkoutForm.addEventListener('submit', async function(event) {
 
   // Populate formData with form data
 
+  // Add the user ID to the formData
+  formData.userId = cart.userId;
+
   // Add the total cost to the formData
   formData.totalCost = cart.calculateTotal().toFixed(2);
 
   formData.status = "pending";
+  console.log(formData);
 
   // Clear the shopping cart
   cart.clearCart();
@@ -267,7 +313,7 @@ checkoutForm.addEventListener('submit', async function(event) {
   showToast('Order confirmed');
 
   // Redirect to the profile page
-  window.location.href = '../HTML/profile.html';
+  //window.location.href = '../HTML/profile.html';
 
   try {
     const response = await fetch('http://localhost:3000/api/v1/orders/', {
@@ -286,6 +332,7 @@ checkoutForm.addEventListener('submit', async function(event) {
     console.error('Error:', error);
   }
 });
+
 
 
 function showToast(message) {
