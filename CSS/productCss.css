@@ -18,22 +18,30 @@
 h5  {
     width: 100%;
     display: block;
+    margin-top: 10px;
     margin-bottom: 10px;
     font-size: 14px;
 }
+
 .categoryFilters {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* Ensure the filters take full width */
+  margin-bottom: 20px; /* Add some space between filters */
+}
+
+.filter-category-container {
+  display: flex;
 }
 
 .categoryCheck {
-    margin-right: 20px;
-    margin-bottom: 5px;
+  flex-direction: row; /* Ensure items are aligned horizontally */
+  justify-content: left; /* Align items to the left */
 }
 
-.categoryCheck label {
-
+.filter-category-container label {
+  margin-left: 10px; /* Adjust left margin to create space between checkbox and label */
+  flex: 1; /* Allow labels to take remaining space */
 }
 
 .allergens-filter {
@@ -71,24 +79,40 @@ h5  {
     margin-bottom: 20px;
 }
 
+#toggleFilterButton {
+  display: none;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 900px) {
-    .filter-container {
-        flex-direction: column;
-        align-items: center;
-    }
+  .filter-container {
+    display: none;
+    flex-direction: column;
+    width: 30%; /* Adjust width as needed */
+    z-index: 1;
+    position: fixed;
+  }
 
-    .categoryCheck {
-        width: 70%;
-        margin-right: 0;
-    }
+  .categoryFilters {
+    width: 100%; /* Ensure the filters take full width */
+  }
 
-    .allergens-filter {
-        width: 70%;
-    }
+  .categoryCheck {
 
-    .categoryTitle {
-        width: 100%;
-    }
+  }
+
+  .allergens-filter {
+    width: 100%; /* Ensure allergens filter takes full width */
+  }
+
+  .categoryTitle {
+    width: 100%;
+  }
+
+  #toggleFilterButton {
+    display: block;
+    margin: 0 auto;
+  }
 }
 
 main {
@@ -123,6 +147,10 @@ h2 {
 }
 
 @media screen and (max-width: 900px) {
+  main {
+    margin-left: 0;
+  }
+
   .search-container input {
     width: 70%;
   }
@@ -166,7 +194,7 @@ h2 {
         width: calc(40% - 20px);
     }
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 700px) {
     .product {
         width: calc(85% - 20px);
     }

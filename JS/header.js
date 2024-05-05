@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateNavDisplay() {
     if (window.innerWidth > 700) {
       nav.style.display = "block";
+
     } else {
       nav.style.display = isNavOpen ? "block" : "none";
     }
