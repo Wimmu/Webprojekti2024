@@ -32,11 +32,11 @@ async function fetchAllergens() {
 }
 
 fetchMenuItems().then(data => {
-    console.log(data);
+    //console.log(data);
 });
 
 fetchAllergens().then(data => {
-    console.log(data);
+    //console.log(data);
 } );
 
 //-------------------------- Product List Codes ---------------------------------
@@ -201,30 +201,32 @@ function openModal(product) {
     cartItems = cartItems ? JSON.parse(cartItems) : [];
 
     // Check if the product is already in the cart
-    const existingProduct = cartItems.find(item => item.name === product.name);
-    window.onload = function() {
-      const quantity = localStorage.getItem('quantity');
-      if (quantity) {
-        document.getElementById('quantity').value = quantity;
-      }
-    };
-    if (existingProduct) {
-      // If the product is already in the cart, increment the quantity
-      existingProduct.quantity++;
+    const existingProductIndex = cartItems.findIndex(item => item.menuitem_id === product.menuitem_id);
+    if (existingProductIndex !== -1) {
+        // If the product is already in the cart, increment the quantity
+        cartItems[existingProductIndex].quantity++;
     } else {
-      // If the product is not in the cart, add it
-    product.quantity = 1;
-    product.image = product.image; // Add this line
-    console.log(product.image);
-    cartItems.push(product);
+        // If the product is not in the cart, add it
+        const newItem = {
+            menuitem_id: product.menuitem_id,
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            description: product.description,
+            allergen: product.allergen,
+            quantity: 1
+        };
+        //console.log(newItem);
+        cartItems.push(newItem);
     }
 
     // Store the updated cart items in localStorage
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
 
     // Show a popup to the user
-    showToast('Tuote lisätty koriin')
-  });
+    showToast('Tuote lisätty koriin');
+});
+
 }
 function showToast(message) {
     // Create toast element
