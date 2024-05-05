@@ -2,6 +2,7 @@ import {
   addOrder,
   getOrdersByUser,
   addOrderItem,
+  getOrders,
 } from "../models/cart-model.js";
 
 const postOrder = async (req, res) => {
@@ -51,10 +52,19 @@ const postOrderItem = async (req, res) => {
   }
 };
 
-
+const getAllOrders = async (req, res) => {
+  try {
+    const orders = await getOrders();
+    res.json(orders);
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
 
 export {
   postOrder,
   getOrdersByUserId,
   postOrderItem,
+  getAllOrders,
 };

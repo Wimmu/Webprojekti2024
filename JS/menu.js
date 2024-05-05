@@ -90,13 +90,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   const itemsSelect = document.getElementById("items");
   const currentWeek = getCurrentWeek();
 
-  const userData = await fetchCurrentUser();
-
-  const isAdmin = userData.role === 'admin';
-
-  // Hide the edit button if the user is not an admin
-  if (!isAdmin) {
+  if (localStorage.getItem('token') === null) {
     adminButton.style.display = 'none';
+  } else {
+    const userData = await fetchCurrentUser();
+
+    const isAdmin = userData.user.role === 'admin';
+
+    if (!isAdmin) {
+      adminButton.style.display = 'none';
+    }
   }
 
 
@@ -244,10 +247,15 @@ function displayMenuForDate(menuData) {
 }
 
 // Returns the current week's start and end dates
+// Returns the current week's start and end dates
 function getCurrentWeek() {
   const today = new Date();
-  const firstDayOfWeek = new Date(today.setDate(today.getDate() - today.getDay() + 1)); // Adjusted
-  const lastDayOfWeek = new Date(today.setDate(today.getDate() - today.getDay() + 7)); // Adjusted
+  const firstDayOfWeek = new Date(today);
+  firstDayOfWeek.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1));
+
+  const lastDayOfWeek = new Date(today);
+  lastDayOfWeek.setDate(today.getDate() - today.getDay() + 7 + (today.getDay() === 0 ? -6 : 1));
+
   return {
     start: firstDayOfWeek.toISOString().split('T')[0],
     end: lastDayOfWeek.toISOString().split('T')[0]

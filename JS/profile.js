@@ -68,6 +68,15 @@ async function fetchOrders(userId) {
   }
 }
 
+async function fetchAllOrders() {
+  try {
+    const response = await fetch(`http://127.0.0.1:3000/api/v1/orders`);
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching items:', error);
+  }
+}
+
 async function fetchOrderItemsByOrderId(orderId){
   try {
     const response = await fetch(`http://127.0.0.1:3000/api/v1/items/orderItems/${orderId}`);
@@ -165,7 +174,6 @@ function toggleProfileEdit() {
     });
   } else {
     uploadImage.style.display = 'none';
-    editButton.innerText = "Edit Account Details";
     saveAccountDetails();
   }
 }
@@ -189,9 +197,10 @@ async function saveAccountDetails() {
     const email = userDetails.querySelector('p:nth-child(4) input').value;
     const address = userDetails.querySelector('p:nth-child(6) input').value;
     const phone = userDetails.querySelector('p:nth-child(5) input').value;
+    const editButton = document.querySelector(".editAccountDetailsBtn");
+    const errorMessage = document.getElementById('edit-account-error-text');
 
     if (!username || !first_name || !last_name || !email || !address || !phone) {
-      const errorMessage = document.getElementById('edit-account-error-text');
       errorMessage.innerText = 'All fields are required!';
       return;
     }
@@ -224,6 +233,8 @@ async function saveAccountDetails() {
     if (response.ok) {
       showNotification('Account details saved!');
       placeProfileData(); // Refresh the profile data after saving
+      editButton.innerText = "Edit Account Details";
+      errorMessage.innerText = '';
     } else {
       console.error('Failed to save account details');
     }
@@ -232,24 +243,25 @@ async function saveAccountDetails() {
   }
 }
 
+
 // --------------------- ORDER HISTORY ----------------------------- //
 // Fetch order data and place it in the order history
 async function placeOrderData() {
   try {
-    const orderData = await fetchOrders(userId);
-
-    orderData.sort((a, b) => new Date(b.date) - new Date(a.date));
-
     const orderHistory = document.getElementById('order-history');
     orderHistory.innerHTML = '';
 
-    if (orderData.length === 0) {
-      const noOrdersMessage = document.createElement('p');
-      noOrdersMessage.style.textAlign = 'center';
-      noOrdersMessage.innerHTML = 'No orders yet, <a href="../HTML/products.html">make your first order here</a>!';
-      orderHistory.appendChild(noOrdersMessage);
-    } else {
-      for (const order of orderData) {
+    // Check if the user is an admin
+    if (userRole === 'admin') {
+      document.getElementById('order-history-header').innerText = 'Customer orders:';
+      console.log('Admin user detected');
+      // Fetch all orders
+      const allOrders = await fetchAllOrders();
+      console.log('All orders:', allOrders);
+      // Sort orders by date (newest to oldest)
+      allOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
+      // Display all orders
+      for (const order of allOrders) {
         const orderDiv = document.createElement('div');
         orderDiv.classList.add('order');
         const orderTop = document.createElement('div');
@@ -264,6 +276,34 @@ async function placeOrderData() {
         orderDiv.appendChild(orderInfo);
         orderHistory.appendChild(orderDiv);
       }
+    } else {
+      // Fetch orders only for the current user
+      const orderData = await fetchOrders(userId);
+      // Sort orders by date (newest to oldest)
+      orderData.sort((a, b) => new Date(b.date) - new Date(a.date));
+      // Display orders for the current user
+      if (orderData.length === 0) {
+        const noOrdersMessage = document.createElement('p');
+        noOrdersMessage.style.textAlign = 'center';
+        noOrdersMessage.innerHTML = 'No orders yet, <a href="../HTML/products.html">make your first order here</a>!';
+        orderHistory.appendChild(noOrdersMessage);
+      } else {
+        for (const order of orderData) {
+          const orderDiv = document.createElement('div');
+          orderDiv.classList.add('order');
+          const orderTop = document.createElement('div');
+          orderTop.classList.add('order-top');
+          const orderDate = new Date(order.date).toLocaleDateString('en-GB');
+          const orderStatus = order.status.charAt(0).toUpperCase() + order.status.slice(1);
+          const orderItems = await fetchOrderItemsByOrderId(order.order_id);
+          orderTop.innerHTML = `<h3>${orderDate}</h3><h3>${orderStatus}</h3>`;
+          const orderInfo = document.createElement('div');
+          orderInfo.innerHTML = `<p>Order ID: ${order.order_id}</p><p>Products: ${orderItems}</p>`;
+          orderDiv.appendChild(orderTop);
+          orderDiv.appendChild(orderInfo);
+          orderHistory.appendChild(orderDiv);
+        }
+      }
     }
 
     orderHistory.classList.remove('hidden');
@@ -271,6 +311,7 @@ async function placeOrderData() {
     console.error('Error fetching order data:', error);
   }
 }
+
 
 // --------------------- MEAL OF THE DAY ----------------------------- //
 // Fetch menu items and place them in the dropdown

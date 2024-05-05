@@ -40,4 +40,14 @@ const addOrderItem = async (menuitemId, orderId, quantity) => {
   }
 };
 
-export { getOrdersByUser, addOrderItem, addOrder };
+const getOrders = async () => {
+  try {
+    const [rows] = await promisePool.execute('SELECT * FROM `order` WHERE status = "pending"');
+    return rows;
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    throw error;
+  }
+};
+
+export { getOrdersByUser, addOrderItem, addOrder, getOrders };
