@@ -1,55 +1,43 @@
-.profile-section,
+.profileSection,
 .order-history-section,
-.motd-section,
+.productManagementSection,
+.addNewProductSection,
 .management-section {
   margin: 20px;
   padding: 30px;
 }
 
+.notification {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #faefee;
+  color: #000000;
+  border: 4px solid #e3b9bd;
+  padding: 10px 30px;
+  border-radius: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  display: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: fadeOut 4s forwards; /* Animation to fade out after 4 seconds */
+}
+
+@keyframes fadeOut {
+  0% {opacity: 1;}
+  90% {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+
 /*------------------- PROFILE --------------------------------*/
-.profile-info {
+.profileInfoDiv {
   display: flex;
   align-items: center;
 }
 
-.profile-picture {
-  margin-right: 30px;
-  margin-top: 20px;
-  object-fit: cover;
-  max-width: 150px;
-  max-height: 150px;
-  min-height: 150px;
-  min-width: 150px;
-}
-
-.profile-picture img {
-  width: 150px;
-  height: 150px;
-  border: 4px solid #e4babe;
-  border-radius: 50%;
-}
-
-.user-details {
-  font-size: 16px;
-}
-
-.user-details p {
-  padding-top: 10px;
-}
-
-.edit-profile {
-  margin-top: 20px;
-}
-
-.change-password-btn,
-.edit-details-btn {
-  padding: 10px 20px;
-  margin-right: 10px;
-  cursor: pointer;
-  margin-bottom: 10px;
-}
-
-.profile-info input[type="text"] {
+.profileInfoDiv input[type="text"] {
   width: auto;
   font-size: 16px;
   text-align: left;
@@ -60,13 +48,67 @@
   border-radius: 5px;
 }
 
-.profile-info input[type="text"]:disabled {
+.profileInfoDiv input[type="text"]:disabled {
   border: none;
   background-color: transparent;
   width: auto;
   font-size: 16px;
   color: inherit;
   text-align: left;
+}
+
+.profilePictureDiv img {
+  width: 180px;
+  height: 180px;
+  border: 4px solid #e4babe;
+  border-radius: 50%;
+}
+
+.profilePictureDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-right: 30px;
+}
+
+/* Style the custom button */
+/* Style the custom button */
+#profile-image-upload-btn {
+  padding: 7px 20px;
+  background-color: #e4babe;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+#profile-image-upload-btn:hover {
+  background-color: #d39a9a;
+}
+
+
+.userDetailsDiv p {
+  padding-top: 10px;
+}
+
+.editAccountErrorText {
+  color: red;
+  margin-bottom: -10px;
+}
+
+.editProfileBtnDiv {
+  margin-top: 20px;
+}
+
+.changePasswordBtn,
+.editAccountDetailsBtn {
+  padding: 10px 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  margin-bottom: 10px;
 }
 
 /*------------------- ORDER HISTORY --------------------------------*/
@@ -106,7 +148,7 @@
 /*---------------------- MEAL OF THE DAY -----------------------------*/
 .motd-dropdown {
   margin-top: 10px;
-  max-height: 400px;
+  max-height: 500px;
   overflow: hidden;
   transition: max-height 0.5s ease-in-out;
 }
@@ -141,6 +183,12 @@
   font-size: 18px;
 }
 
+#selectedMeal {
+  font-size: 20px;
+  font-weight: bold;
+
+}
+
 #selectedDescription {
   font-size: 15px;
 }
@@ -149,6 +197,23 @@
   font-size: 17px;
   font-weight: bold;
   margin-bottom: 5px;
+}
+
+#selectedCategory {
+  margin-bottom: 20px;
+}
+
+#selectedAllergen {
+  margin-top: 10px;
+}
+
+#currentMealHeader {
+  text-align: center;
+}
+
+.editMealButton {
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .motd-select-dropdown {
@@ -194,6 +259,18 @@
   display: block;
 }
 /*---------------------- MANAGEMENT -----------------------------*/
+.addNewProductSection.hidden {
+  max-height: 0;
+  padding: 0;
+}
+
+.addNewProductSection {
+  max-height: 800px;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out;
+  justify-content: space-between; /* Distribute items evenly along the main axis */
+  align-items: flex-start;
+}
 
 .management {
   margin-top: 10px;
@@ -234,13 +311,7 @@
   width: 50%;
   margin-right: 10px;
 }
-.product-tab {
-  display: none;
-}
 
-.product-tab.hidden {
-  display: block;
-}
 
 .remove-product-form label,
 .add-product-form label {
@@ -280,6 +351,14 @@
   margin-top: 6px;
   margin-bottom: 3px;
 }
+
+.editMealButton.hidden,
+.deleteMealButton.hidden {
+  background-color: #dddddd;
+  pointer-events: none;
+  color: #8f8f8f;
+}
+
 
 #productPrice {
   width: 150px;
@@ -391,24 +470,24 @@
 /*---------------------- MOBILE -----------------------------*/
 
 @media screen and (max-width: 600px) {
-  .profile-info {
+  .profileInfoDiv {
     display: block;
     text-align: center;
   }
 
-  .profile-picture {
+  .profilePictureDiv {
     margin: 0 auto;
   }
 
-  .user-details {
+  .user-details-div {
     text-align: left;
   }
 
-  .edit-profile {
+  .editProfileBtnDiv {
     text-align: center;
   }
 
-  .profile-section h2 {
+  .profileSection h2 {
     text-align: center;
     padding-bottom: 20px;
   }

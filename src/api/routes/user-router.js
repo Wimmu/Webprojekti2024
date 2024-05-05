@@ -1,5 +1,7 @@
 import express from 'express';
 import {body} from 'express-validator';
+import {authenticateToken, validationErrors} from "../../middlewares.js";
+import multer from "multer";
 
 import {
   getAllUsers,
@@ -9,9 +11,41 @@ import {
   putUser,
   deleteUser
 } from '../controllers/user-controller.js';
-import {authenticateToken, validationErrors} from "../../middlewares.js";
 
 const userRouter = express.Router();
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    console.log("FILE IN STORAGE", file)
+    const suffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+
+    const originalFilename = file.originalname.split('.')[0].toLowerCase();
+    const prefix = `${originalFilename}-${file.fieldname}`;
+
+    let extension = 'jpg';
+
+    if (file.mimetype === 'image/png') {
+      extension = 'png';
+    }
+
+    console.log("FILE IN STORAGE", file)
+
+    const filename = `${prefix}-${suffix}.${extension}`;
+
+    cb(null, filename);
+
+    //console.log("filename", filename)
+  },
+});
+
+const upload = multer({
+  dest: 'uploads/',
+  storage,
+});
+
 
 const validateUser = [
   body('username').trim().isLength({ min: 1 }).withMessage('Username must be at least 1 character long'),
@@ -34,7 +68,7 @@ userRouter.route('/:id/orders')
 
 userRouter.route('/:identifier')
   .get(getUser) //Find user by ID or username
-  .put(putUser) //Modify user
+  .put(upload.single('avatar'), putUser) //Modify user
   .delete(deleteUser); //Remove user
 
 export default userRouter;
