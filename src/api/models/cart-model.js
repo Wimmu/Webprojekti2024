@@ -1,7 +1,6 @@
 import promisePool from '../../utils/database.js';
 
 const addOrder = async (userId, totalCost, date, status) => {
-  console.log(userId, totalCost, date, status);
   try {
     const [rows] = await promisePool.execute(
       'INSERT INTO `order` (user_id, total_cost, date, status) VALUES (?, ?, ?, ?)',
@@ -28,7 +27,7 @@ const getOrdersByUser = async (userId) => {
 };
 
 const addOrderItem = async (menuitemId, orderId, quantity) => {
-  console.log(menuitemId, orderId, quantity);
+  //console.log(menuitemId, orderId, quantity);
   try {
     const [rows] = await promisePool.execute(
       'INSERT INTO orderitem (menuitem_id, order_id, quantity) VALUES (?, ?, ?)',
