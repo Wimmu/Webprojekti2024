@@ -1,61 +1,42 @@
-// Dummy data
-const menuData = [
-  {
-    date: 'Maanantai 29.04.',
-    dishes: ['Sushilajitelma (6 kappaletta)', 'Wakame-merileväsalatti', 'Kanatempura', 'Lohiavocado-rullat']
-  },
-  {
-    date: 'Tiistai 30.04.',
-    dishes: ['Miso-keitto', 'Sashimi-lajitelma (9 kappaletta)', 'Yakitori (kanavarras)']
-  },
-  {
-    date: 'Keskiviikko 01.05.',
-    dishes: ['Nigiri-lajitelma (8 kappaletta)', 'Gyudon (naudanliharuoka riisillä)', 'Vihreä tee -jäätelö']
-  },
-  {
-    date: 'Torstai 02.05.',
-    dishes: ['Sake-makirulla (lohirulla)', 'Yasai itame (wokattuja vihanneksia)', 'Edamame (soijapavut)']
-  },
-  {
-    date: 'Perjantai 03.05.',
-    dishes: ['Chirashi-zushi (kulho täytetty sushiriisillä ja raaka-aineilla)', 'Okonomiyaki (japanilainen ruokalaji, "suuri paistettu asia")', 'Melonipallo (hedelmäjälkiruoka)']
-  },
-  {
-    date: 'Lauantai 04.05.',
-    dishes: ['Tempura-annos (katkarapu- ja vihannes-tempura)', 'Unagi-don (grillattu ankerias riisillä)', 'Matcha-tee-jäätelö']
-  },
-  {
-    date: 'Sunnuntai 06.05.',
-    dishes: ['California-maki (avocado, kurkku ja krabba)', 'Shumai (höyrytettyä japanilaista dumplingia)', 'Matcha-tee']
-  }
-];
-
-function createMenuHTML(menu) {
-  let menuHTML = `<h2>${menu.date}</h2>`;
-  for (let dish of menu.dishes) {
-    menuHTML += `<p>${dish}</p>`;
-  }
-  return menuHTML;
-}
-
-const todaysMenuSection = document.getElementById('todays-menu');
-
-
 const currentDate = new Date();
-const currentDateString = currentDate.toLocaleDateString('fi-FI', { day: '2-digit', month: '2-digit' });
+const year = currentDate.getFullYear();
+const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // padStart will add a leading 0 if the month is a single digit
+const day = String(currentDate.getDate()).padStart(2, '0'); // padStart will add a leading 0 if the day is a single digit
+const currentDateString = `${year}-${month}-${day}`;
+function createMenuHTML(menu) {
+  const foodItems = menu.food_items.split(', ').join('<br>');
 
-console.log(currentDateString);
-
-const todaysMenu = menuData.find(menu => {
-  const menuDate = menu.date.split(' ')[1]; // This will get the date part after the weekday
-  return menuDate === currentDateString;
-});
-
-if (todaysMenu) {
-  todaysMenuSection.innerHTML = createMenuHTML(todaysMenu);
-} else {
-  todaysMenuSection.innerHTML = '<p>Ei menua tälle päivälle.</p>';
+  return `
+    <h2>Today's menu</h2>
+    <p>${foodItems}</p>
+  `;
 }
+fetch('http://127.0.0.1:3000/api/v1/menu/' + currentDateString)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('HTTP error ' + response.status);
+    }
+    return response.json();
+  })
+  .then(menuData => {
+    const todaysMenu = menuData.find(menu => {
+      console.log('Menu:', menu);
+      if (!menu.day) {
+        console.error('Menu does not have a day property:', menu);
+        return false;
+      }
+      return menu.day === currentDateString;
+    });
+  const todaysMenuSection = document.getElementById('todays-menu');
+  console.log('Todays menu:', todaysMenu);
+  if (todaysMenu) {
+    todaysMenuSection.innerHTML = createMenuHTML(todaysMenu);
+  } else {
+    todaysMenuSection.innerHTML = '<p>Ei menua tälle päivälle.</p>';
+  }
+
+  })
+  .catch(error => console.error('Error:', error));
 
 
 let INSTAGRAM_API_KEY;
@@ -78,7 +59,7 @@ async function getInstagramData() {
 
   const response = await fetch(`https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,thumbnail_url&access_token=${INSTAGRAM_API_KEY}`);
   const data = await response.json();
-  console.log('Instagram data:', data);
+  //console.log('Instagram data:', data);
   return data;
 }
 
