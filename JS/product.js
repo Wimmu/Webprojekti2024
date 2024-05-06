@@ -277,35 +277,42 @@ window.addEventListener('click', function (event) {
 // -------------------------- Cart Code ---------------------------------
 
 function addToCart(product) {
-  // Get the cart items from localStorage
-  let cartItems = localStorage.getItem('cartItems');
-  cartItems = cartItems ? JSON.parse(cartItems) : [];
+  const token = localStorage.getItem('token');
 
-  // Check if the product is already in the cart
-  const existingProductIndex = cartItems.findIndex(item => item.menuitem_id === product.menuitem_id);
-  if (existingProductIndex !== -1) {
-    // If the product is already in the cart, increment the quantity
-    cartItems[existingProductIndex].quantity++;
+  if (token) {
+    // Get the cart items from localStorage
+    let cartItems = localStorage.getItem('cartItems');
+    cartItems = cartItems ? JSON.parse(cartItems) : [];
+
+    // Check if the product is already in the cart
+    const existingProductIndex = cartItems.findIndex(item => item.menuitem_id === product.menuitem_id);
+    if (existingProductIndex !== -1) {
+      // If the product is already in the cart, increment the quantity
+      cartItems[existingProductIndex].quantity++;
+    } else {
+      // If the product is not in the cart, add it
+      const newItem = {
+        menuitem_id: product.menuitem_id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        description: product.description,
+        allergen: product.allergen,
+        quantity: 1
+      };
+      //console.log(newItem);
+      cartItems.push(newItem);
+    }
+
+    // Store the updated cart items in localStorage
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+    // Show a popup to the user
+    showToast('Tuote lisätty koriin');
   } else {
-    // If the product is not in the cart, add it
-    const newItem = {
-      menuitem_id: product.menuitem_id,
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      description: product.description,
-      allergen: product.allergen,
-      quantity: 1
-    };
-    //console.log(newItem);
-    cartItems.push(newItem);
+    window.location.href = 'login.html?message=Please%20login%20to%20add%20items%20to%20cart';
+    //alert('Please login to add items to cart');
   }
-
-  // Store the updated cart items in localStorage
-  localStorage.setItem('cartItems', JSON.stringify(cartItems));
-
-  // Show a popup to the user
-  showToast('Tuote lisätty koriin');
 }
 
 //-------------------------- Search Code ---------------------------------
