@@ -68,7 +68,7 @@ userRouter.route('/:id/orders')
 
 userRouter.route('/:identifier')
   .get(getUser) //Find user by ID or username
-  .put(upload.single('avatar'), putUser) //Modify user
+  .put(authenticateToken, upload.single('avatar'), putUser) //Modify user
   .delete(deleteUser); //Remove user
 
 export default userRouter;

@@ -17,6 +17,11 @@ h2 {
     margin: 0 auto;
 }
 
+.info {
+    margin: 0 auto;
+    width: 401px;
+}
+
 label {
     display: block;
     margin-bottom: 10px;
