@@ -177,6 +177,18 @@ h2 {
   justify-content: center;
 }
 
+
+.categoryContainer {
+  margin-top: 20px;
+  display: none;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.categoryContainer.visible {
+  display: flex;
+}
+
 .product {
     position: relative;
     width: calc(27% - 20px);

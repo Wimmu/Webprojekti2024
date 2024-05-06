@@ -60,6 +60,7 @@ async function createCategoryContainer() {
         categoryContainer = document.createElement('div');
         categoryContainer.classList.add('categoryContainer');
         categoryContainer.dataset.category = category;
+        categoryContainer.classList.add('visible'); // Add class to indicate category is visible
 
         const categoryTitle = document.createElement('h3');
         categoryTitle.classList.add('categoryTitle');
@@ -71,12 +72,12 @@ async function createCategoryContainer() {
 
       const productInfoBox = crateProductInfoBox(item);
       categoryContainer.appendChild(productInfoBox);
-
     });
   } catch (error) {
     console.error('Error fetching menu items:', error);
   }
 }
+
 
 
 function crateProductInfoBox(product) {
@@ -183,6 +184,29 @@ async function createAllergenCheckboxes() {
     });
   });
 }
+
+//Hide empty categories
+function hideEmptyCategories() {
+    const categories = document.querySelectorAll('.categoryContainer');
+    categories.forEach(category => {
+        const products = category.querySelectorAll('.product');
+        const visibleProducts = Array.from(products).filter(product => product.style.display !== 'none');
+
+        if (visibleProducts.length === 0) {
+            category.classList.remove('visible');
+        } else {
+            category.classList.add('visible');
+        }
+    });
+}
+
+function showCategories() {
+    const categories = document.querySelectorAll('.categoryContainer');
+    categories.forEach(category => {
+        category.classList.add('visible');
+    });
+}
+
 
 //-------------------------- Modal Code ---------------------------------
 
@@ -294,7 +318,9 @@ function search() {
         let productName = products[i].querySelector('h3').innerText.toLowerCase();
         if (!productName.includes(input)) {
             products[i].style.display = "none";
+            hideEmptyCategories();
         } else {
+            showCategories();
             products[i].style.display = "flex";
         }
     }
@@ -303,43 +329,47 @@ function search() {
 //-------------------------- Filter Code ---------------------------------
 
 function filterCategory() {
-    const categoryCheckboxes = document.querySelectorAll('.categoryCheck:checked');
-    const selectedCategories = Array.from(categoryCheckboxes).map(checkbox => checkbox.value);
-    const products = document.getElementsByClassName('product');
+  const categoryCheckboxes = document.querySelectorAll('.categoryCheck:checked');
+  const selectedCategories = Array.from(categoryCheckboxes).map(checkbox => checkbox.value);
+  const products = document.getElementsByClassName('product');
 
-    if (selectedCategories.length === 0) {
-        for (let i = 0; i < products.length; i++) {
-            products[i].style.display = "flex";
-        }
-        return;
-    }
-
+  if (selectedCategories.length === 0) {
     for (let i = 0; i < products.length; i++) {
-        let productCategory = products[i].parentNode.querySelector('.categoryTitle').innerText;
-        if (selectedCategories.includes(productCategory)) {
-            products[i].style.display = "flex";
-        } else {
-            products[i].style.display = "none";
-        }
+      products[i].style.display = "flex";
     }
+    showCategories(); // Show all categories when no filters are selected
+    return;
+  }
+
+  for (let i = 0; i < products.length; i++) {
+    let productCategory = products[i].parentNode.querySelector('.categoryTitle').innerText;
+    if (selectedCategories.includes(productCategory)) {
+      products[i].style.display = "flex";
+    } else {
+      products[i].style.display = "none";
+    }
+  }
+  hideEmptyCategories(); // Hide empty categories after applying filters
 }
 
-function filterAllergens() {
-    const allergenCheckboxes = document.querySelectorAll('.allergen-checkbox:checked');
-    const selectedAllergens = Array.from(allergenCheckboxes).map(checkbox => checkbox.value);
-    const products = document.getElementsByClassName('product');
 
-    if (selectedAllergens.length === 0) {
-        for (let i = 0; i < products.length; i++) {
-            products[i].style.display = "flex";
-        }
-        return;
+function filterAllergens() {
+  const allergenCheckboxes = document.querySelectorAll('.allergen-checkbox:checked');
+  const selectedAllergens = Array.from(allergenCheckboxes).map(checkbox => checkbox.value);
+  const products = document.getElementsByClassName('product');
+
+  if (selectedAllergens.length === 0) {
+    for (let i = 0; i < products.length; i++) {
+      products[i].style.display = "flex";
     }
+    showCategories(); // Show all categories when no allergen filters are selected
+    return;
+  }
 
   for (let i = 0; i < products.length; i++) {
     let productAllergensElement = products[i].querySelector('.allergens');
 
-    // Check if the product has an allergens element
+    // Check if the product has allergens
     if (productAllergensElement) {
       let productAllergens = productAllergensElement.innerText;
       let productAllergensArray = productAllergens.split(", ");
@@ -353,11 +383,14 @@ function filterAllergens() {
         products[i].style.display = "flex";
       }
     } else {
-      // If the product doesn't have an allergens element, display it
+      // If the product doesn't have allergens, display it
       products[i].style.display = "flex";
     }
   }
+
+  hideEmptyCategories(); // Hide empty categories after applying allergen filters
 }
+
 
 function filterPrice() {
   const priceSelector = document.getElementById('priceSelector');
