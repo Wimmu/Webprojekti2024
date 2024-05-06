@@ -246,10 +246,44 @@ li p {
   width: 100%;
 }
 
-.product button {
-    width: calc(90% - 40px);
+.product .buttons {
+    width: calc(95% - 40px);
     position: absolute;
     bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.product .button-modal {
+  flex: 3;
+}
+
+.product .button-cart {
+  flex: 1;
+}
+
+.product .button-modal button,
+.product .button-cart button {
+  width: 80%;
+  height: 20px;
+  cursor: pointer;
+}
+
+.product .addToCart img {
+    width: auto;
+    height: 15px;
+    margin-right: 10px;
+}
+
+@media screen and (max-width: 1000px) {
+  .product .buttons {
+    width: calc(93% - 40px);
+  }
+
+  .product .button-modal button,
+  .product .button-cart button {
+    width: 73%;
+  }
 }
 
 .modal {

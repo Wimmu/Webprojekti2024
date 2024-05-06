@@ -85,17 +85,33 @@ function crateProductInfoBox(product) {
     productInfoBox.onclick = () => openModal(product);
     productInfoBox.classList.add('productInfoBox');
 
-
     productInfoBox.innerHTML = `
-        <img src="/uploads/${product.image}" alt="${product.name}">
-        <h3>${product.name}</h3>
-        <p class="productDisciption">${product.description}</p>
-        <p class="allergens" hidden>${product.allergen}</p>
-        <div class=button-wrapper">
-           <p class="price">${product.price}€</p>
-           <button class="addToCart" onclick="openModal(${product.id})">More Info</button>
-        </div>
+      <img src="/uploads/${product.image}" alt="${product.name}">
+      <h3>${product.name}</h3>
+      <p class="productDisciption">${product.description}</p>
+      <p class="allergens" hidden>${product.allergen}</p>
+      <div class="button-wrapper">
+         <p class="price">${product.price}€</p>
+         <div class="buttons">
+           <div class="button-modal">
+             <button class="openModal" onclick="openModal(${product.id})">More Info</button>
+           </div>
+           <div class="button-cart">
+             <button class="addToCart">
+                <img src="../IMG/shopping_cart.png" alt="Add to Cart">
+             </button>
+           </div>
+         <div>
+      </div>
     `;
+
+    const addToCartButton = productInfoBox.querySelector('.addToCart');
+
+    addToCartButton.addEventListener('click', function(event) {
+        event.stopPropagation();
+        addToCart(product);
+    });
+
     return productInfoBox;
 }
 
@@ -198,38 +214,10 @@ function openModal(product) {
 
   // Add an event listener to the "Add to Cart" button
   addToCartButton.addEventListener('click', function(event) {
-    // Get the cart items from localStorage
-    let cartItems = localStorage.getItem('cartItems');
-    cartItems = cartItems ? JSON.parse(cartItems) : [];
-
-    // Check if the product is already in the cart
-    const existingProductIndex = cartItems.findIndex(item => item.menuitem_id === product.menuitem_id);
-    if (existingProductIndex !== -1) {
-        // If the product is already in the cart, increment the quantity
-        cartItems[existingProductIndex].quantity++;
-    } else {
-        // If the product is not in the cart, add it
-        const newItem = {
-            menuitem_id: product.menuitem_id,
-            name: product.name,
-            price: product.price,
-            image: product.image,
-            description: product.description,
-            allergen: product.allergen,
-            quantity: 1
-        };
-        //console.log(newItem);
-        cartItems.push(newItem);
-    }
-
-    // Store the updated cart items in localStorage
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-
-    // Show a popup to the user
-    showToast('Tuote lisätty koriin');
-});
-
+    addToCart(product);
+  });
 }
+
 function showToast(message) {
     // Create toast element
     const toast = document.createElement('div');
@@ -261,6 +249,40 @@ window.addEventListener('click', function (event) {
     }
 });
 
+
+// -------------------------- Cart Code ---------------------------------
+
+function addToCart(product) {
+  // Get the cart items from localStorage
+  let cartItems = localStorage.getItem('cartItems');
+  cartItems = cartItems ? JSON.parse(cartItems) : [];
+
+  // Check if the product is already in the cart
+  const existingProductIndex = cartItems.findIndex(item => item.menuitem_id === product.menuitem_id);
+  if (existingProductIndex !== -1) {
+    // If the product is already in the cart, increment the quantity
+    cartItems[existingProductIndex].quantity++;
+  } else {
+    // If the product is not in the cart, add it
+    const newItem = {
+      menuitem_id: product.menuitem_id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      description: product.description,
+      allergen: product.allergen,
+      quantity: 1
+    };
+    //console.log(newItem);
+    cartItems.push(newItem);
+  }
+
+  // Store the updated cart items in localStorage
+  localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+  // Show a popup to the user
+  showToast('Tuote lisätty koriin');
+}
 
 //-------------------------- Search Code ---------------------------------
 
