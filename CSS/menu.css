@@ -166,4 +166,27 @@
   justify-content: space-around;
 }
 
+#restaurant-select {
+  background-color: #faefee;
+  min-width: 160px;
+  max-height: 200px; /* Set a maximum height for the dropdown */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 8px 12px;
+  border: #e4babe 2px solid;
+  border-radius: 10px;
+}
+
+.chooseLocation {
+  text-align: center;
+  font-size: 1rem;
+  color: #5e606c;
+  margin-bottom: 20px;
+}
+
+.current-day {
+  border: #e1adb2 4px solid;
+  box-shadow: rgba(0, 0, 0, 0.22) 2px 2px 5px;
+}
+
+
 
