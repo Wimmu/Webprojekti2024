@@ -388,9 +388,17 @@ function filterPrice() {
   }
 }
 
+function closeFilter() {
+  const closeFilterElement = document.getElementById('closeFilter');
+  if (closeFilterElement) {
+    closeFilterElement.style.display = 'none';
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   const toggleFilterButton = document.getElementById('toggleFilterButton');
   const filterContainer = document.querySelector('.filter-container');
+  const filterCloseButton = document.getElementById('closeFilter');
   let isFilterOpen = false;
 
   toggleFilterButton.addEventListener('click', function() {
@@ -399,14 +407,22 @@ document.addEventListener('DOMContentLoaded', function() {
       isFilterOpen = false;
     } else {
       filterContainer.style.display = 'block';
+      filterCloseButton.style.display = 'block';
       isFilterOpen = true;
     }
   });
 
+  filterCloseButton.addEventListener('click', function() {
+    filterContainer.style.display = 'none';
+    isFilterOpen = false;
+  });
+
   function updateFilterDisplay() {
     if (window.innerWidth > 900) {
+      filterCloseButton.style.display = 'none';
       filterContainer.style.display = 'block';
     } else {
+      filterCloseButton.style.display = isFilterOpen ? 'none' : 'block';
       filterContainer.style.display = 'none';
     }
   }

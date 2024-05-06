@@ -15,6 +15,11 @@
   background-color: #fff;
 }
 
+#closeFilter {
+  display: none; /* Initially hide the close button */
+  cursor: pointer;
+}
+
 h5  {
     width: 100%;
     display: block;
@@ -93,12 +98,16 @@ h5  {
     position: fixed;
   }
 
-  .categoryFilters {
-    width: 100%; /* Ensure the filters take full width */
+  #closeFilter {
+    display: block; /* Show the close button on smaller screens */
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 30px;
   }
 
-  .categoryCheck {
-
+  .categoryFilters {
+    width: 100%; /* Ensure the filters take full width */
   }
 
   .allergens-filter {
@@ -205,6 +214,14 @@ h2 {
     height: 200px;
     object-fit: cover;
     border-radius: 20px;
+}
+
+.productDisciption {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Number of lines to show */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 5px;
 }
 
 h3  {

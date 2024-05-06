@@ -12,7 +12,7 @@ h2 {
 }
 
 .infoContainer {
-    padding: 20px 20px;
+    padding: 5px 20px;
     width: 401px;
     margin: 0 auto;
 }
@@ -29,6 +29,8 @@ label {
 
 input {
     width: 95%;
+    border-radius: 5px;
+    border-color: #d39a9a;
     padding: 10px;
     margin-bottom: 10px;
 }
