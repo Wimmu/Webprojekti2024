@@ -108,6 +108,7 @@ async function createCategoryCheckboxes() {
     const categoryName = category.category;
     if (!addedCategories[categoryName]) {
       const container = document.createElement('div');
+      container.className = 'filter-category-container';
 
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
@@ -143,6 +144,7 @@ async function createAllergenCheckboxes() {
     allergenNames.forEach(allergenName => {
       if (!addedAllergens[allergenName]) {
         const container = document.createElement('div');
+        container.className = 'allergen-container';
 
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
@@ -385,4 +387,33 @@ function filterPrice() {
       break;
   }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  const toggleFilterButton = document.getElementById('toggleFilterButton');
+  const filterContainer = document.querySelector('.filter-container');
+  let isFilterOpen = false;
+
+  toggleFilterButton.addEventListener('click', function() {
+    if (isFilterOpen) {
+      filterContainer.style.display = 'none';
+      isFilterOpen = false;
+    } else {
+      filterContainer.style.display = 'block';
+      isFilterOpen = true;
+    }
+  });
+
+  function updateFilterDisplay() {
+    if (window.innerWidth > 900) {
+      filterContainer.style.display = 'block';
+    } else {
+      filterContainer.style.display = 'none';
+    }
+  }
+
+  // Add event listener for window resize
+  window.addEventListener('resize', updateFilterDisplay);
+
+  updateFilterDisplay();
+});
 

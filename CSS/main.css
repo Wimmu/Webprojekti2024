@@ -21,12 +21,14 @@ body {
   flex-direction: column;
 }
 
-.logo {
-  margin-left: 20px;
-  height: 70px;
+header {
+  background-color: #e4babe;
+  color: #fff;
+  z-index: 1;
 }
 
-.container {
+.nav-container {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -34,30 +36,50 @@ body {
   padding-top: 10px;
 }
 
-header {
-  background-color: #e4babe;
-  color: #fff;
+.nav {
+  padding: 0 20px;
+  margin-top: 10px;
 }
 
-nav ul {
+.logo {
+  margin-left: 20px;
+  height: 70px;
+}
+
+.nav-links {
   list-style: none;
   display: flex;
   flex-direction: row;
   margin-right: 2rem;
 }
 
+.iconList {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+}
+
 .navButton {
   margin-right: 5px;
 }
 
-nav ul li a {
+.hamburger-menu {
+  display: none;
+  height: 70px;
+  cursor: pointer;
+  position: absolute;
+  margin-right: 15px;
+  right: 20px;
+}
+
+.nav-links li a {
   color: #000000;
   text-decoration: none;
   padding: 10px 15px;
   font-size: 18px;
 }
 
-nav ul li a:hover {
+.nav-links li a:hover {
   background-color: #faefee;
   border-radius: 20px;
 }
@@ -77,6 +99,34 @@ nav ul li a:hover {
 .profile-icon-image {
   height: 20px;
 }
+
+@media screen and (max-width: 700px) {
+  .nav {
+    display: none;
+    position: absolute;
+    top: 70px;
+    width: 100%;
+    padding-bottom: 20px;
+    justify-content: center; /* Align content to the center on smaller screens */
+    background-color: #e4babe;
+  }
+
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .iconList {
+    justify-content: center;
+  }
+
+  .hamburger-menu {
+    display: block;
+  }
+}
+
 
 main {
   padding: 5px 20px 20px;
@@ -125,9 +175,5 @@ footer {
 @media screen and (max-width: 600px) {
   main {
     width: auto;
-  }
-
-  nav ul li {
-    display: none;
   }
 }
