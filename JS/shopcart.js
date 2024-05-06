@@ -15,9 +15,42 @@ class ShoppingCart {
   }
 
   async fetchUserId() {
-    const userData = await this.fetchUsers();
-    if (userData && userData.user && userData.user.user_id) {
-      this.userId = userData.user.user_id;
+    try {
+      const userData = await this.fetchUsers();
+      if (userData && userData.user && userData.user.user_id) {
+        this.userId = userData.user.user_id;
+      } else {
+        console.error('User ID not found in user data:', userData);
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  }
+
+  async fetchCurrentUser() {
+    try {
+      const token = localStorage.getItem('token');
+
+      if (!token || !this.userId) {
+        console.error('No token or user ID found');
+        return;
+      }
+
+      const url = `http://127.0.0.1:3000/api/v1/users/${this.userId}`; // Use this.userId here
+      const options = {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      };
+
+      const response = await fetch(url, options);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}, URL: ${response.url}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching current user:', error);
     }
   }
 
@@ -48,6 +81,9 @@ class ShoppingCart {
       console.error('Error fetching user data:', error);
     }
   }
+
+
+
   clearCart() {
     // Clear items array
     const token = localStorage.getItem('token');
@@ -140,33 +176,31 @@ class ShoppingCart {
   ${this.items
     .map(
       (item) => `
-    <div class="product">
-      <div class="product-image">
-        <img src="/uploads/${item.image}" alt="${item.name}">
+      <div class="product">
+        <div class="product-image">
+          <img src="/uploads/${item.image}" alt="${item.name}">
+        </div>
+        <div class="product-details">
+          <div class="product-title">${item.name}</div>
+        </div>
+        <div class="product-line-price">
+          <label>Total</label>
+          ${(item.price * item.quantity).toFixed(2)} €
+        </div>
+        <div class="product-quantity">
+          <label>Quantity</label>
+          <input type="number" value="${item.quantity}" min="1" data-name="${item.name}">
+        </div>
+        <div class="product-removal">
+          <button class="remove-product" data-name="${item.name}">
+            Remove
+          </button>
+        </div>
+        <div class="product-price">
+          <label>Price</label>
+          ${item.price} €
+        </div>
       </div>
-      <div class="product-details">
-        <div class="product-title">${item.name}</div>
-      </div>
-      <div class="product-price">
-        <label>Price</label>
-        ${item.price} €
-      </div>
-      <div class="product-quantity">
-        <label>Quantity</label>
-        <input type="number" value="${item.quantity}" min="1" data-name="${
-        item.name
-      }">
-      </div>
-      <div class="product-removal">
-        <button class="remove-product" data-name="${item.name}">
-          Remove
-        </button>
-      </div>
-    <div class="product-line-price">
-      <label>Total</label>
-      ${(item.price * item.quantity).toFixed(2)} €
-    </div>
-    </div>
   `
     )
     .join("")}
@@ -240,7 +274,30 @@ document.querySelector('.checkout').addEventListener('click', function() {
       this.recalculateCart();
     }
   }
+
 }
+window.onload = async function() {
+  try {
+    // Create an instance of ShoppingCart
+    const cart = new ShoppingCart();
+
+    // Call fetchUsers function
+    await cart.fetchUserId();
+    const userData = await cart.fetchCurrentUser();
+
+
+    if (userData) { // Check if userData exists
+      document.getElementById('name').value = userData.username || '';
+      document.getElementById('email').value = userData.email || '';
+      document.getElementById('phone').value = userData.phone || '';
+      document.getElementById('address').value = userData.address || '';
+    } else {
+      console.error('User data not found:', userData);
+    }
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+  }
+};
 
 
 const cart = new ShoppingCart();
@@ -250,6 +307,8 @@ const cart = new ShoppingCart();
 // });
 //cart.addItem("Sushi Set 1", 10, "../images/product2.png");
 //cart.addItem("Sushi Set 2", 15, "../images/product1.jpg");
+
+
 
 document.body.addEventListener("click", (event) => {
   if (event.target.classList.contains("add")) {
@@ -274,21 +333,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
     cart.displayCart();
   }
 });
-// JavaScript code to pre-fill the form
-window.onload = function() {
-  document.getElementById('name').value = 'John Doe';
-  document.getElementById('email').value = 'john.doe@example.com';
-  document.getElementById('phone').value = '1234567890';
-  document.getElementById('address').value = '123 Main St';
-  document.getElementById('city').value = 'Anytown';
-  document.getElementById('zipcode').value = '0000';
-  // Add other fields as needed
-  document.getElementById('card-number').value = '1234 5678 9012 3456';
-  document.getElementById('expiry').value = '12/24';
-  document.getElementById('cvv').value = '123';
-};
 
 const checkoutForm = document.getElementById('checkout-form');
+for (let i = 0; i < localStorage.length; i++) {
+  const key = localStorage.key(i);
+  const value = localStorage.getItem(key);
+  //console.log(`${key}: ${value}`);
+}
 
 
 checkoutForm.addEventListener('submit', async function(event) {
@@ -297,11 +348,12 @@ checkoutForm.addEventListener('submit', async function(event) {
   // Disable the submit button to prevent multiple submissions
   const submitButton = checkoutForm.querySelector('button[type="submit"]');
   submitButton.disabled = true;
-
+  const restaurantId = document.getElementById('restaurant').value;
   const formData = {};
 
   // Populate formData with form data
-
+  formData.restaurantId = restaurantId;
+  
   // Add the user ID to the formData
   formData.userId = cart.userId;
 
@@ -357,7 +409,7 @@ checkoutForm.addEventListener('submit', async function(event) {
     // After a delay, redirect the user to the profile page
     setTimeout(function() {
       window.location.href = '../HTML/profile.html';
-    }, 3000); // Adjust the delay as needed (3 seconds in this example)
+    }, 2000); // Adjust the delay as needed (3 seconds in this example)
   } catch (error) {
     console.error('Error:', error);
 

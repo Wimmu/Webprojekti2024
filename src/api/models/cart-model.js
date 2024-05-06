@@ -1,10 +1,10 @@
 import promisePool from '../../utils/database.js';
 
-const addOrder = async (userId, totalCost, date, status) => {
+const addOrder = async (userId, restaurantId, totalCost, date, status) => {
   try {
     const [rows] = await promisePool.execute(
-      'INSERT INTO `order` (user_id, total_cost, date, status) VALUES (?, ?, ?, ?)',
-      [userId, totalCost, date, status]
+      'INSERT INTO `order` (user_id, restaurant_id, total_cost, date, status) VALUES (?, ?, ?, ?, ?)',
+      [userId, restaurantId, totalCost, date, status]
     );
     return rows;
   } catch (error) {

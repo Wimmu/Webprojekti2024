@@ -1,22 +1,25 @@
 section {
-    width: 100%;
-    padding: 20px;
-    /* Add padding to the section */
+ width: 100%;
+  margin: 0 auto;
+  /* Add this line to horizontally center the section */
+  padding: 20px;
+  /* Add padding to the section */
 }
 
 .centered-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 20px;
-    /* Add space between flex items */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  /* Add space between flex items */
 }
 
 #kori-heading {
-    text-align: left;
-    margin-bottom: 20px;
-    /* Add space below the heading */
+  text-align: center;
+  /* Center the heading */
+  margin-bottom: 20px;
+  /* Add space below the heading */
 }
 
 .shopping-cart {
@@ -74,9 +77,10 @@ section {
 }
 
 .product img {
-  width: 100px;
-  /* Adjust image width */
-  height: auto;
+  width: 150px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 .product-details {
@@ -103,21 +107,15 @@ section {
 
 #add-item-container {
   text-align: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
-@media (min-width: 600px) {
-  .product {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+@media (min-width: 700px) {
 
-  .product img {
-    width: auto;
-    height: 150px;
-  }
 }
-
 /* Additional styles for checkout form */
 fieldset {
   border: none;
@@ -129,8 +127,11 @@ fieldset {
   padding: 10px;
   border: none;
   background-color: #fcfcfc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
-
 #checkout-form label {
   display: block;
   margin-bottom: 5px;
