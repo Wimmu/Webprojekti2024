@@ -13,9 +13,9 @@
   <body>
   <header class="header">
     <div class="nav-container">
-      <div class="logo-container">
+      <a class="logo-container" href="index.html">
         <img class="logo" src="../IMG/Asian%20Flavor%20Logo%20Black.png" alt="logo">
-      </div>
+      </a>
       <nav class="nav">
         <ul id="nav-links" class="nav-links">
           <li class="navButton"><a href="index.html">Home</a></li>
@@ -45,6 +45,12 @@
         <div id="form-container"></div>
     <form id="checkout-form" style="display: none;">
   <h2>Checkout</h2>
+  <label for="restaurant">Choose a restaurant:</label>
+  <select id="restaurant" name="restaurant" required>
+    <option value="">Select...</option>
+    <option value="1">Restaurant 1</option>
+    <option value="2">Restaurant 2</option>
+  </select>
 
   <!-- Customer Information -->
   <fieldset>

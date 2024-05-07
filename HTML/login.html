@@ -15,9 +15,9 @@
 <body>
 <header class="header">
   <div class="nav-container">
-    <div class="logo-container">
+    <a class="logo-container" href="index.html">
       <img class="logo" src="../IMG/Asian%20Flavor%20Logo%20Black.png" alt="logo">
-    </div>
+    </a>
     <nav class="nav">
       <ul id="nav-links" class="nav-links">
         <li class="navButton"><a href="index.html">Home</a></li>
@@ -41,12 +41,10 @@
         <div class="infoContainer" id="username-container">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username">
-            <p><a href="newUser.html">Register</a></p>
         </div>
         <div class="infoContainer"  id="password-container">
             <label for="password">Password:</label>
             <input type="password" id="password" name="password">
-            <p><a href="newPassword.html">Forgot your password?</a></p>
         </div>
         <div class="infoContainer" id="login-container">
           <button id="login-button">Login</button>
@@ -55,6 +53,10 @@
           <p id="error-message" class="error-message"></p>
         </div>
     </form>
+    <div class="info" id="register-container">
+        <p class="p1"><a href="newUser.html">Register here</a></p>
+        <p class="p2"><a href="newPassword.html">Forgot your password?</a></p>
+    </div>
 </main>
 <object type="text/html" data="footer.html" style="width:100%"></object>
 </body>

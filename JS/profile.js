@@ -498,3 +498,4 @@ document.getElementById('profile-picture-input').addEventListener('change', func
   reader.readAsDataURL(file);
 });
 
+

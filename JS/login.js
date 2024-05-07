@@ -34,6 +34,52 @@ async function getLoginParams(event) {
   await login(username, password);
 }
 
+function showToast(message) {
+  // Create toast element
+  const toast = document.createElement('div');
+  toast.id = 'toast';
+  toast.textContent = message;
+
+  // Add toast to body
+  document.body.appendChild(toast);
+
+  // Show toast
+  toast.className = 'show';
+
+  // After 3 seconds, remove the show class from toast
+  setTimeout(function(){
+    toast.className = toast.className.replace('show', '');
+    // After the toast has disappeared, redirect to login page
+    setTimeout(function() {
+      window.location.href = 'login.html';
+    }, 500);
+  }, 3000);
+
+  // After the toast has disappeared, remove it from the DOM
+  setTimeout(function(){
+    document.body.removeChild(toast);
+  }, 3500);
+}
+
+
+function getParameterByName(name, url) {
+  if (!url) url = window.location.href;
+  name = name.replace(/[\[\]]/g, '\\$&');
+  const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+    results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+// Get the message from the URL
+const message = getParameterByName('message');
+
+// Display the message
+if (message) {
+  showToast(message); // You can use other methods to display the message, such as a modal
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   const loginButton = document.getElementById('login-button');
   loginButton.addEventListener('click', getLoginParams);

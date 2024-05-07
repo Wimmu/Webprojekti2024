@@ -8,9 +8,9 @@ import {
 const postOrder = async (req, res) => {
   try {
     const userId = req.body.userId;
-    const { totalCost, status } = req.body;
+    const { totalCost, status , restaurantId} = req.body;
     const date = new Date(); // or get it from req.body if it's provided
-    const order = await addOrder(userId, totalCost, date, status);
+    const order = await addOrder(userId, restaurantId, totalCost, date, status);
     //console.log(order);
 
     // Send the order ID along with the response
