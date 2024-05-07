@@ -1,3 +1,13 @@
+
+main {
+    margin-top: 30px;
+    padding-bottom: 20px;
+    width: 100%;
+    max-width: 800px;
+    background-color: white;
+    border-radius: 10px;
+}
+
 section {
     width: 100%;
     margin-top: 40px;
@@ -6,13 +16,14 @@ section {
 
 h2 {
     width: auto;
+    margin-top: 20px;
     margin-bottom: 20px;
     font-size: 25px;
     text-align: center;
 }
 
 .infoContainer {
-    padding: 20px 20px;
+    padding: 5px 20px;
     width: 401px;
     margin: 0 auto;
 }
@@ -28,9 +39,23 @@ label {
 }
 
 input {
-    width: 95%;
-    padding: 10px;
-    margin-bottom: 10px;
+  width: 100%;
+  font-size: 16px;
+  text-align: left;
+  margin-right: 10px;
+  border: 2px solid #e4babe;
+  background-color: #f8eded;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+input:disabled {
+  border: none;
+  background-color: transparent;
+  width: auto;
+  font-size: 16px;
+  color: inherit;
+  text-align: left;
 }
 
 main a {
@@ -44,14 +69,14 @@ main a:hover {
 }
 
 button {
-    width: 90%;
+    width: 95%;
     margin-top: 20px;
     text-align: center;
 }
 
 @media screen and (max-width: 600px){
     main {
-        margin: 0;
+        width: 85%;
     }
 
     section {
@@ -83,15 +108,37 @@ button {
 
 .p1 {
     margin-top: 10px;
-    margin-bottom: 20px;
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
+    margin-bottom: 10px;
 }
 
 .p2 {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-size: 16px;
-    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 15px;
 }
+
+#user-form {
+  margin-bottom: 20px;
+}
+
+#toast {
+  visibility: hidden;
+  min-width: 200px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 20px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  top: 200px;
+  font-size: 17px;
+  transition: visibility 0.5s, opacity 0.5s linear;
+}
+
+#toast.show {
+  visibility: visible;
+  opacity: 1;
+}
+

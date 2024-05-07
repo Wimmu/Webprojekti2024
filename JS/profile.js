@@ -68,6 +68,24 @@ async function fetchOrders(userId) {
   }
 }
 
+async function fetchAllOrders() {
+  try {
+    const response = await fetch(`http://127.0.0.1:3000/api/v1/orders`);
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching items:', error);
+  }
+}
+
+async function fetchUser(user_id) {
+  try {
+    const response = await fetch(`http://127.0.0.1:3000/api/v1/users/${user_id}`);
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching items:', error);
+  }
+}
+
 async function fetchOrderItemsByOrderId(orderId){
   try {
     const response = await fetch(`http://127.0.0.1:3000/api/v1/items/orderItems/${orderId}`);
@@ -165,7 +183,6 @@ function toggleProfileEdit() {
     });
   } else {
     uploadImage.style.display = 'none';
-    editButton.innerText = "Edit Account Details";
     saveAccountDetails();
   }
 }
@@ -189,9 +206,10 @@ async function saveAccountDetails() {
     const email = userDetails.querySelector('p:nth-child(4) input').value;
     const address = userDetails.querySelector('p:nth-child(6) input').value;
     const phone = userDetails.querySelector('p:nth-child(5) input').value;
+    const editButton = document.querySelector(".editAccountDetailsBtn");
+    const errorMessage = document.getElementById('edit-account-error-text');
 
     if (!username || !first_name || !last_name || !email || !address || !phone) {
-      const errorMessage = document.getElementById('edit-account-error-text');
       errorMessage.innerText = 'All fields are required!';
       return;
     }
@@ -199,6 +217,13 @@ async function saveAccountDetails() {
     if (!email.includes('@')) {
       const errorMessage = document.getElementById('edit-account-error-text');
       errorMessage.innerText = 'Invalid email address!';
+      return;
+    }
+
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.error('No token found');
       return;
     }
 
@@ -219,11 +244,17 @@ async function saveAccountDetails() {
     const response = await fetch(`http://127.0.0.1:3000/api/v1/users/${userId}`, {
       method: 'PUT',
       body: formData, // Send the form data directly
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+
     });
 
     if (response.ok) {
       showNotification('Account details saved!');
       placeProfileData(); // Refresh the profile data after saving
+      editButton.innerText = "Edit Account Details";
+      errorMessage.innerText = '';
     } else {
       console.error('Failed to save account details');
     }
@@ -232,23 +263,57 @@ async function saveAccountDetails() {
   }
 }
 
+
 // --------------------- ORDER HISTORY ----------------------------- //
+
+// Update order status
+async function updateOrderStatus(orderId) {
+  try {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.error('No token found');
+      return;
+    }
+
+    const url = `http://127.0.0.1:3000/api/v1/orders/${orderId}/items`;
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({ status: 'delivered' }) // Change status to delivered
+    };
+
+    const response = await fetch(url, options);
+    if (response.ok) {
+      showNotification('Order delivered!');
+      placeOrderData(); // Refresh order data after updating status
+    } else {
+      console.error('Failed to update order status');
+    }
+  } catch (error) {
+    console.error('Error updating order status:', error);
+  }
+}
+
 // Fetch order data and place it in the order history
 async function placeOrderData() {
   try {
-    const orderData = await fetchOrders(userId);
-
-    orderData.sort((a, b) => new Date(b.date) - new Date(a.date));
-
     const orderHistory = document.getElementById('order-history');
     orderHistory.innerHTML = '';
 
-    if (orderData.length === 0) {
-      const noOrdersMessage = document.createElement('p');
-      noOrdersMessage.textContent = 'No orders yet';
-      orderHistory.appendChild(noOrdersMessage);
-    } else {
-      for (const order of orderData) {
+    // Check if the user is an admin
+    if (userRole === 'admin') {
+      document.getElementById('order-history-header').innerText = 'Customer orders:';
+      // Fetch all orders
+      const allOrders = await fetchAllOrders();
+      // Sort orders by date (newest to oldest)
+      allOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
+      // Display all orders
+      for (const order of allOrders) {
+        const user = await fetchUser(order.user_id);
         const orderDiv = document.createElement('div');
         orderDiv.classList.add('order');
         const orderTop = document.createElement('div');
@@ -258,10 +323,51 @@ async function placeOrderData() {
         const orderItems = await fetchOrderItemsByOrderId(order.order_id);
         orderTop.innerHTML = `<h3>${orderDate}</h3><h3>${orderStatus}</h3>`;
         const orderInfo = document.createElement('div');
-        orderInfo.innerHTML = `<p>Order ID: ${order.order_id}</p><p>Products: ${orderItems}</p>`;
+        orderInfo.innerHTML =
+          `<p>Order ID: ${order.order_id}</p>
+            <p>Customer: ${user.first_name + " " + user.last_name}</p>
+            <p>Delivery address: ${user.address}</p>
+            <p>Products: ${orderItems}</p>`;
         orderDiv.appendChild(orderTop);
         orderDiv.appendChild(orderInfo);
+
+        // Allow admin to change order status from pending to delivered
+        if (order.status === 'pending') {
+          const deliverButton = document.createElement('button');
+          deliverButton.innerText = 'Deliver to customer';
+          deliverButton.addEventListener('click', () => updateOrderStatus(order.order_id));
+          orderDiv.appendChild(deliverButton);
+        }
+
         orderHistory.appendChild(orderDiv);
+      }
+    } else {
+      // Fetch orders only for the current user
+      const orderData = await fetchOrders(userId);
+      // Sort orders by date (newest to oldest)
+      orderData.sort((a, b) => new Date(b.date) - new Date(a.date));
+      // Display orders for the current user
+      if (orderData.length === 0) {
+        const noOrdersMessage = document.createElement('p');
+        noOrdersMessage.style.textAlign = 'center';
+        noOrdersMessage.innerHTML = 'No orders yet, <a href="../HTML/products.html">make your first order here</a>!';
+        orderHistory.appendChild(noOrdersMessage);
+      } else {
+        for (const order of orderData) {
+          const orderDiv = document.createElement('div');
+          orderDiv.classList.add('order');
+          const orderTop = document.createElement('div');
+          orderTop.classList.add('order-top');
+          const orderDate = new Date(order.date).toLocaleDateString('en-GB');
+          const orderStatus = order.status.charAt(0).toUpperCase() + order.status.slice(1);
+          const orderItems = await fetchOrderItemsByOrderId(order.order_id);
+          orderTop.innerHTML = `<h3>${orderDate}</h3><h3>${orderStatus}</h3>`;
+          const orderInfo = document.createElement('div');
+          orderInfo.innerHTML = `<p>Order ID: ${order.order_id}</p><p>Products: ${orderItems}</p>`;
+          orderDiv.appendChild(orderTop);
+          orderDiv.appendChild(orderInfo);
+          orderHistory.appendChild(orderDiv);
+        }
       }
     }
 
@@ -270,6 +376,8 @@ async function placeOrderData() {
     console.error('Error fetching order data:', error);
   }
 }
+
+
 
 // --------------------- MEAL OF THE DAY ----------------------------- //
 // Fetch menu items and place them in the dropdown

@@ -15,6 +15,11 @@
   background-color: #fff;
 }
 
+#closeFilter {
+  display: none; /* Initially hide the close button */
+  cursor: pointer;
+}
+
 h5  {
     width: 100%;
     display: block;
@@ -93,12 +98,16 @@ h5  {
     position: fixed;
   }
 
-  .categoryFilters {
-    width: 100%; /* Ensure the filters take full width */
+  #closeFilter {
+    display: block; /* Show the close button on smaller screens */
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 30px;
   }
 
-  .categoryCheck {
-
+  .categoryFilters {
+    width: 100%; /* Ensure the filters take full width */
   }
 
   .allergens-filter {
@@ -168,6 +177,18 @@ h2 {
   justify-content: center;
 }
 
+
+.categoryContainer {
+  margin-top: 20px;
+  display: none;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.categoryContainer.visible {
+  display: flex;
+}
+
 .product {
     position: relative;
     width: calc(27% - 20px);
@@ -207,6 +228,14 @@ h2 {
     border-radius: 20px;
 }
 
+.productDisciption {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Number of lines to show */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
 h3  {
     font-size: 20px;
     margin-top: 10px;
@@ -229,10 +258,44 @@ li p {
   width: 100%;
 }
 
-.product button {
-    width: calc(90% - 40px);
+.product .buttons {
+    width: calc(95% - 40px);
     position: absolute;
     bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.product .button-modal {
+  flex: 3;
+}
+
+.product .button-cart {
+  flex: 1;
+}
+
+.product .button-modal button,
+.product .button-cart button {
+  width: 80%;
+  height: 20px;
+  cursor: pointer;
+}
+
+.product .addToCart img {
+    width: auto;
+    height: 15px;
+    margin-right: 10px;
+}
+
+@media screen and (max-width: 1000px) {
+  .product .buttons {
+    width: calc(93% - 40px);
+  }
+
+  .product .button-modal button,
+  .product .button-cart button {
+    width: 73%;
+  }
 }
 
 .modal {

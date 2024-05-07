@@ -40,4 +40,27 @@ const addOrderItem = async (menuitemId, orderId, quantity) => {
   }
 };
 
-export { getOrdersByUser, addOrderItem, addOrder };
+const getOrders = async () => {
+  try {
+    const [rows] = await promisePool.execute('SELECT * FROM `order` WHERE status = "pending"');
+    return rows;
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    throw error;
+  }
+};
+
+const modifyOrder = async (status, orderId) => {
+  try {
+    const [rows] = await promisePool.execute(
+      'UPDATE `order` SET status = ? WHERE order_id = ?',
+      [status, orderId]
+    );
+    return rows;
+  } catch (error) {
+    console.error('Error modifying order:', error);
+    throw error;
+  }
+};
+
+export { getOrdersByUser, addOrderItem, addOrder, getOrders, modifyOrder };

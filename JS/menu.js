@@ -15,6 +15,20 @@ async function fetchCurrentWeekMenu(currentWeek) {
   }
 }
 
+async function fetchCurrentWeekMenuForRestaurant(currentWeek, restaurantId) {
+  const startDate = currentWeek.start;
+  const endDate = currentWeek.end;
+
+  try {
+    const response = await fetch(`http://127.0.0.1:3000/api/v1/menu?start_date=${startDate}&end_date=${endDate}&restaurant_id=${restaurantId}`);
+    const data = await response.json();
+    displayMenuForWeek(data);
+  } catch (error) {
+    console.error("Error fetching menu for the current week:", error);
+  }
+}
+
+
 // Displays the menu for the current week
 function displayMenuForWeek(menuData) {
   const menuContainer = document.getElementById("menu-container");
@@ -31,6 +45,8 @@ function displayMenuForWeek(menuData) {
   menuContainer.appendChild(bottomRowContainer);
 
   let count = 0;
+
+  const today = getDayText(new Date()); // Get the current day
 
   days.forEach(day => {
     const dayMenu = menuData.find(menu => getDayText(menu.day) === day);
@@ -64,6 +80,10 @@ function displayMenuForWeek(menuData) {
       dayContainer.appendChild(noMenuText);
     }
 
+    if (day === today) { // Check if it's the current day
+      dayContainer.classList.add("current-day"); // Add a class to highlight the current day
+    }
+
     if (count < 4) {
       topRowContainer.appendChild(dayContainer);
     } else {
@@ -89,14 +109,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   const restaurantSelect = document.getElementById("restaurant");
   const itemsSelect = document.getElementById("items");
   const currentWeek = getCurrentWeek();
+  const restaurantMenuSelect = document.getElementById("restaurant-select");
 
-  const userData = await fetchCurrentUser();
-
-  const isAdmin = userData.role === 'admin';
-
-  // Hide the edit button if the user is not an admin
-  if (!isAdmin) {
+  if (localStorage.getItem('token') === null) {
     adminButton.style.display = 'none';
+  } else {
+    const userData = await fetchCurrentUser();
+
+    const isAdmin = userData.user.role === 'admin';
+
+    if (!isAdmin) {
+      adminButton.style.display = 'none';
+    }
   }
 
 
@@ -119,6 +143,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     fetchMenuForDateAndRestaurant(selectedDate, restaurantId);
   });
 
+  restaurantMenuSelect.addEventListener("change", () => {
+    const selectedRestaurant = restaurantMenuSelect.value;
+    fetchCurrentWeekMenuForRestaurant(currentWeek, selectedRestaurant);
+  });
+
   // Fetch initial data
   await fetchCurrentWeekMenu(currentWeek);
   await fetchRestaurants();
@@ -134,6 +163,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         option.value = restaurant.restaurant_id;
         option.textContent = restaurant.name;
         restaurantSelect.appendChild(option);
+        restaurantMenuSelect.appendChild(option.cloneNode(true));
       }
     } catch (error) {
       console.error("Error fetching restaurants:", error);
@@ -244,10 +274,15 @@ function displayMenuForDate(menuData) {
 }
 
 // Returns the current week's start and end dates
+// Returns the current week's start and end dates
 function getCurrentWeek() {
   const today = new Date();
-  const firstDayOfWeek = new Date(today.setDate(today.getDate() - today.getDay() + 1)); // Adjusted
-  const lastDayOfWeek = new Date(today.setDate(today.getDate() - today.getDay() + 7)); // Adjusted
+  const firstDayOfWeek = new Date(today);
+  firstDayOfWeek.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1));
+
+  const lastDayOfWeek = new Date(today);
+  lastDayOfWeek.setDate(today.getDate() - today.getDay() + 7 + (today.getDay() === 0 ? -6 : 1));
+
   return {
     start: firstDayOfWeek.toISOString().split('T')[0],
     end: lastDayOfWeek.toISOString().split('T')[0]

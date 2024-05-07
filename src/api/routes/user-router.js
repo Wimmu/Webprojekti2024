@@ -19,7 +19,6 @@ const storage = multer.diskStorage({
     cb(null, 'uploads/');
   },
   filename: function (req, file, cb) {
-    console.log("FILE IN STORAGE", file)
     const suffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
 
     const originalFilename = file.originalname.split('.')[0].toLowerCase();
@@ -31,7 +30,7 @@ const storage = multer.diskStorage({
       extension = 'png';
     }
 
-    console.log("FILE IN STORAGE", file)
+    //console.log("FILE IN STORAGE", file)
 
     const filename = `${prefix}-${suffix}.${extension}`;
 
