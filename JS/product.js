@@ -117,6 +117,10 @@ function crateProductInfoBox(product) {
 }
 
 async function createCategoryCheckboxes() {
+  const urlParams = new URLSearchParams(window.location.search);
+  console.log(urlParams);
+  const categoryParam = urlParams.get('category');
+
   const categories = await fetchCategories();
   const categoryFilterDiv = document.getElementById('categoryFilters');
   const addedCategories = {};
@@ -134,6 +138,10 @@ async function createCategoryCheckboxes() {
       checkbox.className = 'categoryCheck';
       checkbox.onclick = filterCategory;
 
+      if (categoryName === categoryParam) {
+        checkbox.checked = true; // Pre-select checkbox for drinks
+      }
+
       const label = document.createElement('label');
       label.htmlFor = categoryName;
       label.innerText = categoryName;
@@ -147,6 +155,9 @@ async function createCategoryCheckboxes() {
       addedCategories[categoryName] = true;
     }
   });
+
+  // Call the filterCategory function to filter the products based on the checked categories
+  filterCategory();
 }
 
 async function createAllergenCheckboxes() {
