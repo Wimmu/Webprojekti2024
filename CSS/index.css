@@ -90,14 +90,6 @@ section {
   /* Remove underlines from menu links */
 }
 
-@media (min-width: 600px) {
-  .text-container {
-    width: 45%;
-    margin: 40px 0;
-  }
-
-}
-
 #todays-menu {
   text-align: center;
   font-size: 2rem;
@@ -196,6 +188,7 @@ section {
   text-align: center;
   opacity: 0; /* Hide the caption initially */
   transition: opacity 0.3s; /* Smooth transition */
+  padding: 10px;
 }
 
 .img-container:hover .caption {
@@ -220,4 +213,26 @@ section {
   min-height: 100%;
   z-index: -1;
   opacity: 0.9;
+}
+@media (max-width: 768px) {
+  .menu-items {
+    grid-template-columns: 1fr; /* Display items in one column */
+  }
+
+  #instapics {
+    grid-template-columns: repeat(1, 1fr); /* Display Instagram pictures in two columns */
+  }
+
+  .text-container,
+  .container2 {
+    flex-direction: column; /* Stack items vertically */
+    align-items: flex-start; /* Align items to the start */
+  }
+
+  .menu-item img,
+  .item img,
+  .img-container img {
+    width: 100%; /* Make images take up the full width */
+    height: auto; /* Let the height adjust automatically */
+  }
 }
