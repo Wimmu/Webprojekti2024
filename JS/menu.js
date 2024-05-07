@@ -190,6 +190,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   function addItem() {
     const items = document.getElementById("items");
     const selectedItemsDiv = document.getElementById("selected-items");
+    const errorMessage = document.getElementById("error-message");
+
+    if (selectedItems.length >= 6) {
+      errorMessage.textContent = "You can only select a maximum of 6 items.";
+      return;
+    }
 
     for (let i = 0; i < items.selectedOptions.length; i++) {
       const selectedItem = items.selectedOptions[i].text;
@@ -295,6 +301,22 @@ function addMenu() {
   const restaurantId = restaurant.value;
 
   const date = document.getElementById('date').value;
+
+  if (selectedItems.length === 0) {
+    document.getElementById('error-message').innerText = 'Please add items to the menu first.';
+    return;
+  }
+
+  document.getElementById('error-message').innerText = '';
+
+  if (!date) {
+    document.getElementById('error-message').innerText = 'Please select a date.';
+    return;
+  }
+
+
+
+
   const foodItems = selectedItems.join(', ');
 
   const data = {

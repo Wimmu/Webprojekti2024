@@ -18,7 +18,7 @@ const getAllItems = async (req, res) => {
 };
 
 const postItem = async (req, res) => {
-
+  console.log('req.body', req.body);
   const result = await addItem(req.body, req.file);
   console.log('result', result);
   if (result.menuitem_id) {

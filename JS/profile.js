@@ -324,10 +324,10 @@ async function placeOrderData() {
         orderTop.innerHTML = `<h3>${orderDate}</h3><h3>${orderStatus}</h3>`;
         const orderInfo = document.createElement('div');
         orderInfo.innerHTML =
-          `<p>Order ID: ${order.order_id}</p>
-            <p>Customer: ${user.first_name + " " + user.last_name}</p>
-            <p>Delivery address: ${user.address}</p>
-            <p>Products: ${orderItems}</p>`;
+          `<p><strong>Order ID:</strong> ${order.order_id}</p>
+            <p><strong>Customer:</strong> ${user.first_name + " " + user.last_name}</p>
+            <p><strong>Delivery address:</strong> ${user.address}</p>
+            <p><strong>Products:</strong> ${orderItems}</p>`;
         orderDiv.appendChild(orderTop);
         orderDiv.appendChild(orderInfo);
 
@@ -501,6 +501,21 @@ document.getElementById('productImage').addEventListener('change', function() {
 // Save a new product
 function saveProduct() {
   const form = document.getElementById('addProductForm');
+  const productName = form.querySelector('#productName').value.trim();
+  const productDescription = form.querySelector('#productDescription').value.trim();
+  const productPrice = form.querySelector('#productPrice').value.trim();
+  const productImage = form.querySelector('#productImage').files[0];
+
+  if (!productName || !productDescription || !productPrice || !productImage) {
+    document.getElementById('errorMessage').innerText = 'Error: Name, description, price and image are required';
+    return;
+  }
+
+  if (productPrice < 0 || isNaN(productPrice)) {
+    document.getElementById('errorMessage').innerText = 'Error: Price must be a positive number';
+    return;
+  }
+
   const formData = new FormData(form);
 
   fetch('http://localhost:3000/api/v1/items', {
@@ -515,6 +530,7 @@ function saveProduct() {
     })
     .then(data => {
       toggleManagement();
+      placeMotdData();
       showNotification('New item added!');
       form.reset();
     })
@@ -525,20 +541,16 @@ function saveProduct() {
 }
 
 
+
+
 // --------------------- MAIN ----------------------------- //
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     const userData = await fetchUsers();
 
-    // Place profile data
     placeProfileData();
-
-    // Place order data
     placeOrderData();
-
-    // Place MOTD data
     placeMotdData();
-
     resetSelectedMealData();
 
     // Hide sections if the user is not an admin

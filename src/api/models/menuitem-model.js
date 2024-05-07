@@ -13,9 +13,10 @@ const listAllItems = async () => {
 const addItem = async (item, image) => {
 
   const {name, price, description, allergen, category} = item;
+  const allergenValue = allergen ? allergen.join(', ') : "-";
   const sql = `INSERT INTO menuitem (name, price, description, allergen, category, image)
                VALUES (?, ?, ?, ?, ?, ?)`;
-  const params = [name, price, description, allergen.join(', '), category, image.filename].map(
+  const params = [name, price, description, allergenValue, category, image.filename].map(
     (arvo) => {
       if (arvo === undefined) {
         return null;
