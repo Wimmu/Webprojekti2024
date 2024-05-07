@@ -4,6 +4,7 @@ import {
   getOrdersByUserId,
   postOrderItem,
   getAllOrders,
+  putOrder
 } from '../controllers/cart-controller.js';
 
 const cartRouter = express.Router();
@@ -16,6 +17,7 @@ cartRouter.route('/:userId')
   .get(getOrdersByUserId); //Get orders by user id
 
 cartRouter.route('/:orderId/items')
-  .post(postOrderItem); //Add a new order item
+  .post(postOrderItem) //Add a new order item
+  .put(putOrder); //Modify an order
 
 export default cartRouter;

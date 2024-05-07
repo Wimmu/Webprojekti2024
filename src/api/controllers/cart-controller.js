@@ -3,6 +3,7 @@ import {
   getOrdersByUser,
   addOrderItem,
   getOrders,
+  modifyOrder
 } from "../models/cart-model.js";
 
 const postOrder = async (req, res) => {
@@ -62,9 +63,31 @@ const getAllOrders = async (req, res) => {
   }
 }
 
+const putOrder = async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+    const { status } = req.body;
+
+    // Check that all required properties are defined
+    if (!status || !orderId) {
+      res.status(400).json({ error: 'Missing required order data' });
+      return;
+    }
+
+    // Process the order data and save it to the database
+    await modifyOrder(status, orderId);
+
+    res.status(201).json({ message: 'Order updated successfully' });
+  } catch (error) {
+    console.error('Error updating order:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 export {
   postOrder,
   getOrdersByUserId,
   postOrderItem,
   getAllOrders,
+  putOrder
 };

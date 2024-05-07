@@ -50,4 +50,17 @@ const getOrders = async () => {
   }
 };
 
-export { getOrdersByUser, addOrderItem, addOrder, getOrders };
+const modifyOrder = async (status, orderId) => {
+  try {
+    const [rows] = await promisePool.execute(
+      'UPDATE `order` SET status = ? WHERE order_id = ?',
+      [status, orderId]
+    );
+    return rows;
+  } catch (error) {
+    console.error('Error modifying order:', error);
+    throw error;
+  }
+};
+
+export { getOrdersByUser, addOrderItem, addOrder, getOrders, modifyOrder };
