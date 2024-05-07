@@ -20,7 +20,7 @@ fetch('http://127.0.0.1:3000/api/v1/menu/' + currentDateString)
   })
   .then(menuData => {
     const todaysMenu = menuData.find(menu => {
-      console.log('Menu:', menu);
+      //console.log('Menu:', menu);
       if (!menu.day) {
         console.error('Menu does not have a day property:', menu);
         return false;
@@ -28,7 +28,7 @@ fetch('http://127.0.0.1:3000/api/v1/menu/' + currentDateString)
       return menu.day === currentDateString;
     });
   const todaysMenuSection = document.getElementById('todays-menu');
-  console.log('Todays menu:', todaysMenu);
+  //console.log('Todays menu:', todaysMenu);
   if (todaysMenu) {
     todaysMenuSection.innerHTML = createMenuHTML(todaysMenu);
   } else {
@@ -64,7 +64,12 @@ async function getInstagramData() {
 }
 
 getInstagramData().then(data => {
-  data.data.forEach(item => {
+  const instapicsDiv = document.getElementById('instapics'); // Get the #instapics div
+
+  // Get the 9 newest posts
+  const newestPosts = data.data.slice(0, 9);
+
+  newestPosts.forEach(item => {
     if (item.media_type === 'IMAGE') {
       const img = document.createElement('img');
       img.src = item.media_url;
@@ -72,12 +77,14 @@ getInstagramData().then(data => {
 
       const caption = document.createElement('p'); // Create a new paragraph element for the caption
       caption.textContent = item.caption || ''; // Set the text content to the caption
+      caption.classList.add('caption'); // Add a class to the caption
 
       const container = document.createElement('div'); // Create a new div element to contain the image and caption
+      container.classList.add('img-container'); // Add a class to the container
       container.appendChild(img);
       container.appendChild(caption);
 
-      instagramSection.appendChild(container); // Append the container to the Instagram section
+      instapicsDiv.appendChild(container); // Append the container to the #instapics div
     }
   });
 }).catch(error => {
