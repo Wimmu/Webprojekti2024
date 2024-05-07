@@ -6,7 +6,7 @@ body {
 section {
   scroll-snap-align: start;
   height: auto;
-  margin-top: 200px !important;
+  margin-top: 20px !important;
   /* Increase specificity and add !important */
   margin-bottom: 10px !important;
   /* Increase specificity and add !important */
