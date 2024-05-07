@@ -84,7 +84,7 @@ function displayMenuForWeek(menuData) {
       dayContainer.classList.add("current-day"); // Add a class to highlight the current day
     }
 
-    if (count < 4) {
+    if (count < 6) {
       topRowContainer.appendChild(dayContainer);
     } else {
       bottomRowContainer.appendChild(dayContainer);
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // DOM elements
   const adminButton = document.getElementById("edit-button");
   const exitButton = document.getElementById("exit-button");
-  const adminFormContainer = document.getElementById("edit-menu-container");
+  const adminFormContainer = document.getElementById("edit-menu-div");
   const restaurantSelect = document.getElementById("restaurant");
   const itemsSelect = document.getElementById("items");
   const currentWeek = getCurrentWeek();
@@ -126,11 +126,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Event listeners
   adminButton.addEventListener("click", () => {
-    adminFormContainer.style.display = "block";
+    adminFormContainer.classList.add("open");
   });
 
   exitButton.addEventListener("click", () => {
-    adminFormContainer.style.display = "none";
+    event.preventDefault();
+    adminFormContainer.classList.remove("open");
   });
 
   document.getElementById("add-item-button").addEventListener("click", () => {
@@ -280,7 +281,6 @@ function displayMenuForDate(menuData) {
 }
 
 // Returns the current week's start and end dates
-// Returns the current week's start and end dates
 function getCurrentWeek() {
   const today = new Date();
   const firstDayOfWeek = new Date(today);
@@ -340,6 +340,7 @@ function addMenu() {
     })
     .then(data => {
       console.log('Success:', data);
+      fetchCurrentWeekMenu(getCurrentWeek());
       fetchMenuForDateAndRestaurant(date, restaurantId);
       selectedItems = [];
       const selectedItemsDiv = document.getElementById("selected-items");
@@ -380,3 +381,4 @@ async function fetchCurrentUser() {
     console.error('Error fetching current user:', error);
   }
 }
+

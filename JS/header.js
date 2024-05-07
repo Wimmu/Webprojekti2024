@@ -7,7 +7,6 @@ function logout() {
   window.location.href = 'index.html';
 }
 
-
 document.addEventListener('DOMContentLoaded', function() {
   const loginLink = document.getElementById('login');
   const logoutLink = document.getElementById('logout');
@@ -46,21 +45,25 @@ document.addEventListener('DOMContentLoaded', function() {
   // Toggle navigation menu visibility when hamburger icon is clicked
   hamburgerMenu.addEventListener("click", function() {
     if (isNavOpen) {
-      nav.style.display = "none";
+      nav.classList.remove("open");
+      nav.classList.add("closed");
       isNavOpen = false;
     } else {
-      nav.style.display = "block";
+      nav.classList.remove("closed");
+      nav.classList.add("open");
       isNavOpen = true;
     }
   });
 
   // Show or hide navigation menu based on window width
   function updateNavDisplay() {
-    if (window.innerWidth > 700) {
+    if (window.innerWidth < 700) {
       nav.style.display = "block";
-
+      nav.classList.remove("open");
+      nav.classList.remove("closed");
     } else {
-      nav.style.display = isNavOpen ? "block" : "none";
+      nav.classList.remove("open");
+      nav.classList.remove("closed");
     }
   }
 
@@ -70,5 +73,3 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize navigation menu display
   updateNavDisplay();
 });
-
-

@@ -34,8 +34,8 @@
 </header>
 
 <main>
-  <section id="edit-menu-container" style="display: none;">
-    <div>
+  <section id="edit-menu-div" class="edit-menu-div">
+    <div id="edit-menu-divv" class="edit-menu-divv">
       <h2 class="editMenuHeader">Add or modify Menu</h2>
       <form method="post" class="menuForm" id="menu-form" enctype="multipart/form-data">
         <label for="restaurant">Restaurant:</label>
@@ -56,16 +56,16 @@
           <h3>New menu:</h3>
           <!-- Selected food items will be displayed here -->
         </div>
-        <br>
         <div id="menu-for-date">
           <!-- Menu for selected date will be displayed here -->
         </div>
         <p id="error-message"></p>
-        <button type="button" onclick="addMenu()">Add Menu</button>
-        <button id="exit-button" >Exit</button>
+        <button id="add-new-menu-button" type="button" onclick="addMenu()">Add Menu</button>
+        <button id="exit-button" class="exit-button">Exit</button>
       </form>
     </div>
   </section>
+
 
 
   <section id="lunch-menu-container">

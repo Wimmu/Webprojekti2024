@@ -1,8 +1,19 @@
-#edit-menu-container,
-#lunch-menu-container{
+#edit-menu-div,
+#lunch-menu-container {
   margin: 20px;
+  padding: 0;
+}
+
+.edit-menu-divv {
   padding: 30px;
 }
+
+#lunch-menu-container {
+  padding: 20px;
+}
+
+/* Rest of your CSS */
+
 
 .lounas-header {
     text-align: center;
@@ -109,6 +120,8 @@
     background-color: #faefee;
     border: #e4babe 2px solid;
     margin-top: 10px;
+  color: #5e606c;
+
 }
 
   #selected-items h3 {
@@ -190,10 +203,28 @@
 
 #error-message {
   color: red;
-  text-align: center;
-  margin-top: -20px;
-  margin-bottom: 20px;
 }
 
+#add-new-menu-button {
+  margin-top: 5px;
+}
+
+#menu-for-date {
+  font-size: 1rem;
+  margin-top: 20px;
+  color: #5e606c;
+}
+
+.edit-menu-div {
+  max-height: 0;
+  padding: 0;
+  overflow: hidden;
+  transition: max-height 1s ease-in-out, padding 0s 1s;
+}
+
+.edit-menu-div.open {
+  max-height: 750px; /* Set an appropriate maximum height */
+  padding: 30px;
+}
 
 

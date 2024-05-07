@@ -37,8 +37,10 @@ header {
 }
 
 .nav {
-  padding: 0 20px;
+  padding: 6px 20px;
   margin-top: 10px;
+  overflow: hidden;
+  max-height: 300px;
 }
 
 .logo {
@@ -102,13 +104,26 @@ header {
 
 @media screen and (max-width: 700px) {
   .nav {
-    display: none;
     position: absolute;
     top: 70px;
     width: 100%;
-    padding-bottom: 20px;
-    justify-content: center; /* Align content to the center on smaller screens */
+    justify-content: center;
     background-color: #e4babe;
+    max-height: 0;
+    padding: 0;
+    transition: max-height 0.3s ease, padding 0.3s;
+
+  }
+
+  .nav.closed {
+    max-height: 0;
+  }
+
+  .nav.open {
+    max-height: 300px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    box-shadow: rgba(0, 0, 0, 0.45) 0px 5px 5px;
   }
 
   .nav-links {
@@ -116,6 +131,7 @@ header {
     flex-direction: column;
     gap: 20px;
     text-align: center;
+    margin-left: 20px;
   }
 
   .iconList {
@@ -170,6 +186,7 @@ footer {
   main {
     width: auto;
   }
+
 }
 
 @media screen and (max-width: 600px) {
