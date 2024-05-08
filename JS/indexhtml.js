@@ -11,49 +11,48 @@ function createMenuHTML(menu) {
     <p>${foodItems}</p>
   `;
 }
-fetch('http://127.0.0.1:3000/api/v1/menu/' + currentDateString)
-  .then(response => {
+fetch("http://10.120.32.75/app/api/v1/menu/" + currentDateString)
+  .then((response) => {
     if (!response.ok) {
-      throw new Error('HTTP error ' + response.status);
+      throw new Error("HTTP error " + response.status);
     }
     return response.json();
   })
-  .then(menuData => {
-    const todaysMenu = menuData.find(menu => {
+  .then((menuData) => {
+    const todaysMenu = menuData.find((menu) => {
       //console.log('Menu:', menu);
       if (!menu.day) {
-        console.error('Menu does not have a day property:', menu);
+        console.error("Menu does not have a day property:", menu);
         return false;
       }
       return menu.day === currentDateString;
     });
-  const todaysMenuSection = document.getElementById('todays-menu');
-  //console.log('Todays menu:', todaysMenu);
-  if (todaysMenu) {
-    todaysMenuSection.innerHTML = createMenuHTML(todaysMenu);
-  } else {
-    todaysMenuSection.innerHTML = '<p>Ei menua tälle päivälle.</p>';
-  }
-
+    const todaysMenuSection = document.getElementById("todays-menu");
+    //console.log('Todays menu:', todaysMenu);
+    if (todaysMenu) {
+      todaysMenuSection.innerHTML = createMenuHTML(todaysMenu);
+    } else {
+      todaysMenuSection.innerHTML = "<p>Ei menua tälle päivälle.</p>";
+    }
   })
-  .catch(error => console.error('Error:', error));
+  .catch((error) => console.error("Error:", error));
 
 
 let INSTAGRAM_API_KEY;
 
-fetch('http://127.0.0.1:3000/api/instagram-key')
-  .then(response => response.json())
-  .then(data => {
+fetch("http://10.120.32.75/app/api/instagram-key")
+  .then((response) => response.json())
+  .then((data) => {
     INSTAGRAM_API_KEY = data.key;
     //console.log('Data from server:', data); // Add this line
     //console.log('Instagram API Key:', INSTAGRAM_API_KEY);
   })
-  .catch(error => console.error('Error:', error));
+  .catch((error) => console.error("Error:", error));
 
 const instagramSection = document.getElementById('instagram');
 
 async function getInstagramData() {
-  const responseKey = await fetch('http://127.0.0.1:3000/api/instagram-key');
+  const responseKey = await fetch('http://10.120.32.75/app/api/instagram-key');
   const dataKey = await responseKey.json();
   const INSTAGRAM_API_KEY = dataKey.key;
 
