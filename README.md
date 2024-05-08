@@ -11,7 +11,8 @@
     <li>Instagram Api: Ottaa yhteyttä projektia varten luotuun instagramiin. Näyttää yhdeksän uusinta kuvaa. Viedessä hiiren kuvan päälle, nähdään kuvaan liitetty kuvaus.</li>
     
   <h4>Menu:</h4>
-    <li></li>
+    <li>Asiakas sivulla nähdään viikon menu lista. Asiakas kanssa pystyy vaihtamaan kahden ravintolan välillä.</li>
+    <li>Jos käyttäjä on Admin käyttäjällä, sivulla on listan lisäksi "Edit"-button, jolla käyttäjä pääsee muokkaamaan menu listoja. Käyttäjä voi vapaasti valita ravitolan, päivän, ja mitä kaikkia ruokia lisätään sen päivän listalle. Käyttäja kanssa näkee kyseisen ravintolan valitun päivän ruokalistan. </li>
     
   <h4>Products:</h4>
      <li></li>
