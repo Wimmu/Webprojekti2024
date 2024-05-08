@@ -1,6 +1,6 @@
 
 async function initializePasswordReset(email) {
-  const response = await fetch('http://localhost:3000/api/v1/auth/forgot-password', {
+  const response = await fetch('http://10.120.32.75/app/api/v1/auth/forgot-password', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

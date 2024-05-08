@@ -2,7 +2,7 @@ import { login } from './login.js';
 
 async function fetchUsernames(username) {
   try {
-    const response = await fetch(`http://localhost:3000/api/v1/users/${username}`);
+    const response = await fetch(`http://10.120.32.75/app/api/v1/users/${username}`);
     if (response.status === 404) {
       return false; // Username does not exist
     }
@@ -16,7 +16,7 @@ async function fetchUsernames(username) {
 
 async function fetchEmails(email) {
   try {
-    const response = await fetch(`http://localhost:3000/api/v1/users/${email}`);
+    const response = await fetch(`http://10.120.32.75/app/api/v1/users/${email}`);
     if (response.status === 404) {
       return false; // Email does not exist
     }
@@ -31,7 +31,7 @@ async function fetchEmails(email) {
 
 async function postUser(user)  {
   try {
-    const response = await fetch('http://localhost:3000/api/v1/users', {
+    const response = await fetch('http://10.120.32.75/app/api/v1/users', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

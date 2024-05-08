@@ -230,7 +230,7 @@ function openModal(product) {
     modalContent.innerHTML = `
         <div class="grid-container">
             <div class="grid-cell">
-                <img src="/uploads/${product.image}" alt="${product.name}">
+                <img src="http://10.120.32.75/app/public/${product.image}" alt="${product.name}">
             </div>
             <div class="grid-cell">
                 <h3>${product.name}</h3>
