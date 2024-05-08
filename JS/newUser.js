@@ -13,7 +13,6 @@ async function fetchUsernames(username) {
     return false; // Return false in case of an error
   }
 }
-
 async function fetchEmails(email) {
   try {
     const response = await fetch(`http://localhost:3000/api/v1/users/${email}`);

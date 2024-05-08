@@ -13,7 +13,6 @@ class ShoppingCart {
     this.userId = null;
     this.fetchUserId();
   }
-
   async fetchUserId() {
     try {
       const userData = await this.fetchUsers();
@@ -353,7 +352,7 @@ checkoutForm.addEventListener('submit', async function(event) {
 
   // Populate formData with form data
   formData.restaurantId = restaurantId;
-  
+
   // Add the user ID to the formData
   formData.userId = cart.userId;
 

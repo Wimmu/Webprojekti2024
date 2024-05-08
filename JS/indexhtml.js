@@ -63,7 +63,6 @@ async function getInstagramData() {
   //console.log('Instagram data:', data);
   return data;
 }
-
 getInstagramData().then(data => {
   const instapicsDiv = document.getElementById('instapics'); // Get the #instapics div
 

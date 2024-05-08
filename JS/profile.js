@@ -31,7 +31,6 @@ async function fetchUsers() {
     console.error('Error fetching user data:', error);
   }
 }
-
 async function fetchCurrentUser() {
   try {
     const token = localStorage.getItem('token');

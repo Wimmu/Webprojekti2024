@@ -13,7 +13,6 @@ async function resetPassword(user_Id, token, newPassword) {
   const responseData = await response.json();
   console.log('Password reset:', responseData);
 }
-
 document.addEventListener('DOMContentLoaded', function() {
   const tokenForm = document.getElementById('newPassword-form');
 

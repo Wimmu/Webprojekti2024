@@ -6,7 +6,6 @@ export async function login(username, password) {
     },
     body: JSON.stringify({ username, password }),
   });
-
   if (response.ok) {
     const { user, token } = await response.json();
     localStorage.setItem('token', token);

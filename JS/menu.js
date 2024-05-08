@@ -6,7 +6,7 @@ async function fetchCurrentWeekMenu(currentWeek) {
   const endDate = currentWeek.end;
   const restaurantId = 1;
 
-  try { 
+  try {
     const response = await fetch(`http://127.0.0.1:3000/api/v1/menu?start_date=${startDate}&end_date=${endDate}&restaurant_id=${restaurantId}`);
     const data = await response.json();
     displayMenuForWeek(data);
@@ -14,7 +14,6 @@ async function fetchCurrentWeekMenu(currentWeek) {
     console.error("Error fetching menu for the current week:", error);
   }
 }
-
 async function fetchCurrentWeekMenuForRestaurant(currentWeek, restaurantId) {
   const startDate = currentWeek.start;
   const endDate = currentWeek.end;

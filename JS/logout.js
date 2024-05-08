@@ -6,5 +6,3 @@ function logout() {
     message: 'logout ok'
   });
 }
-
-

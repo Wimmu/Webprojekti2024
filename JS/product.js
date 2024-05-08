@@ -10,7 +10,6 @@ async function fetchMenuItems() {
         console.error('Error fetching menu items:', error);
     }
 }
-
 async function fetchCategories() {
     try {
         const response = await fetch('http://localhost:3000/api/v1/items/category');

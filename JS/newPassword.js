@@ -19,7 +19,6 @@ console.log('Password reset link:', resetLink);
   // Redirect the user to the password reset page
   window.location.href = `resetPassword.html?resetLink=${resetLink}`;
 }
-
 document.addEventListener('DOMContentLoaded', function() {
   const resetForm = document.getElementById('reset-password');
 
