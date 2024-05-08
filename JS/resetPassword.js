@@ -1,5 +1,5 @@
 async function resetPassword(user_Id, token, newPassword) {
-  const response = await fetch(`http://localhost:3000/api/v1/auth/reset-password/${user_Id}/${token}`, {
+  const response = await fetch(`http://10.120.32.75/app/api/v1/auth/reset-password/${user_Id}/${token}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -44,7 +44,9 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
-    resetPassword(userId, token, newPassword);
+    const result = resetPassword(userId, token, newPassword);
+
+    //console.log('Password reset result:', result);
 
     window.location.href = 'login.html';
   });
