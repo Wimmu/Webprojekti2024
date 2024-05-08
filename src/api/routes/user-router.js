@@ -9,7 +9,7 @@ import {
   getOrdersByUserId,
   postUser,
   putUser,
-  deleteUser
+  deleteUser,
 } from '../controllers/user-controller.js';
 
 const userRouter = express.Router();
