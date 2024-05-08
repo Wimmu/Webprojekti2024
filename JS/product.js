@@ -35,9 +35,7 @@ fetchMenuItems().then(data => {
     //console.log(data);
 });
 
-fetchAllergens().then(data => {
-    //console.log(data);
-} );
+
 
 //-------------------------- Product List Codes ---------------------------------
 
@@ -73,10 +71,14 @@ async function createCategoryContainer() {
       const productInfoBox = crateProductInfoBox(item);
       categoryContainer.appendChild(productInfoBox);
     });
+
+    // Call the filterCategory function with a small delay to ensure products are loaded
+    setTimeout(filterCategory, 100);
   } catch (error) {
     console.error('Error fetching menu items:', error);
   }
 }
+
 
 
 
@@ -120,6 +122,7 @@ async function createCategoryCheckboxes() {
   const urlParams = new URLSearchParams(window.location.search);
   console.log(urlParams);
   const categoryParam = urlParams.get('category');
+  console.log(categoryParam);
 
   const categories = await fetchCategories();
   const categoryFilterDiv = document.getElementById('categoryFilters');
@@ -140,6 +143,8 @@ async function createCategoryCheckboxes() {
 
       if (categoryName === categoryParam) {
         checkbox.checked = true; // Pre-select checkbox for drinks
+        console.log('Category selected:', categoryName);
+        console
       }
 
       const label = document.createElement('label');
@@ -159,6 +164,7 @@ async function createCategoryCheckboxes() {
   // Call the filterCategory function to filter the products based on the checked categories
   filterCategory();
 }
+
 
 async function createAllergenCheckboxes() {
   const allergens = await fetchAllergens();
