@@ -94,10 +94,10 @@
             <p id="selectedDescription">This is a short description about the product that is chosen for the meal of the day. This is a short description about the product that is chosen for the meal of the day. </p>
             <p id="selectedAllergen">Allergens: </p>
             <p id="selectedCategory">Category: </p>
-            <button onclick="toggleManagement()" id="openAddItemSectionButton">Add
+            <button onclick="toggleAddProduct()" id="openAddItemSectionButton">Add
               Product
             </button>
-            <button class="editMealButton">Edit</button>
+            <button class="editMealButton" onclick="toggleEditProduct()">Edit</button>
             <button class="deleteMealButton" onclick="removeMeal()">Delete</button>
           </div>
         </div>
@@ -108,7 +108,7 @@
   <section class="addNewProductSection hidden" id="addNewProductSection">
       <div id="addProductTab" class="product-tab">
         <div class="product-tab-header">
-          <h2>Add Product</h2>
+          <h2 id="addProductHeader">Add Product</h2>
           <button onclick="toggleManagement()" class="openAddItemSectionButton">Hide</button>
         </div>
         <form method="post" class="add-product-form" id="addProductForm" enctype="multipart/form-data">
@@ -151,7 +151,7 @@
             <button onclick="document.getElementById('productImage').click()">Choose Image</button>
           </div>
           <p id="errorMessage"></p>
-          <button type="button" onclick="saveProduct()">Save Product</button>
+          <button type="button" onclick="saveOrModifyProduct()">Save Product</button>
         </form>
         </div>
     </section>
