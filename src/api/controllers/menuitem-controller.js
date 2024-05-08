@@ -4,7 +4,8 @@ import {
   categoryList,
   allergenList,
   removeItem,
-  listOrderItems
+  listOrderItems,
+  modifyItem
 } from "../models/menuitem-model.js";
 
 const getAllItems = async (req, res) => {
@@ -18,9 +19,7 @@ const getAllItems = async (req, res) => {
 };
 
 const postItem = async (req, res) => {
-  console.log('req.body', req.body);
   const result = await addItem(req.body, req.file);
-  console.log('result', result);
   if (result.menuitem_id) {
     res.status(201);
     res.json({message: 'New item added.', result});
@@ -74,11 +73,27 @@ const getOrderItemsByOrderId = async (req, res) => {
   }
 }
 
+const putItem = async (req, res) => {
+  try {
+    const item = await modifyItem(req.body, req.params.name, req.file);
+    if (item) {
+      res.json(item);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (error) {
+    console.error('Error modifying item:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+
+}
+
 export {
   getAllItems,
   deleteItemByName,
   postItem,
   getCategoryList,
   getAllergenList,
-  getOrderItemsByOrderId
+  getOrderItemsByOrderId,
+  putItem
 };

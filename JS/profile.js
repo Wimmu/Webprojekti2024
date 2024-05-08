@@ -498,6 +498,14 @@ document.getElementById('productImage').addEventListener('change', function() {
   document.getElementById('productImageLabel').innerText = 'Image: ' + fileName;
 });
 
+function saveOrModifyProduct() {
+  const editButton = document.querySelector(".editMealButton");
+  if (editButton.innerText === "Edit") {
+    saveProduct();
+  } else {
+    saveModifiedProduct();
+  }
+}
 
 // Save a new product
 function saveProduct() {
@@ -540,6 +548,96 @@ function saveProduct() {
       console.error('Error:', error);
       document.getElementById('errorMessage').innerText = 'Error: ' + error.message;
     });
+}
+
+// EDIT PRODUCTTT
+
+function toggleAddProduct() {
+  const productHeader = document.getElementById('addProductHeader');
+  const form = document.getElementById('addProductForm');
+  form.reset();
+    toggleManagement();
+}
+// EDIT PRODUCT
+function toggleEditProduct() {
+  const editButton = document.querySelector(".editMealButton");
+  const productDetails = document.getElementById('selectedMealData').querySelectorAll('p');
+  const productInfo = document.getElementById('addProductForm');
+  const productHeader = document.getElementById('addProductHeader');
+
+    toggleManagement();
+  if (editButton.innerText === "Edit") {
+    editButton.innerText = "Save";
+    productHeader.innerText = "Edit product";
+    productInfo.querySelector('#productName').value = productDetails[0].textContent;
+    productInfo.querySelector('#productDescription').value = productDetails[2].textContent;
+    productInfo.querySelector('#productPrice').value = parseFloat(productDetails[1].textContent.replace('€', ''));
+    const category = productDetails[4].textContent.split(':')[1].trim();
+    productInfo.querySelector('#productCategory').value = category;
+    const allergens = productDetails[3].textContent.split(':')[1].trim().split(', ');
+    allergens.forEach(allergen => {
+      productInfo.querySelector(`#${allergen.toLowerCase()}`).checked = true;
+    });
+    const imageName = productDetails[0].textContent.split(' ').join('_').toLowerCase();
+    productInfo.querySelector('#productImageLabel').innerText = `Image: ${imageName}.jpg`;
+    document.getElementById('productImage').required = false; // Image is not required for editing
+    document.getElementById('productImage').value = ''; // Clear previous image selection
+  } else {
+    //saveModifiedProduct();
+  }
+}
+
+async function saveModifiedProduct() {
+  try {
+    const form = document.getElementById('addProductForm');
+    const productId = document.getElementById('selectedMealName').textContent;
+    const productName = form.querySelector('#productName').value.trim();
+    const productDescription = form.querySelector('#productDescription').value.trim();
+    const productPrice = form.querySelector('#productPrice').value.trim();
+    const productImage = form.querySelector('#productImage').files[0];
+    const productCategory = form.querySelector('#productCategory').value;
+
+    if (!productName || !productDescription || !productPrice || !productImage || !productCategory) {
+      document.getElementById('errorMessage').innerText = 'Error: Name, description, price, category, and image are required';
+      return;
+    }
+
+    if (productPrice < 0 || isNaN(productPrice)) {
+      document.getElementById('errorMessage').innerText = 'Error: Price must be a positive number';
+      return;
+    }
+
+    const formData = new FormData(form);
+
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.error('No token found');
+      return;
+    }
+
+    const response = await fetch(`http://localhost:3000/api/v1/items/${productId}`, {
+      method: 'PUT',
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    if (response.ok) {
+      toggleManagement();
+      placeMotdData();
+      resetSelectedMealData();
+      document.getElementById('editMealButton').innerText = 'Edit';
+      showNotification('Product modified!');
+      form.reset();
+    } else {
+      console.error('Failed to modify product');
+    }
+  } catch (error) {
+    console.error('Error modifying product:', error);
+    document.getElementById('errorMessage').innerText = 'Error: ' + error.message;
+  }
 }
 
 

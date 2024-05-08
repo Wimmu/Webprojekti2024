@@ -7,7 +7,8 @@ import {
   getAllergenList,
   deleteItemByName,
   postItem,
-  getOrderItemsByOrderId
+  getOrderItemsByOrderId,
+  putItem
 } from '../controllers/menuitem-controller.js';
 
 const itemRouter = express.Router();
@@ -27,7 +28,7 @@ const storage = multer.diskStorage({
       extension = 'png';
     }
 
-    //console.log("file in storage", file)
+    console.log("file in storage", file)
 
     const filename = `${prefix}-${suffix}.${extension}`;
 
@@ -54,6 +55,7 @@ itemRouter.route('/allergen')
 
 itemRouter.route('/:name')
   .delete(deleteItemByName) //Delete item by name
+  .put(upload.single('image'), putItem); //Modify item
 
 itemRouter.route('/orderItems/:id')
   .get(getOrderItemsByOrderId) //Get orders for item by id
