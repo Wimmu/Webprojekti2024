@@ -160,7 +160,7 @@ async function placeProfileData() {
   } catch (error) {
     console.error('Error fetching user data:', error);
     // Use default avatar in case of an error
-    document.getElementById('profilePicture').src = '/uploads/default.jpg';
+    document.getElementById('profilePicture').src = 'http://10.120.32.75/app/public/uploads/default.jpg';
   }
 }
 
@@ -241,7 +241,7 @@ async function saveAccountDetails() {
       formData.append('avatar', file);
     }
 
-    const response = await fetch(`http://127.0.0.1:3000/api/v1/users/${userId}`, {
+    const response = await fetch(`http://10.120.32.75/app/api/v1/users/${userId}`, {
       method: 'PUT',
       body: formData, // Send the form data directly
       headers: {
@@ -276,7 +276,7 @@ async function updateOrderStatus(orderId) {
       return;
     }
 
-    const url = `http://127.0.0.1:3000/api/v1/orders/${orderId}/items`;
+    const url = `http://10.120.32.75/app/api/v1/orders/${orderId}/items`;
     const options = {
       method: 'PUT',
       headers: {
@@ -391,8 +391,9 @@ async function placeMotdData() {
       const itemDiv = document.createElement('div');
       itemDiv.classList.add('item');
       itemDiv.onclick = () => placeSelectedItemData(item);
+      console.log(item.image);
       itemDiv.innerHTML = `
-                <img src="/uploads/${item.image}" alt="${item.name}">
+                <img src="http://10.120.32.75/app/public/${item.image}" alt="${item.name}">
                 <div class="item-info">
                     <p>${item.name}</p>
                     <p>${item.price}€</p>
@@ -415,7 +416,7 @@ function toggleDropdown() {
 function placeSelectedItemData(item) {
   document.getElementById('currentMealHeader').textContent = 'Selected meal:';
   document.getElementById('selectedMealImage').style.display = 'block';
-  document.getElementById('selectedMealImage').setAttribute('src', `/uploads/${item.image}`);
+  document.getElementById('selectedMealImage').setAttribute('src', `http://10.120.32.75/app/public/${item.image}`);
   document.getElementById('selectedMealName').textContent = item.name;
   document.getElementById('selectedPrice').textContent = item.price + '€';
   document.getElementById('selectedDescription').textContent = item.description;
@@ -472,7 +473,7 @@ async function removeMeal() {
     const confirmation = confirm(`Are you sure you want to remove ${mealName}?`);
 
     if (confirmation) {
-      const response = await fetch(`http://127.0.0.1:3000/api/v1/items/${mealName}`, {
+      const response = await fetch(`http://10.120.32.75/app/api/v1/items/${mealName}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -520,7 +521,7 @@ function saveProduct() {
 
   const formData = new FormData(form);
 
-  fetch('http://localhost:3000/api/v1/items', {
+  fetch('http://10.120.32.75/app/api/v1/items', {
     method: 'POST',
     body: formData
   })
