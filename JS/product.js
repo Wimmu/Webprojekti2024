@@ -3,7 +3,7 @@
 
 async function fetchMenuItems() {
     try {
-        const response = await fetch('http://10.120.32.75/app/api/v1/items');
+        const response = await fetch('http://localhost:3000/api/v1/items');
         const data = await response.json();
         return data;
     } catch (error) {
@@ -13,7 +13,7 @@ async function fetchMenuItems() {
 
 async function fetchCategories() {
     try {
-        const response = await fetch('http://10.120.32.75/app/api/v1/items/category');
+        const response = await fetch('http://localhost:3000/api/v1/items/category');
         const data = await response.json();
         return data;
     } catch (error) {
@@ -23,7 +23,7 @@ async function fetchCategories() {
 
 async function fetchAllergens() {
     try {
-        const response = await fetch('http://10.120.32.75/app/api/v1/items/allergen');
+        const response = await fetch('http://localhost:3000/api/v1/items/allergen');
         const data = await response.json();
         return data;
     } catch (error) {
@@ -89,7 +89,7 @@ function crateProductInfoBox(product) {
     productInfoBox.classList.add('productInfoBox');
 
     productInfoBox.innerHTML = `
-      <img src="http://10.120.32.75/app/public/${product.image}" alt="${product.name}">
+      <img src="/uploads/${product.image}" alt="${product.name}">
       <h3>${product.name}</h3>
       <p class="productDisciption">${product.description}</p>
       <p class="allergens" hidden>${product.allergen}</p>
