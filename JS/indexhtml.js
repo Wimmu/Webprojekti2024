@@ -11,6 +11,7 @@ function createMenuHTML(menu) {
     <p>${foodItems}</p>
   `;
 }
+
 fetch('http://127.0.0.1:3000/api/v1/menu/' + currentDateString)
   .then(response => {
     if (!response.ok) {
