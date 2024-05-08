@@ -32,7 +32,15 @@ const userByUsername = async (username) => {
   return rows[0];
 }
 
+const userByEmail = async (email) => {
+  const sql = `SELECT * FROM user WHERE email = ?`;
+  const [rows] = await promisePool.execute(sql, [email]);
+  if (rows.length === 0) {
+    return false;
+  }
+  return rows[0];
 
+}
 
 const ordersByUserId = async (id) => {
   try {
@@ -71,6 +79,15 @@ const modifyUser = async (user, id) => {
   return {message: 'success'};
 };
 
+const changePassword = async (id, password) => {
+  const sql = `UPDATE user SET password = ? WHERE user_id = ?`;
+  const rows = await promisePool.execute(sql, [password, id]);
+  if (rows[0].affectedRows === 0) {
+    return false;
+  }
+  return { message: 'success' };
+};
+
 const removeUser = async (id) => {
   const sql = `DELETE FROM user WHERE user_id = ?`;
   const rows = await promisePool.execute(sql, [id]);
@@ -84,9 +101,11 @@ const removeUser = async (id) => {
 export {
   listAllUsers,
   userByUsername,
+  userByEmail,
   findUserById,
   ordersByUserId,
   createUser,
   modifyUser,
+  changePassword,
   removeUser
 };

@@ -1,35 +1,52 @@
+
+async function initializePasswordReset(email) {
+  const response = await fetch('http://localhost:3000/api/v1/auth/forgot-password', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ email })
+  });
+  if (!response.ok) {
+    console.error('Failed to initialize password reset:', response);
+  }
+
+  const responseData = await response.json();
+  const resetLink = responseData.resetLink;
+
+console.log('Password reset link:', resetLink);
+
+  // Redirect the user to the password reset page
+  window.location.href = `resetPassword.html?resetLink=${resetLink}`;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-  const form = document.getElementById('reset-password');
-  const resetButton = document.getElementById('reset-button');
+  const resetForm = document.getElementById('reset-password');
 
-  form.addEventListener('submit', function(event) {
-    event.preventDefault();
+  resetForm.addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission behavior
 
-    // Retrieve form input values
-    const email = document.getElementById('email').value;
+    // Get the email input value
+    const emailInput = document.getElementById('email');
+    const email = emailInput.value;
 
-    // Validation
-    if (!email) {
-      alert('Please enter your email address');
+    // Validate the email format (you can add more sophisticated validation if needed)
+    if (!isValidEmail(email)) {
+      alert('Please enter a valid email address.');
       return;
     }
 
-    // Assuming successful validation, send a reset password email
-    // Here you can implement your logic to send the reset password email
-    sendResetPasswordEmail(email);
+    //console.log('Reset email:', email);
+    // Initialize the password reset process
+    initializePasswordReset(email);
 
-    // Optionally, you can display a success message or redirect the user to another page
-    alert('Reset password email sent successfully!');
-    // Redirect the user to another page if needed
-    // window.location.href = 'reset-password-success.html';
-
-    // Optionally, you can reset the form after submission
-    form.reset();
   });
-
-  function sendResetPasswordEmail(email) {
-    // Here you can implement your logic to send the reset password email
-    // This is a placeholder function
-    console.log('Sending reset password email to:', email);
-  }
 });
+
+
+function isValidEmail(email) {
+  // Regular expression for basic email format validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+

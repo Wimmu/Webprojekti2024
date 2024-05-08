@@ -51,21 +51,6 @@ const getOrdersByUserId = async (req, res) => {
   }
 };
 
-const getUserbyUsername = async (req, res) => {
-  try {
-    const user = await userByUsername(req.params.username);
-    if (user) {
-      res.json(user);
-    } else {
-      res.sendStatus(404);
-    }
-  } catch (error) {
-    console.error('Error fetching user:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-
-}
-
 const postUser = async (req, res) => {
   try {
     const { username, password, first_name, last_name, address, email, phone, avatar } = req.body;
@@ -143,4 +128,4 @@ const deleteUser = async (req, res) => {
   }
 }
 
-export {getAllUsers, getUser, getOrdersByUserId, postUser, putUser, deleteUser};
+export {getAllUsers, getUser, getOrdersByUserId, postUser, putUser, deleteUser };

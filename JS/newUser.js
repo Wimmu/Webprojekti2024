@@ -14,6 +14,21 @@ async function fetchUsernames(username) {
   }
 }
 
+async function fetchEmails(email) {
+  try {
+    const response = await fetch(`http://localhost:3000/api/v1/users/${email}`);
+    if (response.status === 404) {
+      return false; // Email does not exist
+    }
+    const data = await response.json();
+    return !!data; // Return true if email exists, false otherwise
+  } catch (error) {
+    console.error('Error fetching emails:', error);
+    return false; // Return false in case of an error
+  }
+
+}
+
 async function postUser(user)  {
   try {
     const response = await fetch('http://localhost:3000/api/v1/users', {
@@ -60,6 +75,11 @@ async function createUser() {
      return;
    }
 
+   if (username.length < 1 || username.includes('@')) {
+      alert('Username must be at least 1 character and cannot contain @ symbol ');
+      return;
+   }
+
    if (password.length < 6) {
      alert('Password must be at least 6 characters');
      return;
@@ -85,11 +105,17 @@ async function createUser() {
       return;
    }
 
-   const usernameExists = await fetchUsernames(username);
-   if (usernameExists) {
-     alert('Username already exists');
-     return;
-   }
+  const usernameExists = await fetchUsernames(username);
+  if (usernameExists) {
+    alert('Username already exists');
+    return;
+  }
+
+   const emailExists = await fetchEmails(email);
+    if (emailExists) {
+      alert('Email already exists');
+      return;
+    }
 
    const user = {
      username,
