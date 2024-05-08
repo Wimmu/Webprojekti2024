@@ -17,6 +17,6 @@ Sovelluksen toiminnalisuudet:
   Ostoskori:
 
 
-Admin Käyttäjä:
-  Käyttäjänimi: admin 
+Admin Käyttäjä: <br>
+  Käyttäjänimi: admin <br>
   Salasana: 123456
