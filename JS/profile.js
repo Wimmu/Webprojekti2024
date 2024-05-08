@@ -11,7 +11,7 @@ async function fetchUsers() {
       return;
     }
 
-    const url = 'http://127.0.0.1:3000/api/v1/auth/me'; // Endpoint to get user data
+    const url = 'http://10.120.32.75/app/api/v1/auth/me'; // Endpoint to get user data
     const options = {
       method: 'GET',
       headers: {
@@ -41,7 +41,7 @@ async function fetchCurrentUser() {
       return;
     }
 
-    const url = `http://127.0.0.1:3000/api/v1/users/${userId}`;
+    const url = `http://10.120.32.75/app/api/v1/users/${userId}`;
     const options = {
       method: 'GET',
       headers: {
@@ -61,7 +61,7 @@ async function fetchCurrentUser() {
 
 async function fetchOrders(userId) {
   try {
-    const response = await fetch(`http://127.0.0.1:3000/api/v1/users/${userId}/orders`);
+    const response = await fetch(`http://10.120.32.75/app/api/v1/users/${userId}/orders`);
     return await response.json();
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -70,7 +70,7 @@ async function fetchOrders(userId) {
 
 async function fetchAllOrders() {
   try {
-    const response = await fetch(`http://127.0.0.1:3000/api/v1/orders`);
+    const response = await fetch(`http://10.120.32.75/app/api/v1/orders`);
     return await response.json();
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -79,7 +79,7 @@ async function fetchAllOrders() {
 
 async function fetchUser(user_id) {
   try {
-    const response = await fetch(`http://127.0.0.1:3000/api/v1/users/${user_id}`);
+    const response = await fetch(`http://10.120.32.75/app/api/v1/users/${user_id}`);
     return await response.json();
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -88,7 +88,7 @@ async function fetchUser(user_id) {
 
 async function fetchOrderItemsByOrderId(orderId){
   try {
-    const response = await fetch(`http://127.0.0.1:3000/api/v1/items/orderItems/${orderId}`);
+    const response = await fetch(`http://10.120.32.75/app/api/v1/items/orderItems/${orderId}`);
     const data = await response.json();
     return data.join(', ');
   } catch (error) {
@@ -98,7 +98,7 @@ async function fetchOrderItemsByOrderId(orderId){
 
 async function fetchMenuItems() {
   try {
-    const response = await fetch('http://127.0.0.1:3000/api/v1/items');
+    const response = await fetch('http://10.120.32.75/app/api/v1/items');
     return await response.json()
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -149,7 +149,7 @@ async function placeProfileData() {
       userData.avatar = 'default.jpg';
     }
 
-    document.getElementById('profilePicture').src = `/uploads/${userData.avatar}`;
+    document.getElementById('profilePicture').src = `http://10.120.32.75/app/public/${userData.avatar}`;
     document.getElementById('profile-welcome-text-header').textContent = `Welcome to your profile, ${userData.first_name}!`;
     document.getElementById('users-username').textContent = userData.username;
     document.getElementById('users-firstname').textContent = userData.first_name;
@@ -498,14 +498,6 @@ document.getElementById('productImage').addEventListener('change', function() {
   document.getElementById('productImageLabel').innerText = 'Image: ' + fileName;
 });
 
-function saveOrModifyProduct() {
-  const editButton = document.querySelector(".editMealButton");
-  if (editButton.innerText === "Edit") {
-    saveProduct();
-  } else {
-    saveModifiedProduct();
-  }
-}
 
 // Save a new product
 function saveProduct() {
@@ -548,96 +540,6 @@ function saveProduct() {
       console.error('Error:', error);
       document.getElementById('errorMessage').innerText = 'Error: ' + error.message;
     });
-}
-
-// EDIT PRODUCTTT
-
-function toggleAddProduct() {
-  const productHeader = document.getElementById('addProductHeader');
-  const form = document.getElementById('addProductForm');
-  form.reset();
-    toggleManagement();
-}
-// EDIT PRODUCT
-function toggleEditProduct() {
-  const editButton = document.querySelector(".editMealButton");
-  const productDetails = document.getElementById('selectedMealData').querySelectorAll('p');
-  const productInfo = document.getElementById('addProductForm');
-  const productHeader = document.getElementById('addProductHeader');
-
-    toggleManagement();
-  if (editButton.innerText === "Edit") {
-    editButton.innerText = "Save";
-    productHeader.innerText = "Edit product";
-    productInfo.querySelector('#productName').value = productDetails[0].textContent;
-    productInfo.querySelector('#productDescription').value = productDetails[2].textContent;
-    productInfo.querySelector('#productPrice').value = parseFloat(productDetails[1].textContent.replace('€', ''));
-    const category = productDetails[4].textContent.split(':')[1].trim();
-    productInfo.querySelector('#productCategory').value = category;
-    const allergens = productDetails[3].textContent.split(':')[1].trim().split(', ');
-    allergens.forEach(allergen => {
-      productInfo.querySelector(`#${allergen.toLowerCase()}`).checked = true;
-    });
-    const imageName = productDetails[0].textContent.split(' ').join('_').toLowerCase();
-    productInfo.querySelector('#productImageLabel').innerText = `Image: ${imageName}.jpg`;
-    document.getElementById('productImage').required = false; // Image is not required for editing
-    document.getElementById('productImage').value = ''; // Clear previous image selection
-  } else {
-    //saveModifiedProduct();
-  }
-}
-
-async function saveModifiedProduct() {
-  try {
-    const form = document.getElementById('addProductForm');
-    const productId = document.getElementById('selectedMealName').textContent;
-    const productName = form.querySelector('#productName').value.trim();
-    const productDescription = form.querySelector('#productDescription').value.trim();
-    const productPrice = form.querySelector('#productPrice').value.trim();
-    const productImage = form.querySelector('#productImage').files[0];
-    const productCategory = form.querySelector('#productCategory').value;
-
-    if (!productName || !productDescription || !productPrice || !productImage || !productCategory) {
-      document.getElementById('errorMessage').innerText = 'Error: Name, description, price, category, and image are required';
-      return;
-    }
-
-    if (productPrice < 0 || isNaN(productPrice)) {
-      document.getElementById('errorMessage').innerText = 'Error: Price must be a positive number';
-      return;
-    }
-
-    const formData = new FormData(form);
-
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      console.error('No token found');
-      return;
-    }
-
-    const response = await fetch(`http://localhost:3000/api/v1/items/${productId}`, {
-      method: 'PUT',
-      body: formData,
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-
-    if (response.ok) {
-      toggleManagement();
-      placeMotdData();
-      resetSelectedMealData();
-      document.getElementById('editMealButton').innerText = 'Edit';
-      showNotification('Product modified!');
-      form.reset();
-    } else {
-      console.error('Failed to modify product');
-    }
-  } catch (error) {
-    console.error('Error modifying product:', error);
-    document.getElementById('errorMessage').innerText = 'Error: ' + error.message;
-  }
 }
 
 

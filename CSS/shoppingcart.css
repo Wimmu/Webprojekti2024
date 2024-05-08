@@ -1,0 +1,188 @@
+section {
+ width: 100%;
+  margin: 0 auto;
+  /* Add this line to horizontally center the section */
+  padding: 20px;
+  /* Add padding to the section */
+}
+
+.centered-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  /* Add space between flex items */
+}
+
+#kori-heading {
+  text-align: center;
+  /* Center the heading */
+  margin-bottom: 20px;
+  /* Add space below the heading */
+}
+
+.shopping-cart {
+  width: 100%;
+  /* Set the width to 100% */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.column-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    /* Add space below the labels */
+}
+
+.column-labels label {
+    flex-basis: 0;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.column-labels .product-price,
+.product .product-price {
+    flex-grow: 0;
+    text-align: left;
+}
+
+.column-labels {
+    text-align: right;
+}
+.product-price,
+.product-quantity,
+.product-line-price {
+    display: flex;
+    flex-direction: column;
+}
+.product-quantity input[type="number"] {
+  text-align: center;
+}
+
+.product-price label,
+.product-quantity label,
+.product-line-price label {
+    margin-bottom: 5px;
+}
+.product {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto auto;
+  gap: 10px;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  align-items: center;
+}
+
+.product img {
+  width: 150px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.product-details {
+  /*flex-grow: 1;*/
+  padding: 0 20px;
+}
+
+.product-quantity input {
+  width: 50px;
+}
+
+.totals {
+  margin-top: 20px;
+}
+
+#cart-total {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.totals {
+  text-align: right;
+}
+
+#add-item-container {
+  text-align: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+@media (min-width: 700px) {
+
+}
+/* Additional styles for checkout form */
+fieldset {
+  border: none;
+}
+
+#checkout-form {
+  display: none;
+  margin-top: 20px;
+  padding: 10px;
+  border: none;
+  background-color: #fcfcfc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#checkout-form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+#checkout-form input {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+#checkout-form button {
+  padding: 10px 20px;
+  background-color: #f78383;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+#add-item-button {
+  color: #000000;
+  background-color: #e4babe;
+  text-decoration: none;
+  padding: 10px 15px;
+  font-size: 18px;
+  display: inline-block;
+  border-radius: 20px;
+}
+
+#add-item-button:hover {
+  background-color: #e8d8c9;
+  border-radius: 20px;
+}
+#toast {
+  visibility: hidden;
+  min-width: 200px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 20px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  top: 30px;
+  font-size: 17px;
+  transition: visibility 0.5s, opacity 0.5s linear;
+}
+
+#toast.show {
+  visibility: visible;
+  opacity: 1;
+}

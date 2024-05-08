@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kirjautuminen</title>
+
+    <link rel="stylesheet" href="../CSS/main.css">
+    <link rel="stylesheet" href="../CSS/login.css">
+
+    <script src="../JS/header.js" defer></script>
+    <script type="module" src="../JS/login.js" defer></script>
+</head>
+
+<body>
+  <header class="header">
+    <div class="nav-container">
+      <a class="logo-container" href="index.html">
+        <img class="logo" src="../IMG/Asian%20Flavor%20Logo%20Black.png" alt="logo">
+      </a>
+      <nav class="nav">
+        <ul id="nav-links" class="nav-links">
+          <li class="navButton"><a href="index.html">Home</a></li>
+          <li class="navButton"><a href="menu.html">Lunch</a></li>
+          <li class="navButton"><a href="products.html">Products</a></li>
+          <li class="navButton" id="login"><a href="login.html">Login</a></li>
+          <li class="navButton" id="logout"><a href="#">Logout</a></li>
+          <ol class="iconList" id="iconList">
+            <li class="navButton" id="shoppingCart"><a href="shoppingcart.html" class="shopping-cart-link"><img src="../IMG/shopping_cart.png" class="shopping-cart-image"></a></li>
+            <li class="navButton" id="profile"><a href="profile.html" class="profile-icon-link"><img src="../IMG/profile_icon.png" class="profile-icon-image"></a></li>
+          </ol>
+        </ul>
+      </nav>
+      <img class="hamburger-menu" src="../IMG/hamburgerIcon.png">
+    </div>
+  </header>
+
+  <main>
+      <form id="login-form">
+          <h2>Login</h2>
+          <div class="infoContainer" id="username-container">
+              <label for="username">Username:</label>
+              <input type="text" id="username" name="username">
+          </div>
+          <div class="infoContainer"  id="password-container">
+              <label for="password">Password:</label>
+              <input type="password" id="password" name="password">
+          </div>
+          <div class="infoContainer" id="login-container">
+            <button id="login-button">Login</button>
+          </div>
+          <div class="infoContainer" id="error-container">
+            <p id="error-message" class="error-message"></p>
+          </div>
+      </form>
+      <div class="info" id="register-container">
+          <p class="p1"><a href="newUser.html">Register here</a></p>
+          <p class="p2"><a href="newPassword.html">Forgot your password?</a></p>
+      </div>
+  </main>
+  <footer class="footer2">
+    <p>&copy; 2024 My Website. All rights reserved.</p>
+  </footer>
+</body>
+</html>

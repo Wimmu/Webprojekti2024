@@ -3,7 +3,7 @@
 
 async function fetchMenuItems() {
     try {
-        const response = await fetch('http://localhost:3000/api/v1/items');
+        const response = await fetch('http://10.120.32.75/app/api/v1/items');
         const data = await response.json();
         return data;
     } catch (error) {
@@ -13,7 +13,7 @@ async function fetchMenuItems() {
 
 async function fetchCategories() {
     try {
-        const response = await fetch('http://localhost:3000/api/v1/items/category');
+        const response = await fetch('http://10.120.32.75/app/api/v1/items/category');
         const data = await response.json();
         return data;
     } catch (error) {
@@ -23,7 +23,7 @@ async function fetchCategories() {
 
 async function fetchAllergens() {
     try {
-        const response = await fetch('http://localhost:3000/api/v1/items/allergen');
+        const response = await fetch('http://10.120.32.75/app/api/v1/items/allergen');
         const data = await response.json();
         return data;
     } catch (error) {
@@ -35,7 +35,9 @@ fetchMenuItems().then(data => {
     //console.log(data);
 });
 
-
+fetchAllergens().then(data => {
+    //console.log(data);
+} );
 
 //-------------------------- Product List Codes ---------------------------------
 
@@ -71,14 +73,10 @@ async function createCategoryContainer() {
       const productInfoBox = crateProductInfoBox(item);
       categoryContainer.appendChild(productInfoBox);
     });
-
-    // Call the filterCategory function with a small delay to ensure products are loaded
-    setTimeout(filterCategory, 100);
   } catch (error) {
     console.error('Error fetching menu items:', error);
   }
 }
-
 
 
 
@@ -89,7 +87,7 @@ function crateProductInfoBox(product) {
     productInfoBox.classList.add('productInfoBox');
 
     productInfoBox.innerHTML = `
-      <img src="/uploads/${product.image}" alt="${product.name}">
+      <img src="http://10.120.32.75/app/public/${product.image}" alt="${product.name}">
       <h3>${product.name}</h3>
       <p class="productDisciption">${product.description}</p>
       <p class="allergens" hidden>${product.allergen}</p>
@@ -122,7 +120,6 @@ async function createCategoryCheckboxes() {
   const urlParams = new URLSearchParams(window.location.search);
   console.log(urlParams);
   const categoryParam = urlParams.get('category');
-  console.log(categoryParam);
 
   const categories = await fetchCategories();
   const categoryFilterDiv = document.getElementById('categoryFilters');
@@ -143,8 +140,6 @@ async function createCategoryCheckboxes() {
 
       if (categoryName === categoryParam) {
         checkbox.checked = true; // Pre-select checkbox for drinks
-        console.log('Category selected:', categoryName);
-        console
       }
 
       const label = document.createElement('label');
@@ -164,7 +159,6 @@ async function createCategoryCheckboxes() {
   // Call the filterCategory function to filter the products based on the checked categories
   filterCategory();
 }
-
 
 async function createAllergenCheckboxes() {
   const allergens = await fetchAllergens();

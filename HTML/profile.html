@@ -94,8 +94,10 @@
             <p id="selectedDescription">This is a short description about the product that is chosen for the meal of the day. This is a short description about the product that is chosen for the meal of the day. </p>
             <p id="selectedAllergen">Allergens: </p>
             <p id="selectedCategory">Category: </p>
-            <button onclick="toggleAddProduct()" id="openAddItemSectionButton">Add Product</button>
-            <button class="editMealButton" id="editMealButton" onclick="toggleEditProduct()">Edit</button>
+            <button onclick="toggleManagement()" id="openAddItemSectionButton">Add
+              Product
+            </button>
+            <button class="editMealButton">Edit</button>
             <button class="deleteMealButton" onclick="removeMeal()">Delete</button>
           </div>
         </div>
@@ -104,56 +106,55 @@
   </section>
 
   <section class="addNewProductSection hidden" id="addNewProductSection">
-    <div id="addProductTab" class="product-tab">
-      <div class="product-tab-header">
-        <h2 id="addProductHeader">Add product</h2>
-        <button onclick="toggleManagement()" class="openAddItemSectionButton">Hide</button>
-      </div>
-      <form method="post" class="add-product-form" id="addProductForm" enctype="multipart/form-data">
-        <label for="productName">Name:</label>
-        <input type="text" id="productName" name="name">
-        <label for="productDescription">Description:</label>
-        <textarea id="productDescription" name="description"></textarea>
-        <label class="productprice" for="productPrice">Price:</label>
-        <input type="text" id="productPrice" name="price">
-        <label for="productCategory">Category:</label>
-        <select id="productCategory" name="category">
-          <option value="" disabled selected>Choose a category</option>
-          <option value="Japanese">Japanese</option>
-          <option value="Korean">Korean</option>
-          <option value="Chinese">Chinese</option>
-          <option value="Thai">Thai</option>
-          <option value="Indian">Indian</option>
-          <option value="Vietnamese">Vietnamese</option>
-          <option value="Drinks">Drinks</option>
-          <option value="Dessert">Desserts</option>
-        </select>
-        <label>Allergens:</label>
-        <div class="allergens" id="allergens">
-          <input type="checkbox" id="dairy" name="allergen" value="dairy">
-          <label for="dairy">Dairy</label><br>
-          <input type="checkbox" id="vegan" name="allergen" value="vegan">
-          <label for="vegan">Vegan</label><br>
-          <input type="checkbox" id="gluten" name="allergen" value="gluten">
-          <label for="gluten">Gluten</label><br>
-          <input type="checkbox" id="peanuts" name="allergen" value="peanuts">
-          <label for="peanuts">Peanuts</label><br>
-          <input type="checkbox" id="fish" name="allergen" value="fish">
-          <label for="fish">Fish</label><br>
-          <input type="checkbox" id="soy" name="allergen" value="soy">
-          <label for="soy">Soy</label><br>
+      <div id="addProductTab" class="product-tab">
+        <div class="product-tab-header">
+          <h2>Add Product</h2>
+          <button onclick="toggleManagement()" class="openAddItemSectionButton">Hide</button>
         </div>
-        <div class="file-input-container">
-          <label for="productImage" id="productImageLabel">Image:</label>
-          <input type="file" id="productImage" class="hidden-file-input" name="image" required>
-          <button onclick="document.getElementById('productImage').click()">Choose Image</button>
+        <form method="post" class="add-product-form" id="addProductForm" enctype="multipart/form-data">
+          <label for="productName">Name:</label>
+          <input type="text" id="productName" name="name">
+          <label for="productDescription">Description:</label>
+          <textarea id="productDescription" name="description"></textarea>
+          <label class="productprice" for="productPrice">Price:</label>
+          <input type="text" id="productPrice" name="price">
+          <label for="productCategory">Category:</label>
+          <select id="productCategory" name="category">
+            <option value="" disabled selected>...</option>
+            <option value="japanese">Japanese</option>
+            <option value="korean">Korean</option>
+            <option value="chinese">Chinese</option>
+            <option value="thai">Thai</option>
+            <option value="indian">Indian</option>
+            <option value="vietnamese">Vietnamese</option>
+            <option value="Drinks">Drinks</option>
+            <option value="Dessert">Desserts</option>
+          </select>
+          <label>Allergens:</label>
+          <div class="allergens" id="allergens">
+            <input type="checkbox" id="dairy" name="allergen" value="dairy">
+            <label for="dairy">Dairy</label><br>
+            <input type="checkbox" id="vegan" name="allergen" value="vegan">
+            <label for="vegan">Vegan</label><br>
+            <input type="checkbox" id="gluten" name="allergen" value="gluten">
+            <label for="gluten">Gluten</label><br>
+            <input type="checkbox" id="peanuts" name="allergen" value="peanuts">
+            <label for="peanuts">Peanuts</label><br>
+            <input type="checkbox" id="fish" name="allergen" value="fish">
+            <label for="fish">Fish</label><br>
+            <input type="checkbox" id="soy" name="allergen" value="soy">
+            <label for="soy">Soy</label><br>
+          </div>
+          <div class="file-input-container">
+            <label for="productImage" id="productImageLabel">Image:</label>
+            <input type="file" id="productImage" class="hidden-file-input" name="image" required>
+            <button onclick="document.getElementById('productImage').click()">Choose Image</button>
+          </div>
+          <p id="errorMessage"></p>
+          <button type="button" onclick="saveProduct()">Save Product</button>
+        </form>
         </div>
-        <p id="errorMessage"></p>
-        <button id="save-modify-btn" type="button" onclick="saveOrModifyProduct()">Save Product</button>
-      </form>
-    </div>
-  </section>
-
+    </section>
 </main>
 <object type="text/html" data="footer.html" style="width:100%"></object>
 </body>
