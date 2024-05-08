@@ -145,10 +145,17 @@
   margin-right: 15px;
 }
 
+.deliver-button {
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+  border: none;
+}
+
 /*---------------------- MEAL OF THE DAY -----------------------------*/
 .motd-dropdown {
   margin-top: 10px;
-  max-height: 500px;
+  max-height: 600px;
   overflow: hidden;
   transition: max-height 0.5s ease-in-out;
 }
@@ -267,7 +274,7 @@
 .addNewProductSection {
   max-height: 800px;
   overflow: hidden;
-  transition: max-height 0.5s ease-in-out;
+  transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
   justify-content: space-between; /* Distribute items evenly along the main axis */
   align-items: flex-start;
 }
@@ -467,12 +474,23 @@
   margin-bottom: 5px;
 }
 
+.product-tab-header {
+  display: flex;
+  justify-content: space-between; /* Align items on left and right */
+  align-items: center;
+}
+
+
 /*---------------------- MOBILE -----------------------------*/
 
 @media screen and (max-width: 600px) {
   .profileInfoDiv {
     display: block;
     text-align: center;
+  }
+
+  .deleteMealButton {
+    margin-top: 10px;
   }
 
   .profilePictureDiv {

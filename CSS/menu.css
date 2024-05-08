@@ -55,6 +55,10 @@
     .daymenu {
         width: 80%;
     }
+
+  #add-item-button {
+    margin-top: 10px;
+  }
 }
 
 .header-container {

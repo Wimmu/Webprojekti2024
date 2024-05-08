@@ -107,8 +107,10 @@
 
   <section class="addNewProductSection hidden" id="addNewProductSection">
       <div id="addProductTab" class="product-tab">
-        <h2>Add Product</h2>
-        <button onclick="toggleManagement()" class="openAddItemSectionButton">Hide</button>
+        <div class="product-tab-header">
+          <h2>Add Product</h2>
+          <button onclick="toggleManagement()" class="openAddItemSectionButton">Hide</button>
+        </div>
         <form method="post" class="add-product-form" id="addProductForm" enctype="multipart/form-data">
           <label for="productName">Name:</label>
           <input type="text" id="productName" name="name">
@@ -118,6 +120,7 @@
           <input type="text" id="productPrice" name="price">
           <label for="productCategory">Category:</label>
           <select id="productCategory" name="category">
+            <option value="" disabled selected>...</option>
             <option value="japanese">Japanese</option>
             <option value="korean">Korean</option>
             <option value="chinese">Chinese</option>

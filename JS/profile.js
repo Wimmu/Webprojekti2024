@@ -335,6 +335,7 @@ async function placeOrderData() {
         if (order.status === 'pending') {
           const deliverButton = document.createElement('button');
           deliverButton.innerText = 'Deliver to customer';
+          deliverButton.classList.add('deliver-button');
           deliverButton.addEventListener('click', () => updateOrderStatus(order.order_id));
           orderDiv.appendChild(deliverButton);
         }
@@ -505,9 +506,10 @@ function saveProduct() {
   const productDescription = form.querySelector('#productDescription').value.trim();
   const productPrice = form.querySelector('#productPrice').value.trim();
   const productImage = form.querySelector('#productImage').files[0];
+  const productCategory = form.querySelector('#productCategory').value;
 
-  if (!productName || !productDescription || !productPrice || !productImage) {
-    document.getElementById('errorMessage').innerText = 'Error: Name, description, price and image are required';
+  if (!productName || !productDescription || !productPrice || !productImage || !productCategory) {
+    document.getElementById('errorMessage').innerText = 'Error: Name, description, price, category and image are required';
     return;
   }
 
