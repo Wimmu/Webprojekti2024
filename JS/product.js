@@ -46,24 +46,26 @@ createCategoryCheckboxes()
 createAllergenCheckboxes()
 
 async function createCategoryContainer() {
-  const productContainer = document.getElementById('productContainer');
+  const productContainer = document.getElementById("productContainer");
 
   try {
     const newmenu = await fetchMenuItems();
 
-    newmenu.forEach(item => {
+    newmenu.forEach((item) => {
       const { category } = item;
 
-      let categoryContainer = document.querySelector(`.categoryContainer[data-category="${category}"]`);
+      let categoryContainer = document.querySelector(
+        `.categoryContainer[data-category="${category}"]`
+      );
 
       if (!categoryContainer) {
-        categoryContainer = document.createElement('div');
-        categoryContainer.classList.add('categoryContainer');
+        categoryContainer = document.createElement("div");
+        categoryContainer.classList.add("categoryContainer");
         categoryContainer.dataset.category = category;
-        categoryContainer.classList.add('visible'); // Add class to indicate category is visible
+        categoryContainer.classList.add("visible"); // Add class to indicate category is visible
 
-        const categoryTitle = document.createElement('h3');
-        categoryTitle.classList.add('categoryTitle');
+        const categoryTitle = document.createElement("h3");
+        categoryTitle.classList.add("categoryTitle");
         categoryTitle.innerText = category;
 
         categoryContainer.appendChild(categoryTitle);
@@ -73,11 +75,13 @@ async function createCategoryContainer() {
       const productInfoBox = crateProductInfoBox(item);
       categoryContainer.appendChild(productInfoBox);
     });
+
+    // Call the filterCategory function with a small delay to ensure products are loaded
+    setTimeout(filterCategory, 100);
   } catch (error) {
-    console.error('Error fetching menu items:', error);
+    console.error("Error fetching menu items:", error);
   }
 }
-
 
 
 function crateProductInfoBox(product) {
@@ -119,30 +123,33 @@ function crateProductInfoBox(product) {
 async function createCategoryCheckboxes() {
   const urlParams = new URLSearchParams(window.location.search);
   console.log(urlParams);
-  const categoryParam = urlParams.get('category');
+  const categoryParam = urlParams.get("category");
+  console.log(categoryParam);
 
   const categories = await fetchCategories();
-  const categoryFilterDiv = document.getElementById('categoryFilters');
+  const categoryFilterDiv = document.getElementById("categoryFilters");
   const addedCategories = {};
 
-  categories.forEach(category => {
+  categories.forEach((category) => {
     const categoryName = category.category;
     if (!addedCategories[categoryName]) {
-      const container = document.createElement('div');
-      container.className = 'filter-category-container';
+      const container = document.createElement("div");
+      container.className = "filter-category-container";
 
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
       checkbox.value = categoryName; // Set checkbox value to category name
       checkbox.id = categoryName;
-      checkbox.className = 'categoryCheck';
+      checkbox.className = "categoryCheck";
       checkbox.onclick = filterCategory;
 
       if (categoryName === categoryParam) {
         checkbox.checked = true; // Pre-select checkbox for drinks
+        console.log("Category selected:", categoryName);
+        console;
       }
 
-      const label = document.createElement('label');
+      const label = document.createElement("label");
       label.htmlFor = categoryName;
       label.innerText = categoryName;
 

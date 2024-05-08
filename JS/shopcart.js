@@ -36,7 +36,7 @@ class ShoppingCart {
         return;
       }
 
-      const url = `http://127.0.0.1:3000/api/v1/users/${this.userId}`; // Use this.userId here
+      const url = `http://10.120.32.75/app/api/v1/users/${this.userId}`; // Use this.userId here
       const options = {
         method: 'GET',
         headers: {
@@ -63,7 +63,7 @@ class ShoppingCart {
         return;
       }
 
-      const url = 'http://127.0.0.1:3000/api/v1/auth/me'; // Endpoint to get user data
+      const url = 'http://10.120.32.75/app/api/v1/auth/me'; // Endpoint to get user data
       const options = {
         method: 'GET',
         headers: {
@@ -364,10 +364,10 @@ checkoutForm.addEventListener('submit', async function(event) {
 
   try {
     // Send the order data to the server to create the order and get the generated order ID
-    const response = await fetch('http://localhost:3000/api/v1/orders/', {
-      method: 'POST',
+    const response = await fetch("http://10.120.32.75/app/api/v1/orders/", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),
     });
@@ -382,13 +382,16 @@ checkoutForm.addEventListener('submit', async function(event) {
     // Associate the order ID with each order item and send them to the server
     await Promise.all(cart.items.map(async (item) => {
       item.orderId = orderId;
-      const itemResponse = await fetch(`http://localhost:3000/api/v1/orders/${orderId}/items`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(item),
-      });
+      const itemResponse = await fetch(
+        `http://10.120.32.75/app/api/v1/orders/${orderId}/items`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(item),
+        }
+      );
 
       if (!itemResponse.ok) {
         throw new Error(`HTTP error! status: ${itemResponse.status}`);
