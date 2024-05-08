@@ -178,7 +178,7 @@ class ShoppingCart {
       (item) => `
       <div class="product">
         <div class="product-image">
-          <img src="/uploads/${item.image}" alt="${item.name}">
+          <img src="http://10.120.32.75/app/public/${item.image}" alt="${item.name}">
         </div>
         <div class="product-details">
           <div class="product-title">${item.name}</div>
