@@ -11,7 +11,7 @@ async function fetchUsers() {
       return;
     }
 
-    const url = 'http://127.0.0.1:3000/api/v1/auth/me'; // Endpoint to get user data
+    const url = 'http://10.120.32.75/app/api/v1/auth/me'; // Endpoint to get user data
     const options = {
       method: 'GET',
       headers: {
@@ -41,7 +41,7 @@ async function fetchCurrentUser() {
       return;
     }
 
-    const url = `http://127.0.0.1:3000/api/v1/users/${userId}`;
+    const url = `http://10.120.32.75/app/api/v1/users/${userId}`;
     const options = {
       method: 'GET',
       headers: {
@@ -61,7 +61,7 @@ async function fetchCurrentUser() {
 
 async function fetchOrders(userId) {
   try {
-    const response = await fetch(`http://127.0.0.1:3000/api/v1/users/${userId}/orders`);
+    const response = await fetch(`http://10.120.32.75/app/api/v1/users/${userId}/orders`);
     return await response.json();
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -70,7 +70,7 @@ async function fetchOrders(userId) {
 
 async function fetchAllOrders() {
   try {
-    const response = await fetch(`http://127.0.0.1:3000/api/v1/orders`);
+    const response = await fetch(`http://10.120.32.75/app/api/v1/orders`);
     return await response.json();
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -79,7 +79,7 @@ async function fetchAllOrders() {
 
 async function fetchUser(user_id) {
   try {
-    const response = await fetch(`http://127.0.0.1:3000/api/v1/users/${user_id}`);
+    const response = await fetch(`http://10.120.32.75/app/api/v1/users/${user_id}`);
     return await response.json();
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -88,7 +88,7 @@ async function fetchUser(user_id) {
 
 async function fetchOrderItemsByOrderId(orderId){
   try {
-    const response = await fetch(`http://127.0.0.1:3000/api/v1/items/orderItems/${orderId}`);
+    const response = await fetch(`http://10.120.32.75/app/api/v1/items/orderItems/${orderId}`);
     const data = await response.json();
     return data.join(', ');
   } catch (error) {
@@ -98,7 +98,7 @@ async function fetchOrderItemsByOrderId(orderId){
 
 async function fetchMenuItems() {
   try {
-    const response = await fetch('http://127.0.0.1:3000/api/v1/items');
+    const response = await fetch('http://10.120.32.75/app/api/v1/items');
     return await response.json()
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -149,7 +149,7 @@ async function placeProfileData() {
       userData.avatar = 'default.jpg';
     }
 
-    document.getElementById('profilePicture').src = `/uploads/${userData.avatar}`;
+    document.getElementById('profilePicture').src = `http://10.120.32.75/app/public/${userData.avatar}`;
     document.getElementById('profile-welcome-text-header').textContent = `Welcome to your profile, ${userData.first_name}!`;
     document.getElementById('users-username').textContent = userData.username;
     document.getElementById('users-firstname').textContent = userData.first_name;

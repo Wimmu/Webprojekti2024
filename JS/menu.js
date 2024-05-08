@@ -6,8 +6,8 @@ async function fetchCurrentWeekMenu(currentWeek) {
   const endDate = currentWeek.end;
   const restaurantId = 1;
 
-  try { 
-    const response = await fetch(`http://127.0.0.1:3000/api/v1/menu?start_date=${startDate}&end_date=${endDate}&restaurant_id=${restaurantId}`);
+  try {
+    const response = await fetch(`http://10.120.32.75/app/api/v1/menu?start_date=${startDate}&end_date=${endDate}&restaurant_id=${restaurantId}`);
     const data = await response.json();
     displayMenuForWeek(data);
   } catch (error) {
