@@ -1,22 +1,22 @@
-Tekijät: Petra Haukkala, Kaisla Ketola, Wilma Isberg
+<h3>Tekijät: Petra Haukkala, Kaisla Ketola, Wilma Isberg</h3>
 
-Sovelluksen Idea: Aasialainen ravintola. 
+<h3>Sovelluksen Idea: Aasialainen ravintola.</h3> 
 
-Sovelluksen toiminnalisuudet:
+<h3>Sovelluksen toiminnalisuudet: </h3>
   
-  Index:
+  <h4>Index:</h4>
 
-  Menu:
+  <h4>Menu:</h4>:
 
-  Products:
+  <h4>Products:</h4>
 
-  Login:
+  <h4>Login:</h4>
 
-  Profiili:
+  <h4>Profile:</h4>
 
-  Ostoskori:
+  <h4>Cart:</h4>
 
 
-Admin Käyttäjä: <br>
-  Käyttäjänimi: admin <br>
-  Salasana: 123456
+<h5>Admin Käyttäjä: <br> </h5>
+  <p>Käyttäjänimi: admin <br>
+  Salasana: 123456 </p>
