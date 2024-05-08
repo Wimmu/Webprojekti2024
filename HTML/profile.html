@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="../CSS/main.css">
+    <link rel="stylesheet" href="../CSS/profile.css">
+
+    <script src="../JS/header.js" defer></script>
+    <script src="../JS/profile.js" defer></script>
+</head>
+
+<header class="header">
+  <div id="notification" class="notification"></div>
+  <div class="nav-container">
+    <a class="logo-container" href="index.html">
+      <img class="logo" src="../IMG/Asian%20Flavor%20Logo%20Black.png" alt="logo">
+    </a>
+    <nav class="nav">
+      <ul id="nav-links" class="nav-links">
+        <li class="navButton"><a href="index.html">Home</a></li>
+        <li class="navButton"><a href="menu.html">Lunch</a></li>
+        <li class="navButton"><a href="products.html">Products</a></li>
+        <li class="navButton" id="login"><a href="login.html">Login</a></li>
+        <li class="navButton" id="logout"><a href="#">Logout</a></li>
+        <ol class="iconList" id="iconList">
+          <li class="navButton" id="shoppingCart"><a href="shoppingcart.html" class="shopping-cart-link"><img src="../IMG/shopping_cart.png" class="shopping-cart-image"></a></li>
+          <li class="navButton" id="profile"><a href="profile.html" class="profile-icon-link"><img src="../IMG/profile_icon.png" class="profile-icon-image"></a></li>
+        </ol>
+      </ul>
+    </nav>
+    <img class="hamburger-menu" src="../IMG/hamburgerIcon.png">
+  </div>
+</header>
+
+<body>
+<main>
+
+    <section class="profileSection">
+        <h2 id="profile-welcome-text-header">Welcome to your profile, !</h2>
+        <div class="profileInfoDiv">
+          <div class="profilePictureDiv">
+            <img id="profilePicture" src="../IMG/empty.jpg" alt="Profile Picture">
+            <input type="file" id="profile-picture-input" class="profilePictureInput"style="display: none" accept="image/*">
+            <button onclick="document.getElementById('profile-picture-input').click()" id="profile-image-upload-btn" style="display: none">Choose Image</button>
+          </div>
+
+          <div id="user-details-div" class="userDetailsDiv">
+              <p><strong>Username:</strong> <span id="users-username"></span></p>
+              <p><strong>First Name:</strong> <span id="users-firstname"></span></p>
+              <p><strong>Last Name:</strong> <span id="users-lastname"></span></p>
+              <p><strong>Email:</strong> <span id="users-email"></span></p>
+              <p><strong>Phone:</strong> <span id="users-phone"></span></p>
+              <p><strong>Address:</strong> <span id="users-address"></span></p>
+              <p id="edit-account-error-text" class="editAccountErrorText"></p>
+            </div>
+        </div>
+        <div class="editProfileBtnDiv">
+            <button class="changePasswordBtn">Change Password</button>
+            <button class="editAccountDetailsBtn" onclick="toggleProfileEdit()">Edit Account Details</button>
+        </div>
+    </section>
+
+    <section class="order-history-section">
+        <div class="order-history-top">
+            <h2 id="order-history-header">Order history</h2>
+            <button id="orderToggleButton" onclick="toggleOrderHistory()">Hide</button>
+        </div>
+        <div id="order-history" class="order-history hidden">
+
+        </div>
+    </section>
+
+  <section class="productManagementSection" id="motd-section">
+    <div class="motd-top">
+      <h2>Manage products</h2>
+      <button id="motdToggleButton" onclick="toggleMotd()">Show</button>
+    </div>
+    <div class="motd-dropdown hidden" id="motd-dropdown">
+      <div class="motd-left">
+        <button onclick="toggleDropdown()" class="motd-select-dropdown">Select Meal</button>
+        <div id="dropdownContent" class="dropdown-content">
+          <!-- Dropdown content goes here -->
+        </div>
+      </div>
+      <div class="motd-right">
+        <h3 id="currentMealHeader">Current:</h3>
+        <div class="selected-meal" id="selectedMealData">
+          <img src="../IMG/empty.jpg" id="selectedMealImage" alt="Selected Meal">
+          <div class="selected-meal-info">
+            <p id="selectedMealName">Name of the meal</p>
+            <p id="selectedPrice">12.49€</p>
+            <p id="selectedDescription">This is a short description about the product that is chosen for the meal of the day. This is a short description about the product that is chosen for the meal of the day. </p>
+            <p id="selectedAllergen">Allergens: </p>
+            <p id="selectedCategory">Category: </p>
+            <button onclick="toggleAddProduct()" id="openAddItemSectionButton">Add Product</button>
+            <button class="editMealButton" id="editMealButton" onclick="toggleEditProduct()">Edit</button>
+            <button class="deleteMealButton" onclick="removeMeal()">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="addNewProductSection hidden" id="addNewProductSection">
+    <div id="addProductTab" class="product-tab">
+      <div class="product-tab-header">
+        <h2 id="addProductHeader">Add product</h2>
+        <button onclick="toggleManagement()" class="openAddItemSectionButton">Hide</button>
+      </div>
+      <form method="post" class="add-product-form" id="addProductForm" enctype="multipart/form-data">
+        <label for="productName">Name:</label>
+        <input type="text" id="productName" name="name">
+        <label for="productDescription">Description:</label>
+        <textarea id="productDescription" name="description"></textarea>
+        <label class="productprice" for="productPrice">Price:</label>
+        <input type="text" id="productPrice" name="price">
+        <label for="productCategory">Category:</label>
+        <select id="productCategory" name="category">
+          <option value="" disabled selected>Choose a category</option>
+          <option value="Japanese">Japanese</option>
+          <option value="Korean">Korean</option>
+          <option value="Chinese">Chinese</option>
+          <option value="Thai">Thai</option>
+          <option value="Indian">Indian</option>
+          <option value="Vietnamese">Vietnamese</option>
+          <option value="Drinks">Drinks</option>
+          <option value="Dessert">Desserts</option>
+        </select>
+        <label>Allergens:</label>
+        <div class="allergens" id="allergens">
+          <input type="checkbox" id="dairy" name="allergen" value="dairy">
+          <label for="dairy">Dairy</label><br>
+          <input type="checkbox" id="vegan" name="allergen" value="vegan">
+          <label for="vegan">Vegan</label><br>
+          <input type="checkbox" id="gluten" name="allergen" value="gluten">
+          <label for="gluten">Gluten</label><br>
+          <input type="checkbox" id="peanuts" name="allergen" value="peanuts">
+          <label for="peanuts">Peanuts</label><br>
+          <input type="checkbox" id="fish" name="allergen" value="fish">
+          <label for="fish">Fish</label><br>
+          <input type="checkbox" id="soy" name="allergen" value="soy">
+          <label for="soy">Soy</label><br>
+        </div>
+        <div class="file-input-container">
+          <label for="productImage" id="productImageLabel">Image:</label>
+          <input type="file" id="productImage" class="hidden-file-input" name="image" required>
+          <button onclick="document.getElementById('productImage').click()">Choose Image</button>
+        </div>
+        <p id="errorMessage"></p>
+        <button id="save-modify-btn" type="button" onclick="saveOrModifyProduct()">Save Product</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+<object type="text/html" data="footer.html" style="width:100%"></object>
+</body>
+</html>

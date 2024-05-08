@@ -100,11 +100,27 @@ const listOrderItems = async (orderId) => {
   }
 }
 
+const modifyItem = async (item, id, file) => {
+  if (file) {
+    item.image = file.filename;
+  }
+
+  const sql = promisePool.format(`UPDATE menuitem SET ? WHERE name = ?`, [item, id]);
+  const [rows] = await promisePool.execute(sql);
+
+  if (rows.affectedRows === 0) {
+    return false;
+  }
+  return { message: 'success' };
+}
+
+
 export {
   listAllItems,
   categoryList,
   allergenList,
   removeItem,
   addItem,
-  listOrderItems
+  listOrderItems,
+  modifyItem
 };
