@@ -12,24 +12,25 @@
 
 <body>
 <header class="header">
+  <div id="notification" class="notification"></div>
   <div class="nav-container">
-    <a class="logo-container" href="index.html">
-      <img class="logo" src="../IMG/Asian%20Flavor%20Logo%20Black.png" alt="logo">
+    <a class="logo-container" href="index.html" aria-label="Asian Flavor Home">
+      <img class="logo" src="../IMG/Asian%20Flavor%20Logo%20Black.png" alt="Asian Flavor logo">
     </a>
     <nav class="nav">
       <ul id="nav-links" class="nav-links">
-        <li class="navButton"><a href="index.html">Home</a></li>
-        <li class="navButton"><a href="menu.html">Lunch</a></li>
-        <li class="navButton"><a href="products.html">Products</a></li>
-        <li class="navButton" id="login"><a href="login.html">Login</a></li>
-        <li class="navButton" id="logout"><a href="#">Logout</a></li>
-        <ol class="iconList" id="iconList">
-          <li class="navButton" id="shoppingCart"><a href="shoppingcart.html" class="shopping-cart-link"><img src="../IMG/shopping_cart.png" class="shopping-cart-image"></a></li>
-          <li class="navButton" id="profile"><a href="profile.html" class="profile-icon-link"><img src="../IMG/profile_icon.png" class="profile-icon-image"></a></li>
-        </ol>
+        <li class="navButton"><a href="index.html" aria-label="Home">Home</a></li>
+        <li class="navButton"><a href="menu.html" aria-label="Lunch Menu">Lunch</a></li>
+        <li class="navButton"><a href="products.html" aria-label="Products">Products</a></li>
+        <li class="navButton" id="login"><a href="login.html" aria-label="Login">Login</a></li>
+        <li class="navButton" id="logout"><a href="#" aria-label="Logout">Logout</a></li>
+        <ul class="iconList" id="iconList">
+          <li class="navButton" id="shoppingCart"><a href="shoppingcart.html" class="shopping-cart-link" aria-label="Shopping Cart"><img src="../IMG/shopping_cart.png" class="shopping-cart-image" alt="shopping cart icon"></a></li>
+          <li class="navButton" id="profile"><a href="profile.html" class="profile-icon-link" aria-label="Profile"><img src="../IMG/profile_icon.png" class="profile-icon-image" alt="profile icon"></a></li>
+        </ul>
       </ul>
     </nav>
-    <img class="hamburger-menu" src="../IMG/hamburgerIcon.png">
+    <img class="hamburger-menu" src="../IMG/hamburgerIcon.png" alt="burger menu">
   </div>
 </header>
 
