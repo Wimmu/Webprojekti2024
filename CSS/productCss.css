@@ -434,7 +434,6 @@ li p {
 #error-message-container {
     display: flex;
     justify-content: center; /* Center the content horizontally */
-    align-items: center; /* Center the content vertically */
 }
 
 #error-message {
@@ -444,5 +443,18 @@ li p {
 
 #error-message img {
     width: 100%; /* Ensure the image fills the container */
-    max-width: 900px; /* Adjust as needed */
+    max-width: 800px; /* Adjust as needed */
+}
+
+@media screen and (max-width: 900px) {
+    #error-message {
+        max-width: 100%; /* Adjust the width for smaller screens */
+    }
+    #error-message img {
+        max-width: 100%; /* Adjust the image width for smaller screens */
+    }
+
+    footer {
+        bottom: 0;
+    };
 }
