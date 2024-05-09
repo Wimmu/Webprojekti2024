@@ -58,8 +58,8 @@ h5  {
 }
 
 .allergens-filter label {
-    margin-bottom: 10px;
-    margin-left: 20px;
+    margin-bottom: 20px;
+    margin-left: 10px;
 }
 
 .filter-container select {
@@ -431,3 +431,18 @@ li p {
     }
 }
 
+#error-message-container {
+    display: flex;
+    justify-content: center; /* Center the content horizontally */
+    align-items: center; /* Center the content vertically */
+}
+
+#error-message {
+    text-align: center; /* Center the text/image horizontally */
+    max-width: 70%; /* Limit the width of the error message */
+}
+
+#error-message img {
+    width: 100%; /* Ensure the image fills the container */
+    max-width: 900px; /* Adjust as needed */
+}
