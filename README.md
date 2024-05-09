@@ -2,6 +2,8 @@
 
 <h3>Sovelluksen Idea: Aasialainen ravintola.</h3> 
 
+Open [Ravintola sivu](https://users.metropolia.fi/~wilmais/web-projekti/HTML/index.html) to view it in the browser.
+
 <h3>Sovelluksen toiminnalisuudet: </h3>
 
 <ul>
