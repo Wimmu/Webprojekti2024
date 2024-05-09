@@ -122,9 +122,9 @@ function crateProductInfoBox(product) {
 
 async function createCategoryCheckboxes() {
   const urlParams = new URLSearchParams(window.location.search);
-  console.log(urlParams);
+  //console.log(urlParams);
   const categoryParam = urlParams.get("category");
-  console.log(categoryParam);
+  //console.log(categoryParam);
 
   const categories = await fetchCategories();
   const categoryFilterDiv = document.getElementById("categoryFilters");
@@ -145,7 +145,7 @@ async function createCategoryCheckboxes() {
 
       if (categoryName === categoryParam) {
         checkbox.checked = true; // Pre-select checkbox for drinks
-        console.log("Category selected:", categoryName);
+        //console.log("Category selected:", categoryName);
         console;
       }
 
