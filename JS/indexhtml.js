@@ -11,7 +11,7 @@ function createMenuHTML(menu) {
     <p>${foodItems}</p>
   `;
 }
-fetch("http://10.120.32.75/app/api/v1/menu/" + currentDateString)
+fetch("https://10.120.32.75/app/api/v1/menu/" + currentDateString)
   .then((response) => {
     if (!response.ok) {
       throw new Error("HTTP error " + response.status);
@@ -40,7 +40,7 @@ fetch("http://10.120.32.75/app/api/v1/menu/" + currentDateString)
 
 let INSTAGRAM_API_KEY;
 
-fetch("http://10.120.32.75/app/api/instagram-key")
+fetch("https://10.120.32.75/app/api/instagram-key")
   .then((response) => response.json())
   .then((data) => {
     INSTAGRAM_API_KEY = data.key;
@@ -52,7 +52,7 @@ fetch("http://10.120.32.75/app/api/instagram-key")
 const instagramSection = document.getElementById('instagram');
 
 async function getInstagramData() {
-  const responseKey = await fetch('http://10.120.32.75/app/api/instagram-key');
+  const responseKey = await fetch('https://10.120.32.75/app/api/instagram-key');
   const dataKey = await responseKey.json();
   const INSTAGRAM_API_KEY = dataKey.key;
 

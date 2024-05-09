@@ -11,7 +11,7 @@ async function fetchUsers() {
       return;
     }
 
-    const url = 'http://10.120.32.75/app/api/v1/auth/me'; // Endpoint to get user data
+    const url = 'https://10.120.32.75/app/api/v1/auth/me'; // Endpoint to get user data
     const options = {
       method: 'GET',
       headers: {
@@ -41,7 +41,7 @@ async function fetchCurrentUser() {
       return;
     }
 
-    const url = `http://10.120.32.75/app/api/v1/users/${userId}`;
+    const url = `https://10.120.32.75/app/api/v1/users/${userId}`;
     const options = {
       method: 'GET',
       headers: {
@@ -61,7 +61,7 @@ async function fetchCurrentUser() {
 
 async function fetchOrders(userId) {
   try {
-    const response = await fetch(`http://10.120.32.75/app/api/v1/users/${userId}/orders`);
+    const response = await fetch(`https://10.120.32.75/app/api/v1/users/${userId}/orders`);
     return await response.json();
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -70,7 +70,7 @@ async function fetchOrders(userId) {
 
 async function fetchAllOrders() {
   try {
-    const response = await fetch(`http://10.120.32.75/app/api/v1/orders`);
+    const response = await fetch(`https://10.120.32.75/app/api/v1/orders`);
     return await response.json();
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -79,7 +79,7 @@ async function fetchAllOrders() {
 
 async function fetchUser(user_id) {
   try {
-    const response = await fetch(`http://10.120.32.75/app/api/v1/users/${user_id}`);
+    const response = await fetch(`https://10.120.32.75/app/api/v1/users/${user_id}`);
     return await response.json();
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -88,7 +88,7 @@ async function fetchUser(user_id) {
 
 async function fetchOrderItemsByOrderId(orderId){
   try {
-    const response = await fetch(`http://10.120.32.75/app/api/v1/items/orderItems/${orderId}`);
+    const response = await fetch(`https://10.120.32.75/app/api/v1/items/orderItems/${orderId}`);
     const data = await response.json();
     return data.join(', ');
   } catch (error) {
@@ -98,7 +98,7 @@ async function fetchOrderItemsByOrderId(orderId){
 
 async function fetchMenuItems() {
   try {
-    const response = await fetch('http://10.120.32.75/app/api/v1/items');
+    const response = await fetch('https://10.120.32.75/app/api/v1/items');
     return await response.json()
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -137,7 +137,7 @@ async function placeProfileData() {
       userData.avatar = 'default.jpg';
     }
 
-    document.getElementById('profilePicture').src = `http://10.120.32.75/app/public/${userData.avatar}`;
+    document.getElementById('profilePicture').src = `https://10.120.32.75/app/public/${userData.avatar}`;
     document.getElementById('profilePicture').alt = userData.first_name + " profile picture";
     document.getElementById('profile-welcome-text-header').textContent = `Welcome to your profile, ${userData.first_name}!`;
     document.getElementById('users-username').textContent = userData.username;
@@ -149,7 +149,7 @@ async function placeProfileData() {
   } catch (error) {
     console.error('Error fetching user data:', error);
     // Use default avatar in case of an error
-    document.getElementById('profilePicture').src = 'http://10.120.32.75/app/public/default.jpg';
+    document.getElementById('profilePicture').src = 'https://10.120.32.75/app/public/default.jpg';
   }
 }
 
@@ -230,7 +230,7 @@ async function saveAccountDetails() {
       formData.append('avatar', file);
     }
 
-    const response = await fetch(`http://10.120.32.75/app/api/v1/users/${userId}`, {
+    const response = await fetch(`https://10.120.32.75/app/api/v1/users/${userId}`, {
       method: 'PUT',
       body: formData, // Send the form data directly
       headers: {
@@ -265,7 +265,7 @@ async function updateOrderStatus(orderId) {
       return;
     }
 
-    const url = `http://10.120.32.75/app/api/v1/orders/${orderId}/items`;
+    const url = `https://10.120.32.75/app/api/v1/orders/${orderId}/items`;
     const options = {
       method: 'PUT',
       headers: {
@@ -381,7 +381,7 @@ async function placeMotdData() {
       itemDiv.classList.add('item');
       itemDiv.onclick = () => placeSelectedItemData(item);
       itemDiv.innerHTML = `
-                <img src="http://10.120.32.75/app/public/${item.image}" alt="${item.name}">
+                <img src="https://10.120.32.75/app/public/${item.image}" alt="${item.name}">
                 <div class="item-info">
                     <p>${item.name}</p>
                     <p>${item.price}€</p>
@@ -461,7 +461,7 @@ async function removeMeal() {
     const confirmation = confirm(`Are you sure you want to remove ${mealName}?`);
 
     if (confirmation) {
-      const response = await fetch(`http://10.120.32.75/app/api/v1/items/${mealName}`, {
+      const response = await fetch(`https://10.120.32.75/app/api/v1/items/${mealName}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -517,7 +517,7 @@ function saveProduct() {
 
   const formData = new FormData(form);
 
-  fetch('http://10.120.32.75/app/api/v1/items', {
+  fetch('https://10.120.32.75/app/api/v1/items', {
     method: 'POST',
     body: formData
   })
@@ -612,7 +612,7 @@ async function saveModifiedProduct() {
       return;
     }
 
-    const response = await fetch(`http://10.120.32.75/app/api/v1/items/${productId}`, {
+    const response = await fetch(`https://10.120.32.75/app/api/v1/items/${productId}`, {
       method: 'PUT',
       body: formData,
       headers: {

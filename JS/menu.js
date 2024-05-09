@@ -7,7 +7,7 @@ async function fetchCurrentWeekMenu(currentWeek) {
   const restaurantId = 1;
 
   try {
-    const response = await fetch(`http://10.120.32.75/app/api/v1/menu?start_date=${startDate}&end_date=${endDate}&restaurant_id=${restaurantId}`);
+    const response = await fetch(`https://10.120.32.75/app/api/v1/menu?start_date=${startDate}&end_date=${endDate}&restaurant_id=${restaurantId}`);
     const data = await response.json();
     displayMenuForWeek(data);
   } catch (error) {
@@ -20,7 +20,7 @@ async function fetchCurrentWeekMenuForRestaurant(currentWeek, restaurantId) {
   const endDate = currentWeek.end;
 
   try {
-    const response = await fetch(`http://10.120.32.75/app/api/v1/menu?start_date=${startDate}&end_date=${endDate}&restaurant_id=${restaurantId}`);
+    const response = await fetch(`https://10.120.32.75/app/api/v1/menu?start_date=${startDate}&end_date=${endDate}&restaurant_id=${restaurantId}`);
     const data = await response.json();
     displayMenuForWeek(data);
   } catch (error) {
@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Fetches the list of restaurants
   async function fetchRestaurants() {
     try {
-      const response = await fetch("http://10.120.32.75/app/api/v1/restaurants");
+      const response = await fetch("https://10.120.32.75/app/api/v1/restaurants");
       const data = await response.json();
       for (const restaurant of data) {
         const option = document.createElement("option");
@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Fetches the list of menu items
   async function fetchMenuItems() {
     try {
-      const response = await fetch("http://10.120.32.75/app/api/v1/items");
+      const response = await fetch("https://10.120.32.75/app/api/v1/items");
       const data = await response.json();
       for (const menuItem of data) {
         const option = document.createElement("option");
@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 // Fetches the menu for a specific date and restaurant
 async function fetchMenuForDateAndRestaurant(date, restaurantId) {
   try {
-    const response = await fetch(`http://10.120.32.75/app/api/v1/menu?start_date=${date}&end_date=${date}&restaurant_id=${restaurantId}`);
+    const response = await fetch(`https://10.120.32.75/app/api/v1/menu?start_date=${date}&end_date=${date}&restaurant_id=${restaurantId}`);
     const data = await response.json();
 
     displayMenuForDate(data);
@@ -325,7 +325,7 @@ function addMenu() {
     food_items: foodItems
   };
 
-  fetch('http://10.120.32.75/app/api/v1/menu', {
+  fetch('https://10.120.32.75/app/api/v1/menu', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -364,7 +364,7 @@ async function fetchCurrentUser() {
       return;
     }
 
-    const url = `http://10.120.32.75/app/api/v1/auth/me`;
+    const url = `https://10.120.32.75/app/api/v1/auth/me`;
     const options = {
       method: 'GET',
       headers: {

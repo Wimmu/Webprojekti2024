@@ -1,5 +1,5 @@
 async function resetPassword(user_Id, token, newPassword) {
-  const response = await fetch(`http://10.120.32.75/app/api/v1/auth/reset-password/${user_Id}/${token}`, {
+  const response = await fetch(`https://10.120.32.75/app/api/v1/auth/reset-password/${user_Id}/${token}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
