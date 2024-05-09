@@ -11,7 +11,7 @@ async function fetchUsers() {
       return;
     }
 
-    const url = 'http://10.120.32.75/app/api/v1/auth/me'; // Endpoint to get user data
+    const url = 'https://10.120.32.75/app/api/v1/auth/me'; // Endpoint to get user data
     const options = {
       method: 'GET',
       headers: {
@@ -41,7 +41,7 @@ async function fetchCurrentUser() {
       return;
     }
 
-    const url = `http://10.120.32.75/app/api/v1/users/${userId}`;
+    const url = `https://10.120.32.75/app/api/v1/users/${userId}`;
     const options = {
       method: 'GET',
       headers: {
@@ -61,7 +61,7 @@ async function fetchCurrentUser() {
 
 async function fetchOrders(userId) {
   try {
-    const response = await fetch(`http://10.120.32.75/app/api/v1/users/${userId}/orders`);
+    const response = await fetch(`https://10.120.32.75/app/api/v1/users/${userId}/orders`);
     return await response.json();
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -70,7 +70,7 @@ async function fetchOrders(userId) {
 
 async function fetchAllOrders() {
   try {
-    const response = await fetch(`http://10.120.32.75/app/api/v1/orders`);
+    const response = await fetch(`https://10.120.32.75/app/api/v1/orders`);
     return await response.json();
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -79,7 +79,7 @@ async function fetchAllOrders() {
 
 async function fetchUser(user_id) {
   try {
-    const response = await fetch(`http://10.120.32.75/app/api/v1/users/${user_id}`);
+    const response = await fetch(`https://10.120.32.75/app/api/v1/users/${user_id}`);
     return await response.json();
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -88,7 +88,7 @@ async function fetchUser(user_id) {
 
 async function fetchOrderItemsByOrderId(orderId){
   try {
-    const response = await fetch(`http://10.120.32.75/app/api/v1/items/orderItems/${orderId}`);
+    const response = await fetch(`https://10.120.32.75/app/api/v1/items/orderItems/${orderId}`);
     const data = await response.json();
     return data.join(', ');
   } catch (error) {
@@ -98,7 +98,7 @@ async function fetchOrderItemsByOrderId(orderId){
 
 async function fetchMenuItems() {
   try {
-    const response = await fetch('http://10.120.32.75/app/api/v1/items');
+    const response = await fetch('https://10.120.32.75/app/api/v1/items');
     return await response.json()
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -127,18 +127,6 @@ function toggleOrderHistory() {
   toggleDropDowns(orderHistory, button);
 }
 
-function toggleManagement() {
-  const management = document.getElementById('addNewProductSection');
-  const button = document.getElementById('openAddItemSectionButton');
-  if (management.classList.contains('hidden')) {
-    management.classList.remove('hidden');
-    button.innerText = 'Add product';
-  } else {
-    management.classList.add('hidden');
-    button.innerText = 'Add product';
-  }
-}
-
 // --------------------- PROFILE ----------------------------- //
 // Fetch user data and place it in the user profile
 async function placeProfileData() {
@@ -149,7 +137,8 @@ async function placeProfileData() {
       userData.avatar = 'default.jpg';
     }
 
-    document.getElementById('profilePicture').src = `http://10.120.32.75/app/public/${userData.avatar}`;
+    document.getElementById('profilePicture').src = `https://10.120.32.75/app/public/${userData.avatar}`;
+    document.getElementById('profilePicture').alt = userData.first_name + " profile picture";
     document.getElementById('profile-welcome-text-header').textContent = `Welcome to your profile, ${userData.first_name}!`;
     document.getElementById('users-username').textContent = userData.username;
     document.getElementById('users-firstname').textContent = userData.first_name;
@@ -160,7 +149,7 @@ async function placeProfileData() {
   } catch (error) {
     console.error('Error fetching user data:', error);
     // Use default avatar in case of an error
-    document.getElementById('profilePicture').src = 'http://10.120.32.75/app/public/uploads/default.jpg';
+    document.getElementById('profilePicture').src = 'https://10.120.32.75/app/public/default.jpg';
   }
 }
 
@@ -241,7 +230,7 @@ async function saveAccountDetails() {
       formData.append('avatar', file);
     }
 
-    const response = await fetch(`http://10.120.32.75/app/api/v1/users/${userId}`, {
+    const response = await fetch(`https://10.120.32.75/app/api/v1/users/${userId}`, {
       method: 'PUT',
       body: formData, // Send the form data directly
       headers: {
@@ -276,7 +265,7 @@ async function updateOrderStatus(orderId) {
       return;
     }
 
-    const url = `http://10.120.32.75/app/api/v1/orders/${orderId}/items`;
+    const url = `https://10.120.32.75/app/api/v1/orders/${orderId}/items`;
     const options = {
       method: 'PUT',
       headers: {
@@ -324,7 +313,7 @@ async function placeOrderData() {
         orderTop.innerHTML = `<h3>${orderDate}</h3><h3>${orderStatus}</h3>`;
         const orderInfo = document.createElement('div');
         orderInfo.innerHTML =
-          `<p><strong>Order ID:</strong> ${order.order_id}</p>
+            `<p><strong>Order ID:</strong> ${order.order_id}</p>
             <p><strong>Customer:</strong> ${user.first_name + " " + user.last_name}</p>
             <p><strong>Delivery address:</strong> ${user.address}</p>
             <p><strong>Products:</strong> ${orderItems}</p>`;
@@ -391,9 +380,8 @@ async function placeMotdData() {
       const itemDiv = document.createElement('div');
       itemDiv.classList.add('item');
       itemDiv.onclick = () => placeSelectedItemData(item);
-      console.log(item.image);
       itemDiv.innerHTML = `
-                <img src="http://10.120.32.75/app/public/${item.image}" alt="${item.name}">
+                <img src="https://10.120.32.75/app/public/${item.image}" alt="${item.name}">
                 <div class="item-info">
                     <p>${item.name}</p>
                     <p>${item.price}€</p>
@@ -418,6 +406,7 @@ function placeSelectedItemData(item) {
   document.getElementById('selectedMealImage').style.display = 'block';
   document.getElementById('selectedMealImage').setAttribute('src', `http://10.120.32.75/app/public/${item.image}`);
   document.getElementById('selectedMealName').textContent = item.name;
+  document.getElementById('selectedMealName').setAttribute('data-id', item.menuitem_id);
   document.getElementById('selectedPrice').textContent = item.price + '€';
   document.getElementById('selectedDescription').textContent = item.description;
   document.getElementById('selectedAllergen').textContent = 'Allergens: ' + item.allergen;
@@ -425,7 +414,6 @@ function placeSelectedItemData(item) {
 
   const editButton = document.querySelector('.editMealButton');
   const deleteButton = document.querySelector('.deleteMealButton');
-
 
   editButton.classList.remove('hidden');
   deleteButton.classList.remove('hidden');
@@ -446,7 +434,7 @@ function resetSelectedMealData() {
 
   editButton.classList.add('hidden');
   deleteButton.classList.add('hidden');
- }
+}
 
 
 
@@ -473,7 +461,7 @@ async function removeMeal() {
     const confirmation = confirm(`Are you sure you want to remove ${mealName}?`);
 
     if (confirmation) {
-      const response = await fetch(`http://10.120.32.75/app/api/v1/items/${mealName}`, {
+      const response = await fetch(`https://10.120.32.75/app/api/v1/items/${mealName}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -499,6 +487,14 @@ document.getElementById('productImage').addEventListener('change', function() {
   document.getElementById('productImageLabel').innerText = 'Image: ' + fileName;
 });
 
+function saveOrModifyProduct() {
+  const addProductHeader = document.getElementById("addProductHeader");
+  if (addProductHeader.innerText === "Add product") {
+    saveProduct();
+  } else {
+    saveModifiedProduct();
+  }
+}
 
 // Save a new product
 function saveProduct() {
@@ -521,26 +517,123 @@ function saveProduct() {
 
   const formData = new FormData(form);
 
-  fetch('http://10.120.32.75/app/api/v1/items', {
+  fetch('https://10.120.32.75/app/api/v1/items', {
     method: 'POST',
     body: formData
   })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        toggleManagement();
+        placeMotdData();
+        showNotification('New item added!');
+        form.reset();
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('errorMessage').innerText = 'Error: ' + error.message;
+      });
+}
+
+// EDIT PRODUCTTT
+function toggleManagement() {
+  const managementSection = document.getElementById('motd-section');
+  const management = document.getElementById('addNewProductSection');
+  if (management.classList.contains('hidden')) {
+    managementSection.style.display = 'none';
+    management.classList.remove('hidden');
+  } else {
+    managementSection.style.display = '';
+    management.classList.add('hidden');
+  }
+}
+
+function placeEditSelectedItemData() {
+  const productDetails = document.getElementById('selectedMealData').querySelectorAll('p');
+  const productInfo = document.getElementById('addProductForm');
+  const productHeader = document.getElementById('addProductHeader');
+
+    productHeader.innerText = "Edit product";
+    productInfo.querySelector('#productName').value = productDetails[0].textContent;
+    productInfo.querySelector('#productDescription').value = productDetails[2].textContent;
+    productInfo.querySelector('#productPrice').value = parseFloat(productDetails[1].textContent.replace('€', ''));
+    const category = productDetails[4].textContent.split(':')[1].trim();
+    productInfo.querySelector('#productCategory').value = category;
+    const allergens = productDetails[3].textContent.split(':')[1].trim().split(', ');
+    allergens.forEach(allergen => {
+      productInfo.querySelector(`#${allergen.toLowerCase()}`).checked = true;
+    });
+    const imageName = productDetails[0].textContent.split(' ').join('_').toLowerCase();
+    productInfo.querySelector('#productImageLabel').innerText = `Image: ${imageName}.jpg`;
+    document.getElementById('productImage').required = false; // Image is not required for editing
+    document.getElementById('productImage').value = ''; // Clear previous image selection
+}
+
+function toggleAddProduct() {
+  toggleManagement()
+}
+
+// EDIT PRODUCT
+function toggleEditProduct() {
+  toggleManagement()
+  placeEditSelectedItemData()
+}
+
+async function saveModifiedProduct() {
+  try {
+    const form = document.getElementById('addProductForm');
+    const productId = document.getElementById('selectedMealName').innerText;
+    const productName = form.querySelector('#productName').value.trim();
+    const productDescription = form.querySelector('#productDescription').value.trim();
+    const productPrice = form.querySelector('#productPrice').value.trim();
+    const productImage = form.querySelector('#productImage').files[0];
+    const productCategory = form.querySelector('#productCategory').value;
+
+    if (!productName || !productDescription || !productPrice || !productImage || !productCategory) {
+      document.getElementById('errorMessage').innerText = 'Error: Name, description, price, category, and image are required';
+      return;
+    }
+
+    if (productPrice < 0 || isNaN(productPrice)) {
+      document.getElementById('errorMessage').innerText = 'Error: Price must be a positive number';
+      return;
+    }
+
+    const formData = new FormData(form);
+
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.error('No token found');
+      return;
+    }
+
+    const response = await fetch(`https://10.120.32.75/app/api/v1/items/${productId}`, {
+      method: 'PUT',
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${token}`
       }
-      return response.json();
-    })
-    .then(data => {
+    });
+
+    if (response.ok) {
       toggleManagement();
       placeMotdData();
-      showNotification('New item added!');
+      resetSelectedMealData();
+      document.getElementById('editMealButton').innerText = 'Edit';
+      showNotification('Product modified!');
       form.reset();
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      document.getElementById('errorMessage').innerText = 'Error: ' + error.message;
-    });
+    } else {
+      console.error('Failed to modify product');
+    }
+  } catch (error) {
+    console.error('Error modifying product:', error);
+    document.getElementById('errorMessage').innerText = 'Error: ' + error.message;
+  }
 }
 
 
@@ -578,5 +671,4 @@ document.getElementById('profile-picture-input').addEventListener('change', func
 
   reader.readAsDataURL(file);
 });
-
 

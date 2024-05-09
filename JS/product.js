@@ -3,7 +3,7 @@
 
 async function fetchMenuItems() {
     try {
-        const response = await fetch('http://10.120.32.75/app/api/v1/items');
+        const response = await fetch('https://10.120.32.75/app/api/v1/items');
         const data = await response.json();
         return data;
     } catch (error) {
@@ -13,7 +13,7 @@ async function fetchMenuItems() {
 
 async function fetchCategories() {
     try {
-        const response = await fetch('http://10.120.32.75/app/api/v1/items/category');
+        const response = await fetch('https://10.120.32.75/app/api/v1/items/category');
         const data = await response.json();
         return data;
     } catch (error) {
@@ -23,7 +23,7 @@ async function fetchCategories() {
 
 async function fetchAllergens() {
     try {
-        const response = await fetch('http://10.120.32.75/app/api/v1/items/allergen');
+        const response = await fetch('https://10.120.32.75/app/api/v1/items/allergen');
         const data = await response.json();
         return data;
     } catch (error) {
@@ -91,7 +91,7 @@ function crateProductInfoBox(product) {
     productInfoBox.classList.add('productInfoBox');
 
     productInfoBox.innerHTML = `
-      <img src="http://10.120.32.75/app/public/${product.image}" alt="${product.name}">
+      <img src="https://10.120.32.75/app/public/${product.image}" alt="${product.name}">
       <h3>${product.name}</h3>
       <p class="productDisciption">${product.description}</p>
       <p class="allergens" hidden>${product.allergen}</p>
@@ -237,7 +237,7 @@ function openModal(product) {
     modalContent.innerHTML = `
         <div class="grid-container">
             <div class="grid-cell">
-                <img src="/uploads/${product.image}" alt="${product.name}">
+                <img src="https://10.120.32.75/app/public/${product.image}" alt="${product.name}">
             </div>
             <div class="grid-cell">
                 <h3>${product.name}</h3>
@@ -339,17 +339,39 @@ function search() {
     let input = document.getElementById('search').value.trim().toLowerCase();
     let products = document.getElementsByClassName('product');
 
+    // Clear previous results
+    for (let i = 0; i < products.length; i++) {
+        products[i].style.display = "flex";
+    }
+
+    if (input === '') {
+        // Show all products if the search input is empty
+        showCategories();
+        return;
+    }
+
+    let foundProducts = false; // Flag to track if any products match the search query
+
     for (let i = 0; i < products.length; i++) {
         let productName = products[i].querySelector('h3').innerText.toLowerCase();
         if (!productName.includes(input)) {
             products[i].style.display = "none";
-            hideEmptyCategories();
         } else {
-            showCategories();
-            products[i].style.display = "flex";
+            foundProducts = true; // Set the flag to true if at least one product is found
         }
     }
+
+    if (!foundProducts) {
+        // If no products are found, display the error message
+        document.getElementById('error-message').style.display = 'block';
+    } else {
+        // If products are found, hide the error message
+        document.getElementById('error-message').style.display = 'none';
+    }
+
+    hideEmptyCategories();
 }
+
 
 //-------------------------- Filter Code ---------------------------------
 
@@ -366,14 +388,26 @@ function filterCategory() {
     return;
   }
 
+  let foundProducts = false;
+
   for (let i = 0; i < products.length; i++) {
     let productCategory = products[i].parentNode.querySelector('.categoryTitle').innerText;
     if (selectedCategories.includes(productCategory)) {
       products[i].style.display = "flex";
+      foundProducts = true;
     } else {
       products[i].style.display = "none";
     }
   }
+
+  if (!foundProducts) {
+      // If no products are found, display the error message
+      document.getElementById('error-message').style.display = 'block';
+  } else {
+      // If products are found, hide the error message
+      document.getElementById('error-message').style.display = 'none';
+  }
+
   hideEmptyCategories(); // Hide empty categories after applying filters
 }
 
@@ -391,6 +425,8 @@ function filterAllergens() {
     return;
   }
 
+  let foundProducts = false;
+
   for (let i = 0; i < products.length; i++) {
     let productAllergensElement = products[i].querySelector('.allergens');
 
@@ -406,12 +442,22 @@ function filterAllergens() {
         products[i].style.display = "none";
       } else {
         products[i].style.display = "flex";
+        foundProducts = true;
       }
     } else {
       // If the product doesn't have allergens, display it
       products[i].style.display = "flex";
+      foundProducts = true;
     }
   }
+
+    if (!foundProducts) {
+        // If no products are found, display the error message
+        document.getElementById('error-message').style.display = 'block';
+    } else {
+        // If products are found, hide the error message
+        document.getElementById('error-message').style.display = 'none';
+    }
 
   hideEmptyCategories(); // Hide empty categories after applying allergen filters
 }
@@ -474,6 +520,8 @@ function closeFilter() {
     closeFilterElement.style.display = 'none';
   }
 }
+
+
 
 document.addEventListener('DOMContentLoaded', function() {
   const toggleFilterButton = document.getElementById('toggleFilterButton');

@@ -62,7 +62,9 @@
   height: 180px;
   border: 4px solid #e4babe;
   border-radius: 50%;
+  object-fit: cover; /* Add this line */
 }
+
 
 .profilePictureDiv {
   display: flex;

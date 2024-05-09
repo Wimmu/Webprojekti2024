@@ -36,7 +36,7 @@ class ShoppingCart {
         return;
       }
 
-      const url = `http://10.120.32.75/app/api/v1/users/${this.userId}`; // Use this.userId here
+      const url = `https://10.120.32.75/app/api/v1/users/${this.userId}`; // Use this.userId here
       const options = {
         method: 'GET',
         headers: {
@@ -63,7 +63,7 @@ class ShoppingCart {
         return;
       }
 
-      const url = 'http://10.120.32.75/app/api/v1/auth/me'; // Endpoint to get user data
+      const url = 'https://10.120.32.75/app/api/v1/auth/me'; // Endpoint to get user data
       const options = {
         method: 'GET',
         headers: {
@@ -178,7 +178,7 @@ class ShoppingCart {
       (item) => `
       <div class="product">
         <div class="product-image">
-          <img src="http://10.120.32.75/app/public/${item.image}" alt="${item.name}">
+          <img src="https://10.120.32.75/app/public/${item.image}" alt="${item.name}">
         </div>
         <div class="product-details">
           <div class="product-title">${item.name}</div>
@@ -353,7 +353,7 @@ checkoutForm.addEventListener('submit', async function(event) {
 
   // Populate formData with form data
   formData.restaurantId = restaurantId;
-  
+
   // Add the user ID to the formData
   formData.userId = cart.userId;
 
@@ -364,7 +364,7 @@ checkoutForm.addEventListener('submit', async function(event) {
 
   try {
     // Send the order data to the server to create the order and get the generated order ID
-    const response = await fetch("http://10.120.32.75/app/api/v1/orders/", {
+    const response = await fetch("https://10.120.32.75/app/api/v1/orders/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -383,7 +383,7 @@ checkoutForm.addEventListener('submit', async function(event) {
     await Promise.all(cart.items.map(async (item) => {
       item.orderId = orderId;
       const itemResponse = await fetch(
-        `http://10.120.32.75/app/api/v1/orders/${orderId}/items`,
+        `https://10.120.32.75/app/api/v1/orders/${orderId}/items`,
         {
           method: "POST",
           headers: {
