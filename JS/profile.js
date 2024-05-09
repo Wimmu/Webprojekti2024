@@ -127,18 +127,6 @@ function toggleOrderHistory() {
   toggleDropDowns(orderHistory, button);
 }
 
-function toggleManagement() {
-  const management = document.getElementById('addNewProductSection');
-  const button = document.getElementById('openAddItemSectionButton');
-  if (management.classList.contains('hidden')) {
-    management.classList.remove('hidden');
-    button.innerText = 'Add product';
-  } else {
-    management.classList.add('hidden');
-    button.innerText = 'Add product';
-  }
-}
-
 // --------------------- PROFILE ----------------------------- //
 // Fetch user data and place it in the user profile
 async function placeProfileData() {
@@ -150,6 +138,7 @@ async function placeProfileData() {
     }
 
     document.getElementById('profilePicture').src = `http://10.120.32.75/app/public/${userData.avatar}`;
+    document.getElementById('profilePicture').alt = userData.first_name + " profile picture";
     document.getElementById('profile-welcome-text-header').textContent = `Welcome to your profile, ${userData.first_name}!`;
     document.getElementById('users-username').textContent = userData.username;
     document.getElementById('users-firstname').textContent = userData.first_name;
@@ -417,6 +406,7 @@ function placeSelectedItemData(item) {
   document.getElementById('selectedMealImage').style.display = 'block';
   document.getElementById('selectedMealImage').setAttribute('src', `http://10.120.32.75/app/public/${item.image}`);
   document.getElementById('selectedMealName').textContent = item.name;
+  document.getElementById('selectedMealName').setAttribute('data-id', item.menuitem_id);
   document.getElementById('selectedPrice').textContent = item.price + '€';
   document.getElementById('selectedDescription').textContent = item.description;
   document.getElementById('selectedAllergen').textContent = 'Allergens: ' + item.allergen;
@@ -424,7 +414,6 @@ function placeSelectedItemData(item) {
 
   const editButton = document.querySelector('.editMealButton');
   const deleteButton = document.querySelector('.deleteMealButton');
-
 
   editButton.classList.remove('hidden');
   deleteButton.classList.remove('hidden');
@@ -499,8 +488,8 @@ document.getElementById('productImage').addEventListener('change', function() {
 });
 
 function saveOrModifyProduct() {
-  const editButton = document.querySelector(".editMealButton");
-  if (editButton.innerText === "Edit") {
+  const addProductHeader = document.getElementById("addProductHeader");
+  if (addProductHeader.innerText === "Add product") {
     saveProduct();
   } else {
     saveModifiedProduct();
@@ -551,23 +540,23 @@ function saveProduct() {
 }
 
 // EDIT PRODUCTTT
-
-function toggleAddProduct() {
-  const productHeader = document.getElementById('addProductHeader');
-  const form = document.getElementById('addProductForm');
-  form.reset();
-  toggleManagement();
+function toggleManagement() {
+  const managementSection = document.getElementById('motd-section');
+  const management = document.getElementById('addNewProductSection');
+  if (management.classList.contains('hidden')) {
+    managementSection.style.display = 'none';
+    management.classList.remove('hidden');
+  } else {
+    managementSection.style.display = '';
+    management.classList.add('hidden');
+  }
 }
-// EDIT PRODUCT
-function toggleEditProduct() {
-  const editButton = document.querySelector(".editMealButton");
+
+function placeEditSelectedItemData() {
   const productDetails = document.getElementById('selectedMealData').querySelectorAll('p');
   const productInfo = document.getElementById('addProductForm');
   const productHeader = document.getElementById('addProductHeader');
 
-  toggleManagement();
-  if (editButton.innerText === "Edit") {
-    editButton.innerText = "Save";
     productHeader.innerText = "Edit product";
     productInfo.querySelector('#productName').value = productDetails[0].textContent;
     productInfo.querySelector('#productDescription').value = productDetails[2].textContent;
@@ -582,15 +571,22 @@ function toggleEditProduct() {
     productInfo.querySelector('#productImageLabel').innerText = `Image: ${imageName}.jpg`;
     document.getElementById('productImage').required = false; // Image is not required for editing
     document.getElementById('productImage').value = ''; // Clear previous image selection
-  } else {
-    //saveModifiedProduct();
-  }
+}
+
+function toggleAddProduct() {
+  toggleManagement()
+}
+
+// EDIT PRODUCT
+function toggleEditProduct() {
+  toggleManagement()
+  placeEditSelectedItemData()
 }
 
 async function saveModifiedProduct() {
   try {
     const form = document.getElementById('addProductForm');
-    const productId = document.getElementById('selectedMealName').textContent;
+    const productId = document.getElementById('selectedMealName').innerText;
     const productName = form.querySelector('#productName').value.trim();
     const productDescription = form.querySelector('#productDescription').value.trim();
     const productPrice = form.querySelector('#productPrice').value.trim();
