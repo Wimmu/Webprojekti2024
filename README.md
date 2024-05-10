@@ -2,6 +2,8 @@
 
 <h3>Sovelluksen Idea: Aasialainen ravintola.</h3> 
 
+<h4>Sovelluksen Kohderyhmä: Kaikki ketkä haluavat aitoa aasialaista ruokaa</h4> 
+
 Avaa [Ravintola sivu](https://users.metropolia.fi/~wilmais/web-projekti/HTML/index.html) tästä. <br>
 Hyväksy myös [App sivun](https://10.120.32.75/app) sertifikaatti.
 
