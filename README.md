@@ -2,8 +2,8 @@
 
 <h3>Sovelluksen Idea: Aasialainen ravintola.</h3> 
 
-Avaa [Ravintola sivu](https://users.metropolia.fi/~wilmais/web-projekti/HTML/index.html) tästä.
-Hyväksy [App sivun](https://10.120.32.75/app) sertifikaatti.
+Avaa [Ravintola sivu](https://users.metropolia.fi/~wilmais/web-projekti/HTML/index.html) tästä. <br>
+Hyväksy myös [App sivun](https://10.120.32.75/app) sertifikaatti.
 
 <h3>Sovelluksen toiminnalisuudet: </h3>
 
