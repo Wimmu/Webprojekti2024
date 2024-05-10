@@ -8,6 +8,11 @@ Hyväksy myös [App sivun](https://10.120.32.75/app) sertifikaatti.
 <h4>Sovelluksen Kohderyhmä: </h4> 
 <p>Kaikki ketkä haluavat aitoa aasialaista ruokaa.</p>
 
+<h4>Miksi sovellus on hyödyllinen:</h4>
+<p>Asiakkaat voivat helposti nähdä päivän menun ja ravintolan tarjoamat tuotteet.
+Sovellus tarjoaa käyttäjille mahdollisuuden tehdä tilauksia helposti ja mukavasti verkossa.
+Admin-käyttäjät voivat hallinnoida menuja, lisätä ja poistaa tuotteita sekä käsitellä tilauksia tehokkaasti yhdessä paikassa.</p>
+
 <h3>Sovelluksen toiminnalisuudet: </h3>
 
 <ul>
