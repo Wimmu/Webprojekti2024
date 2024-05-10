@@ -1,9 +1,16 @@
 section {
- width: 100%;
+  width: 100%;
   margin: 0 auto;
-  /* Add this line to horizontally center the section */
   padding: 20px;
-  /* Add padding to the section */
+}
+
+/* Add a media query for screens smaller than 600px */
+@media (max-width: 600px) {
+  section {
+    /* Reduce the width and add automatic margins on small screens */
+    width: 90%;
+    margin: 0 auto;
+  }
 }
 
 .centered-content {
@@ -11,7 +18,7 @@ section {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   /* Add space between flex items */
 }
 
@@ -28,36 +35,56 @@ section {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  justify-content: center;
 }
 
 .column-labels {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    /* Add space below the labels */
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 .column-labels label {
-    flex-basis: 0;
-    flex-grow: 1;
-    text-align: center;
+  flex-basis: 0;
+  flex-grow: 1;
+  text-align: center;
 }
 
 .column-labels .product-price,
 .product .product-price {
-    flex-grow: 0;
-    text-align: left;
+  flex-grow: 0;
+  text-align: left;
 }
 
-.column-labels {
-    text-align: right;
+@media (max-width: 600px) {
+  .column-labels {
+    flex-direction: column;
+  }
+
+
+  .column-labels label {
+    /* Reset flex properties for mobile layout */
+    flex-basis: auto;
+    flex-grow: 0;
+    text-align: left;
+  }
+
+  .column-labels .product-price,
+  .product .product-price {
+    text-align: center;
+  }
+  .shopping-cart {
+    justify-content: center;
+  }
 }
+
 .product-price,
 .product-quantity,
 .product-line-price {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
+
 .product-quantity input[type="number"] {
   text-align: center;
 }
@@ -65,8 +92,9 @@ section {
 .product-price label,
 .product-quantity label,
 .product-line-price label {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
+
 .product {
   display: grid;
   grid-template-columns: auto 1fr auto auto auto;
@@ -74,6 +102,16 @@ section {
   padding: 10px;
   border-bottom: 1px solid #ccc;
   align-items: center;
+  justify-items: center; /* Add this line to center items horizontally */
+}
+
+/* Add a media query for screens smaller than 600px */
+@media (max-width: 600px) {
+  .product {
+    /* Stack the items vertically on small screens */
+    grid-template-columns: 1fr;
+    justify-items: center; /* Center items horizontally on small screens */
+  }
 }
 
 .product img {
@@ -81,8 +119,25 @@ section {
   height: 120px;
   object-fit: cover;
   border-radius: 10px;
+  /* Center the image */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+@media (max-width: 768px) {
+  .product img {
+    width: 80%;
+    /* Make images take up the full width */
+    height: auto;
+    /* Let the height adjust automatically */
+    /* Center the image on small screens */
+    margin-left: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
 .product-details {
   /*flex-grow: 1;*/
   padding: 0 20px;
@@ -113,9 +168,8 @@ section {
   flex-direction: column;
 }
 
-@media (min-width: 700px) {
+@media (min-width: 700px) {}
 
-}
 /* Additional styles for checkout form */
 fieldset {
   border: none;
@@ -132,6 +186,7 @@ fieldset {
   align-items: center;
   flex-direction: column;
 }
+
 #checkout-form label {
   display: block;
   margin-bottom: 5px;
@@ -151,6 +206,7 @@ fieldset {
   border: none;
   cursor: pointer;
 }
+
 #add-item-button {
   color: #000000;
   background-color: #e4babe;
@@ -165,6 +221,7 @@ fieldset {
   background-color: #e8d8c9;
   border-radius: 20px;
 }
+
 #toast {
   visibility: hidden;
   min-width: 200px;
