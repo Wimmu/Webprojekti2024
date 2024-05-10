@@ -6,7 +6,7 @@ Hyväksy myös [App sivun](https://10.120.32.75/app) sertifikaatti.
 <h3>Sovelluksen Idea: Aasialainen ravintola.</h3> 
 
 <h4>Sovelluksen Kohderyhmä: </h4> 
-<p>Kaikki ketkä haluavat aitoa aasialaista ruokaa.</p>
+<p>Asiakkaat sekä ravintolan omistajat ja kaikki ketkä haluavat aitoa aasialaista ruokaa.</p>
 
 <h4>Miksi sovellus on hyödyllinen:</h4>
 <p>Asiakkaat voivat helposti nähdä päivän menun ja ravintolan tarjoamat tuotteet.
