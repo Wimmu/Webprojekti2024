@@ -3,6 +3,8 @@
 Avaa [Ravintola sivu](https://users.metropolia.fi/~wilmais/web-projekti/HTML/index.html) tästä. <br>
 Hyväksy myös [App sivun](https://10.120.32.75/app) sertifikaatti.
 
+Palautekysely löytyy [täältä](https://docs.google.com/forms/d/e/1FAIpQLSfG9-GOJkq7tBBXnOohxST7VRKr84obr_ILlq6bh4E4vrKo0w/viewform)
+
 <h3>Sovelluksen Idea: Aasialainen ravintola.</h3> 
 
 <h3>Sovelluksen Kohderyhmä: </h3> 
